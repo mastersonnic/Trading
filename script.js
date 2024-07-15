@@ -55,11 +55,50 @@ fetch(apiUrl)
 
 // Funciones para calcular indicadores técnicos
 function calculateBollingerBands(prices) {
-    // Implementa el cálculo de las bandas de Bollinger
-    return prices.map(price => price * 1.05); // Ejemplo simplificado
+    const period = 20;
+    const stdDevMultiplier = 2;
+    let sma = [];
+    let upperBand = [];
+    let lowerBand = [];
+
+    for (let i = 0; i < prices.length; i++) {
+        if (i >= period - 1) {
+            const slice = prices.slice(i - period + 1, i + 1);
+            const mean = slice.reduce((a, b) => a + b, 0) / period;
+            const stdDev = Math.sqrt(slice.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / period);
+            sma.push(mean);
+            upperBand.push(mean + stdDevMultiplier * stdDev);
+            lowerBand.push(mean - stdDevMultiplier * stdDev);
+        } else {
+            sma.push(null);
+            upperBand.push(null);
+            lowerBand.push(null);
+        }
+    }
+
+    return { sma, upperBand, lowerBand };
 }
 
 function calculateRSI(prices) {
-    // Implementa el cálculo del RSI
-    return prices.map(price => 50); // Ejemplo simplificado
+    const period = 14;
+    let gains = [];
+    let losses = [];
+    let rsi = [];
+
+    for (let i = 1; i < prices.length; i++) {
+        const change = prices[i] - prices[i - 1];
+        gains.push(change > 0 ? change : 0);
+        losses.push(change < 0 ? Math.abs(change) : 0);
+
+        if (i >= period) {
+            const avgGain = gains.slice(i - period, i).reduce((a, b) => a + b, 0) / period;
+            const avgLoss = losses.slice(i - period, i).reduce((a, b) => a + b, 0) / period;
+            const rs = avgGain / avgLoss;
+            rsi.push(100 - (100 / (1 + rs)));
+        } else {
+            rsi.push(null);
+        }
+    }
+
+    return rsi;
 }

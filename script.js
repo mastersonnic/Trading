@@ -2,6 +2,8 @@ document.getElementById('trading-form').addEventListener('submit', function(even
     event.preventDefault();
     const totalAmount = document.getElementById('total-amount').value;
     const betAmount = document.getElementById('bet-amount').value;
+    console.log('Monto Total:', totalAmount);
+    console.log('Monto por Apuesta:', betAmount);
     fetchDataAndCalculate(totalAmount, betAmount);
 });
 

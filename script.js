@@ -1,119 +1,93 @@
-const apiUrl = 'https://api.exchangerate.host/timeseries?start_date=2023-07-10&end_date=2023-07-13&base=USD&symbols=EUR';
+document.getElementById('trading-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const totalAmount = document.getElementById('total-amount').value;
+    const betAmount = document.getElementById('bet-amount').value;
+    fetchDataAndCalculate(totalAmount, betAmount);
+});
 
-fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-        const labels = Object.keys(data.rates);
-        const prices = labels.map(date => data.rates[date].EUR);
+async function fetchDataAndCalculate(totalAmount, betAmount) {
+    const response = await fetch('https://api.exchangerate.host/symbols');
+    const symbols = await response.json();
+    const assets = Object.keys(symbols.symbols);
+    const endDate = new Date().toISOString().split('T')[0];
+    const startDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+    let results = [];
 
-        // Calcula indicadores técnicos
-        const bollingerBands = calculateBollingerBands(prices);
-        const rsi = calculateRSI(prices);
+    for (let i = 0; i < assets.length; i++) {
+        for (let j = i + 1; j < assets.length; j++) {
+            const asset1 = assets[i];
+            const asset2 = assets[j];
+            const data = await fetch(`https://api.exchangerate.host/timeseries?start_date=${startDate}&end_date=${endDate}&base=${asset1}&symbols=${asset2}`)
+                .then(response => response.json())
+                .then(data => data.rates);
 
-        const ctx = document.getElementById('tradingChart').getContext('2d');
-        const tradingChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Precio de Cierre',
-                        data: prices,
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Bollinger Bands SMA',
-                        data: bollingerBands.sma,
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1,
-                        borderDash: [5, 5]
-                    },
-                    {
-                        label: 'Bollinger Bands Upper',
-                        data: bollingerBands.upperBand,
-                        borderColor: 'rgba(255, 99, 132, 0.5)',
-                        borderWidth: 1,
-                        borderDash: [5, 5]
-                    },
-                    {
-                        label: 'Bollinger Bands Lower',
-                        data: bollingerBands.lowerBand,
-                        borderColor: 'rgba(255, 99, 132, 0.5)',
-                        borderWidth: 1,
-                        borderDash: [5, 5]
-                    },
-                    {
-                        label: 'RSI',
-                        data: rsi,
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'day'
-                        }
-                    },
-                    y: {
-                        beginAtZero: false
-                    }
-                }
-            }
-        });
-    })
-    .catch(error => console.error('Error fetching data:', error));
+            const df = Object.keys(data).map(date => ({
+                date: date,
+                close: data[date][asset2]
+            }));
 
-// Funciones para calcular indicadores técnicos
-function calculateBollingerBands(prices) {
-    const period = 20;
-    const stdDevMultiplier = 2;
-    let sma = [];
-    let upperBand = [];
-    let lowerBand = [];
-
-    for (let i = 0; i < prices.length; i++) {
-        if (i >= period - 1) {
-            const slice = prices.slice(i - period + 1, i + 1);
-            const mean = slice.reduce((a, b) => a + b, 0) / period;
-            const stdDev = Math.sqrt(slice.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / period);
-            sma.push(mean);
-            upperBand.push(mean + stdDevMultiplier * stdDev);
-            lowerBand.push(mean - stdDevMultiplier * stdDev);
-        } else {
-            sma.push(null);
-            upperBand.push(null);
-            lowerBand.push(null);
+            const alligator = calculateAlligator(df);
+            const ratios = calculateRatios(alligator);
+            results.push({ asset1, asset2, ...ratios });
         }
     }
 
-    return { sma, upperBand, lowerBand };
+    displayResults(results);
 }
 
-function calculateRSI(prices) {
-    const period = 14;
-    let gains = [];
-    let losses = [];
-    let rsi = [];
-
-    for (let i = 1; i < prices.length; i++) {
-        const change = prices[i] - prices[i - 1];
-        gains.push(change > 0 ? change : 0);
-        losses.push(change < 0 ? Math.abs(change) : 0);
-
-        if (i >= period) {
-            const avgGain = gains.slice(i - period, i).reduce((a, b) => a + b, 0) / period;
-            const avgLoss = losses.slice(i - period, i).reduce((a, b) => a + b, 0) / period;
-            const rs = avgGain / avgLoss;
-            rsi.push(100 - (100 / (1 + rs)));
+function calculateAlligator(data) {
+    let jaw = [];
+    let teeth = [];
+    let lips = [];
+    
+    for (let i = 0; i < data.length; i++) {
+        if (i >= 13) {
+            jaw.push(data.slice(i - 13, i).reduce((sum, val) => sum + val.close, 0) / 13);
         } else {
-            rsi.push(null);
+            jaw.push(null);
+        }
+        if (i >= 8) {
+            teeth.push(data.slice(i - 8, i).reduce((sum, val) => sum + val.close, 0) / 8);
+        } else {
+            teeth.push(null);
+        }
+        if (i >= 5) {
+            lips.push(data.slice(i - 5, i).reduce((sum, val) => sum + val.close, 0) / 5);
+        } else {
+            lips.push(null);
         }
     }
 
-    return rsi;
+    return data.map((d, i) => ({
+        ...d,
+        jaw: jaw[i],
+        teeth: teeth[i],
+        lips: lips[i]
+    }));
+}
+
+function calculateRatios(data) {
+    let returns = data.map((d, i) => i > 0 ? (d.close - data[i - 1].close) / data[i - 1].close : 0).slice(1);
+    let meanReturn = returns.reduce((sum, r) => sum + r, 0) / returns.length;
+    let stdDev = Math.sqrt(returns.map(r => Math.pow(r - meanReturn, 2)).reduce((sum, r) => sum + r, 0) / returns.length);
+    let downsideDev = Math.sqrt(returns.filter(r => r < 0).map(r => Math.pow(r, 2)).reduce((sum, r) => sum + r, 0) / returns.length);
+    let maxDrawdown = Math.max(...data.map((d, i) => Math.max(...data.slice(0, i + 1).map(dd => dd.close)) - d.close));
+
+    let sharpe = meanReturn / stdDev * Math.sqrt(252);
+    let sortino = meanReturn / downsideDev * Math.sqrt(252);
+    let calmar = meanReturn / maxDrawdown;
+
+    return {
+        sharpe: sharpe,
+        sortino: sortino,
+        calmar: calmar
+    };
+}
+
+function displayResults(results) {
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = '<h2>Resultados</h2>';
+    results.forEach(result => {
+        resultsDiv.innerHTML += `<p>Pares: ${result.asset1}/${result.asset2} - Sharpe: ${result.sharpe.toFixed(2)} - Sortino: ${result.sortino.toFixed(2)} - Calmar: ${result.calmar.toFixed(2)}</p>`;
+    });
 }

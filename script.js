@@ -6,33 +6,37 @@ document.getElementById('trading-form').addEventListener('submit', function(even
 });
 
 async function fetchDataAndCalculate(totalAmount, betAmount) {
-    const response = await fetch('https://api.exchangerate.host/symbols');
-    const symbols = await response.json();
-    const assets = Object.keys(symbols.symbols);
-    const endDate = new Date().toISOString().split('T')[0];
-    const startDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-    let results = [];
+    try {
+        const response = await fetch('https://api.exchangerate.host/symbols');
+        const symbols = await response.json();
+        const assets = Object.keys(symbols.symbols);
+        const endDate = new Date().toISOString().split('T')[0];
+        const startDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+        let results = [];
 
-    for (let i = 0; i < assets.length; i++) {
-        for (let j = i + 1; j < assets.length; j++) {
-            const asset1 = assets[i];
-            const asset2 = assets[j];
-            const data = await fetch(`https://api.exchangerate.host/timeseries?start_date=${startDate}&end_date=${endDate}&base=${asset1}&symbols=${asset2}`)
-                .then(response => response.json())
-                .then(data => data.rates);
+        for (let i = 0; i < assets.length; i++) {
+            for (let j = i + 1; j < assets.length; j++) {
+                const asset1 = assets[i];
+                const asset2 = assets[j];
+                const data = await fetch(`https://api.exchangerate.host/timeseries?start_date=${startDate}&end_date=${endDate}&base=${asset1}&symbols=${asset2}`)
+                    .then(response => response.json())
+                    .then(data => data.rates);
 
-            const df = Object.keys(data).map(date => ({
-                date: date,
-                close: data[date][asset2]
-            }));
+                const df = Object.keys(data).map(date => ({
+                    date: date,
+                    close: data[date][asset2]
+                }));
 
-            const alligator = calculateAlligator(df);
-            const ratios = calculateRatios(alligator);
-            results.push({ asset1, asset2, ...ratios });
+                const alligator = calculateAlligator(df);
+                const ratios = calculateRatios(alligator);
+                results.push({ asset1, asset2, ...ratios });
+            }
         }
-    }
 
-    displayResults(results);
+        displayResults(results);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
 }
 
 function calculateAlligator(data) {

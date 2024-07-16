@@ -23,10 +23,25 @@ fetch(apiUrl)
                         borderWidth: 1
                     },
                     {
-                        label: 'Bollinger Bands',
-                        data: bollingerBands,
+                        label: 'Bollinger Bands SMA',
+                        data: bollingerBands.sma,
                         borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
+                        borderWidth: 1,
+                        borderDash: [5, 5]
+                    },
+                    {
+                        label: 'Bollinger Bands Upper',
+                        data: bollingerBands.upperBand,
+                        borderColor: 'rgba(255, 99, 132, 0.5)',
+                        borderWidth: 1,
+                        borderDash: [5, 5]
+                    },
+                    {
+                        label: 'Bollinger Bands Lower',
+                        data: bollingerBands.lowerBand,
+                        borderColor: 'rgba(255, 99, 132, 0.5)',
+                        borderWidth: 1,
+                        borderDash: [5, 5]
                     },
                     {
                         label: 'RSI',
@@ -102,3 +117,4 @@ function calculateRSI(prices) {
 
     return rsi;
 }
+h

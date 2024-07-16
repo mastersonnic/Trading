@@ -1,44 +1,46 @@
-async function fetchExchangeRates() {
-    const response = await fetch('https://api.exchangerate.host/timeseries?start_date=2024-07-12&end_date=2024-07-15&base=GBP&symbols=USD');
-    const data = await response.json();
-    return data.rates;
-}
+document.addEventListener('DOMContentLoaded', function () {
+    const ctx = document.getElementById('candlestickChart').getContext('2d');
 
-function calculateAlligator(data) {
-    // Implementación simplificada del indicador Alligator
-    const jaw = data.map((rate, index) => rate.USD + (index % 3) * 0.0001);
-    const teeth = data.map((rate, index) => rate.USD + (index % 2) * 0.0001);
-    const lips = data.map((rate, index) => rate.USD + (index % 1) * 0.0001);
-    return { jaw, teeth, lips };
-}
+    const candlestickData = [
+        { t: new Date('2024-07-15T00:00:00Z'), o: 1.30, h: 1.32, l: 1.28, c: 1.31 },
+        { t: new Date('2024-07-15T01:00:00Z'), o: 1.31, h: 1.33, l: 1.29, c: 1.30 },
+        // Agrega más datos aquí
+    ];
 
-async function createChart() {
-    const rates = await fetchExchangeRates();
-    const dates = Object.keys(rates);
-    const values = Object.values(rates).map(rate => rate.USD);
-
-    const alligator = calculateAlligator(values);
-
-    const ctx = document.getElementById('chart-container').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
+    const chart = new Chart(ctx, {
+        type: 'candlestick',
         data: {
-            labels: dates,
-            datasets: [
-                { label: 'GBP/USD', data: values, borderColor: 'blue', fill: false },
-                { label: 'Jaw', data: alligator.jaw, borderColor: 'green', fill: false },
-                { label: 'Teeth', data: alligator.teeth, borderColor: 'red', fill: false },
-                { label: 'Lips', data: alligator.lips, borderColor: 'orange', fill: false }
-            ]
+            datasets: [{
+                label: 'GBP/USD',
+                data: candlestickData
+            }]
         },
         options: {
             responsive: true,
             scales: {
-                x: { display: true, title: { display: true, text: 'Fecha' } },
-                y: { display: true, title: { display: true, text: 'Tasa de Cambio' } }
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'hour'
+                    }
+                },
+                y: {
+                    beginAtZero: false
+                }
             }
         }
     });
-}
 
-createChart();
+    // Simulación de actualización de datos en vivo
+    setInterval(() => {
+        const newCandle = {
+            t: new Date(),
+            o: 1.30 + Math.random() * 0.02 - 0.01,
+            h: 1.32 + Math.random() * 0.02 - 0.01,
+            l: 1.28 + Math.random() * 0.02 - 0.01,
+            c: 1.31 + Math.random() * 0.02 - 0.01
+        };
+        candlestickData.push(newCandle);
+        chart.update();
+    }, 60000); // Actualiza cada minuto
+});

@@ -117,4 +117,3 @@ function calculateRSI(prices) {
 
     return rsi;
 }
-h

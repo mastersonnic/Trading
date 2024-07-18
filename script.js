@@ -8,9 +8,9 @@ function calcularCombinaciones() {
 }
 
 function calcularTotalCombinaciones(colorInicio, colorFinal, longitudSecuencia) {
-    if (colorInicio === 'verde') {
+    if (colorInicio === 'verde' && colorFinal === 'indiferente') {
         return Math.pow(2, longitudSecuencia - 1); // 2^(N-1)
-    } else if (colorInicio === 'indiferente') {
+    } else if (colorInicio === 'indiferente' && colorFinal === 'roja') {
         return Math.pow(2, longitudSecuencia); // 2^N
     } else {
         return 1; // Solo Roja, Roja, Roja

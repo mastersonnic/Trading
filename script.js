@@ -1,22 +1,18 @@
+// script.js
 function calcularCombinaciones() {
-    const colorInicial = document.getElementById('colorInicial').value;
-    const colorFinal = document.getElementById('colorFinal').value;
-    const longitudSecuencia = parseInt(document.getElementById('longitudSecuencia').value);
+    const colorInicio = document.getElementById('color-inicio').value;
+    const colorFinal = document.getElementById('color-final').value;
+    const longitudSecuencia = parseInt(document.getElementById('longitud-secuencia').value);
+    const combinaciones = calcularTotalCombinaciones(colorInicio, colorFinal, longitudSecuencia);
+    document.getElementById('resultado').textContent = `Combinaciones posibles: ${combinaciones}`;
+}
 
-    // Lógica para calcular las combinaciones según las opciones de color
-    let combinaciones = 0;
-    if (colorInicial === 'indiferente' && colorFinal === 'indiferente') {
-        // Todas las combinaciones posibles
-        combinaciones = Math.pow(2, longitudSecuencia);
-    } else if (colorInicial === 'indiferente' || colorFinal === 'indiferente') {
-        // Combinaciones considerando un color indiferente
-        combinaciones = 2 * Math.pow(2, longitudSecuencia - 1);
+function calcularTotalCombinaciones(colorInicio, colorFinal, longitudSecuencia) {
+    if (colorInicio === 'verde') {
+        return Math.pow(2, longitudSecuencia - 1); // 2^(N-1)
+    } else if (colorInicio === 'indiferente') {
+        return Math.pow(2, longitudSecuencia); // 2^N
     } else {
-        // Combinaciones con colores específicos
-        combinaciones = Math.pow(2, longitudSecuencia);
+        return 1; // Solo Roja, Roja, Roja
     }
-
-    // Muestra el resultado
-    const resultado = `Combinaciones posibles: ${combinaciones}`;
-    document.getElementById('resultado').textContent = resultado;
 }

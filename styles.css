@@ -2,30 +2,10 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    margin: 0;
-    padding: 0;
 }
 
-h1 {
-    color: #333;
+.input-container {
+    margin: 20px;
 }
 
-label {
-    font-weight: bold;
-}
-
-select, input {
-    margin-bottom: 10px;
-}
-
-button {
-    background-color: #0074D9;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
+/* Agrega más estilos según tus preferencias */

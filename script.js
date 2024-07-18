@@ -14,6 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 celda.textContent = valor;
                 sumatoria += parseFloat(valor);
                 document.getElementById("sumatoria").textContent = `Sumatoria: ${sumatoria}`;
+
+                // Pregunta al usuario si desea cambiar el color
+                const color = prompt("¿Deseas cambiar el color de esta celda? (verde o rojo):");
+                if (color === "verde") {
+                    celda.classList.add("verde");
+                } else if (color === "rojo") {
+                    celda.classList.add("rojo");
+                }
             }
         });
     }

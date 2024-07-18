@@ -36,7 +36,16 @@ document.addEventListener("DOMContentLoaded", () => {
     gridContainer.addEventListener("dblclick", (event) => {
         const celda = event.target;
         if (celda.classList.contains("celda")) {
-            volverABlanco(celda);
+            const opcion = prompt("¿Qué deseas hacer? (v, r o b):");
+            if (opcion === "v") {
+                celda.classList.remove("rojo"); // Elimina la clase rojo si está presente
+                celda.classList.add("verde");
+            } else if (opcion === "r") {
+                celda.classList.remove("verde"); // Elimina la clase verde si está presente
+                celda.classList.add("rojo");
+            } else if (opcion === "b") {
+                volverABlanco(celda);
+            }
         }
     });
 });

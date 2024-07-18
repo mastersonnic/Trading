@@ -1,14 +1,15 @@
+/* Estilos personalizados aquí */
+/* Por ejemplo: */
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f4f4f4;
+    background-color: #f9f9f9;
 }
 
-.container {
-    width: 80%;
-    max-width: 800px;
+.info {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
 }
+
+/* Personaliza más estilos según tus preferencias */

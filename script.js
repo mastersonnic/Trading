@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const gridContainer = document.querySelector(".grid-container");
     let sumatoria = 0;
+    const valoresCeldas = new Map(); // Almacena los valores de las celdas
 
     // Crea las celdas y agrega los eventos de clic
     for (let i = 0; i < 20; i++) {
@@ -11,25 +12,31 @@ document.addEventListener("DOMContentLoaded", () => {
         celda.addEventListener("click", () => {
             const valor = prompt("Ingresa un valor numérico (positivo o negativo):");
             if (valor !== null && !isNaN(valor)) {
+                const valorAnterior = parseFloat(celda.textContent);
+                sumatoria -= valorAnterior; // Resta el valor anterior
                 celda.textContent = valor;
                 sumatoria += parseFloat(valor);
                 document.getElementById("sumatoria").textContent = `Sumatoria: ${sumatoria}`;
-
-                // Pregunta al usuario si desea cambiar el color o volver a blanco
-                const opcion = prompt("¿Qué deseas hacer? (verde, rojo o blanco):");
-                if (opcion === "verde") {
-                    celda.classList.remove("rojo"); // Elimina la clase rojo si está presente
-                    celda.classList.add("verde");
-                } else if (opcion === "rojo") {
-                    celda.classList.remove("verde"); // Elimina la clase verde si está presente
-                    celda.classList.add("rojo");
-                } else if (opcion === "blanco") {
-                    sumatoria -= parseFloat(celda.textContent); // Resta el valor anterior
-                    celda.textContent = "0"; // Vuelve a blanco con valor 0
-                    celda.classList.remove("verde", "rojo"); // Elimina ambas clases
-                    document.getElementById("sumatoria").textContent = `Sumatoria: ${sumatoria}`;
-                }
+                valoresCeldas.set(celda, parseFloat(valor)); // Almacena el nuevo valor
             }
         });
     }
+
+    // Función para volver a blanco con valor 0
+    function volverABlanco(celda) {
+        const valorAnterior = valoresCeldas.get(celda);
+        sumatoria -= valorAnterior; // Resta el valor anterior
+        celda.textContent = "0"; // Vuelve a blanco con valor 0
+        celda.classList.remove("verde", "rojo"); // Elimina ambas clases
+        valoresCeldas.delete(celda); // Elimina el valor almacenado
+        document.getElementById("sumatoria").textContent = `Sumatoria: ${sumatoria}`;
+    }
+
+    // Agrega evento de doble clic para volver a blanco
+    gridContainer.addEventListener("dblclick", (event) => {
+        const celda = event.target;
+        if (celda.classList.contains("celda")) {
+            volverABlanco(celda);
+        }
+    });
 });

@@ -7,7 +7,7 @@ function calcularCombinaciones() {
     let combinaciones = 0;
     if (colorInicial === 'indiferente' && colorFinal === 'indiferente') {
         // Todas las combinaciones posibles
-        combinaciones = Math.pow(3, longitudSecuencia);
+        combinaciones = Math.pow(2, longitudSecuencia);
     } else if (colorInicial === 'indiferente' || colorFinal === 'indiferente') {
         // Combinaciones considerando un color indiferente
         combinaciones = 2 * Math.pow(2, longitudSecuencia - 1);

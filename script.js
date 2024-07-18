@@ -24,9 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     celda.classList.remove("verde"); // Elimina la clase verde si está presente
                     celda.classList.add("rojo");
                 } else if (opcion === "blanco") {
+                    sumatoria -= parseFloat(celda.textContent); // Resta el valor anterior
                     celda.textContent = "0"; // Vuelve a blanco con valor 0
                     celda.classList.remove("verde", "rojo"); // Elimina ambas clases
-                    sumatoria -= parseFloat(valor); // Resta el valor anterior
                     document.getElementById("sumatoria").textContent = `Sumatoria: ${sumatoria}`;
                 }
             }

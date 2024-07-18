@@ -1,46 +1,37 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const ctx = document.getElementById('candlestickChart').getContext('2d');
+function calcularCombinaciones() {
+    const colorInicial = document.getElementById('colorInicial').value;
+    const longitudSecuencia = parseInt(document.getElementById('longitudSecuencia').value);
+    const posicionCalculo = parseInt(document.getElementById('posicionCalculo').value);
 
-    const candlestickData = [
-        { t: new Date('2024-07-15T00:00:00Z'), o: 1.30, h: 1.32, l: 1.28, c: 1.31 },
-        { t: new Date('2024-07-15T01:00:00Z'), o: 1.31, h: 1.33, l: 1.29, c: 1.30 },
-        // Agrega más datos aquí
-    ];
+    // Lógica para calcular las combinaciones según el color inicial
+    let combinaciones = 0;
+    if (colorInicial === 'verde') {
+        // Calcula las permutaciones de velas verdes y rojas
+        combinaciones = calcularPermutaciones(longitudSecuencia);
+    } else if (colorInicial === 'rojo') {
+        // Calcula las combinaciones de velas rojas y verdes
+        combinaciones = calcularCombinacionesRojas(longitudSecuencia);
+    }
 
-    const chart = new Chart(ctx, {
-        type: 'candlestick',
-        data: {
-            datasets: [{
-                label: 'GBP/USD',
-                data: candlestickData
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    type: 'time',
-                    time: {
-                        unit: 'hour'
-                    }
-                },
-                y: {
-                    beginAtZero: false
-                }
-            }
-        }
-    });
+    // Muestra el resultado
+    const resultado = `Combinaciones en la posición ${posicionCalculo}: ${combinaciones}`;
+    document.getElementById('resultado').textContent = resultado;
+}
 
-    // Simulación de actualización de datos en vivo
-    setInterval(() => {
-        const newCandle = {
-            t: new Date(),
-            o: 1.30 + Math.random() * 0.02 - 0.01,
-            h: 1.32 + Math.random() * 0.02 - 0.01,
-            l: 1.28 + Math.random() * 0.02 - 0.01,
-            c: 1.31 + Math.random() * 0.02 - 0.01
-        };
-        candlestickData.push(newCandle);
-        chart.update();
-    }, 60000); // Actualiza cada minuto
-});
+function calcularPermutaciones(n) {
+    // Fórmula para permutaciones: P(n) = n!
+    let resultado = 1;
+    for (let i = 1; i <= n; i++) {
+        resultado *= i;
+    }
+    return resultado;
+}
+
+function calcularCombinacionesRojas(n) {
+    // Fórmula para combinaciones: C(n, k) = n! / (k! * (n - k)!)
+    // En este caso, k es la longitud de la secuencia
+    const k = n;
+    const numerador = calcularPermutaciones(n);
+    const denominador = calcularPermutaciones(k) * calcularPermutaciones(n - k);
+    return numerador / denominador;
+}

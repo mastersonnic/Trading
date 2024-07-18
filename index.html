@@ -1,16 +1,15 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Celdas con valores</title>
-</head>
-<body>
-    <div class="grid-container">
-        <!-- Aquí se generarán las celdas -->
-    </div>
-    <p id="sumatoria">Sumatoria: 0</p>
-    <script src="script.js"></script>
-</body>
-</html>
+document.addEventListener("DOMContentLoaded", () => {
+    const celdas = document.querySelectorAll(".celda");
+    let sumatoria = 0;
+
+    celdas.forEach((celda) => {
+        celda.addEventListener("click", () => {
+            const valor = prompt("Ingresa un valor numérico (positivo o negativo):");
+            if (valor !== null && !isNaN(valor)) {
+                celda.textContent = valor;
+                sumatoria += parseFloat(valor);
+                document.getElementById("sumatoria").textContent = `Sumatoria: ${sumatoria}`;
+            }
+        });
+    });
+});

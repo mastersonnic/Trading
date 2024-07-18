@@ -1,18 +1,17 @@
 // script.js
 function calcularCombinaciones() {
-    const colorInicio = document.getElementById('color-inicio').value;
-    const colorFinal = document.getElementById('color-final').value;
-    const longitudSecuencia = parseInt(document.getElementById('longitud-secuencia').value);
-    const combinaciones = calcularTotalCombinaciones(colorInicio, colorFinal, longitudSecuencia);
-    document.getElementById('resultado').textContent = `Combinaciones posibles: ${combinaciones}`;
+    const longitud = parseInt(document.getElementById('longitud-secuencia').value);
+    const combinaciones = calcularFactorial(longitud);
+    document.getElementById('resultado').textContent = `Hay ${combinaciones} formas posibles de combinar las velas.`;
 }
 
-function calcularTotalCombinaciones(colorInicio, colorFinal, longitudSecuencia) {
-    if (colorInicio === 'verde' && colorFinal === 'indiferente') {
-        return Math.pow(2, longitudSecuencia - 1); // 2^(N-1)
-    } else if (colorInicio === 'indiferente' && colorFinal === 'roja') {
-        return Math.pow(2, longitudSecuencia); // 2^N
-    } else {
-        return 1; // Solo Roja, Roja, Roja
+function calcularFactorial(n) {
+    if (n === 0 || n === 1) {
+        return 1;
     }
+    let resultado = 1;
+    for (let i = 2; i <= n; i++) {
+        resultado *= i;
+    }
+    return resultado;
 }

@@ -1,37 +1,22 @@
 function calcularCombinaciones() {
     const colorInicial = document.getElementById('colorInicial').value;
+    const colorFinal = document.getElementById('colorFinal').value;
     const longitudSecuencia = parseInt(document.getElementById('longitudSecuencia').value);
-    const posicionCalculo = parseInt(document.getElementById('posicionCalculo').value);
 
-    // Lógica para calcular las combinaciones según el color inicial
+    // Lógica para calcular las combinaciones según las opciones de color
     let combinaciones = 0;
-    if (colorInicial === 'verde') {
-        // Calcula las permutaciones de velas verdes y rojas
-        combinaciones = calcularPermutaciones(longitudSecuencia);
-    } else if (colorInicial === 'rojo') {
-        // Calcula las combinaciones de velas rojas y verdes
-        combinaciones = calcularCombinacionesRojas(longitudSecuencia);
+    if (colorInicial === 'indiferente' && colorFinal === 'indiferente') {
+        // Todas las combinaciones posibles
+        combinaciones = Math.pow(3, longitudSecuencia);
+    } else if (colorInicial === 'indiferente' || colorFinal === 'indiferente') {
+        // Combinaciones considerando un color indiferente
+        combinaciones = 2 * Math.pow(2, longitudSecuencia - 1);
+    } else {
+        // Combinaciones con colores específicos
+        combinaciones = Math.pow(2, longitudSecuencia);
     }
 
     // Muestra el resultado
-    const resultado = `Combinaciones en la posición ${posicionCalculo}: ${combinaciones}`;
+    const resultado = `Combinaciones posibles: ${combinaciones}`;
     document.getElementById('resultado').textContent = resultado;
-}
-
-function calcularPermutaciones(n) {
-    // Fórmula para permutaciones: P(n) = n!
-    let resultado = 1;
-    for (let i = 1; i <= n; i++) {
-        resultado *= i;
-    }
-    return resultado;
-}
-
-function calcularCombinacionesRojas(n) {
-    // Fórmula para combinaciones: C(n, k) = n! / (k! * (n - k)!)
-    // En este caso, k es la longitud de la secuencia
-    const k = n;
-    const numerador = calcularPermutaciones(n);
-    const denominador = calcularPermutaciones(k) * calcularPermutaciones(n - k);
-    return numerador / denominador;
 }

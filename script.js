@@ -15,12 +15,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 sumatoria += parseFloat(valor);
                 document.getElementById("sumatoria").textContent = `Sumatoria: ${sumatoria}`;
 
-                // Pregunta al usuario si desea cambiar el color
-                const color = prompt("¿Deseas cambiar el color de esta celda? (verde o rojo):");
-                if (color === "verde") {
+                // Pregunta al usuario si desea cambiar el color o volver a blanco
+                const opcion = prompt("¿Qué deseas hacer? (verde, rojo o blanco):");
+                if (opcion === "verde") {
+                    celda.classList.remove("rojo"); // Elimina la clase rojo si está presente
                     celda.classList.add("verde");
-                } else if (color === "rojo") {
+                } else if (opcion === "rojo") {
+                    celda.classList.remove("verde"); // Elimina la clase verde si está presente
                     celda.classList.add("rojo");
+                } else if (opcion === "blanco") {
+                    celda.textContent = "0"; // Vuelve a blanco con valor 0
+                    celda.classList.remove("verde", "rojo"); // Elimina ambas clases
+                    sumatoria -= parseFloat(valor); // Resta el valor anterior
+                    document.getElementById("sumatoria").textContent = `Sumatoria: ${sumatoria}`;
                 }
             }
         });

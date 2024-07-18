@@ -1,33 +1,12 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Calculadora de Combinaciones</title>
-</head>
-<body>
-    <h1>Calculadora de Combinaciones de Velas</h1>
-    <label for="colorInicial">Color inicial:</label>
-    <select id="colorInicial">
-        <option value="verde">Verde</option>
-        <option value="roja">Roja</option>
-        <option value="indiferente">Indiferente</option>
-    </select>
-    <br>
-    <label for="longitudSecuencia">Longitud de la secuencia:</label>
-    <input type="number" id="longitudSecuencia" min="1">
-    <br>
-    <label for="colorFinal">Color final:</label>
-    <select id="colorFinal">
-        <option value="verde">Verde</option>
-        <option value="roja">Roja</option>
-        <option value="indiferente">Indiferente</option>
-    </select>
-    <br>
-    <button onclick="calcularCombinaciones()">Calcular</button>
-    <p id="resultado"></p>
-
-    <script src="script.js"></script>
-</body>
-</html>
+cumplen los códigos con: En una secuencia de 3 donde la primera siempre es verde y la última indiferente tengo 4 posibles combinaciones:                                       1 Verde, roja, roja                                                      2 Verde,roja,verde                                                   3 Verde,verde,roja                                                    4      Verde,verde,verde    4 posibles combinaciones si la primera es indiferente y la ultima roja: 1 Roja,roja,roja
+2 Verde,verde,roja
+3 roja,verde,roja
+4 Verde,roja,roja 
+Y que si pongo indiferente tanto en el inicio como en el fin me resulte 8 para secuencias de 3: 1 Verde, Verde, Verde
+2 Verde, Verde, Roja
+3 Verde, Roja, Verde
+4 Verde, Roja, Roja
+5 Roja, Verde, Verde
+6 Roja, Verde, Roja
+7 Roja, Roja, Verde
+8 Roja, Roja, Roja  calculados matemáticamente?

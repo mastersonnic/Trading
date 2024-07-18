@@ -1,34 +1,12 @@
-/* Estilos personalizados aquí */
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 20px;
+/* styles.css */
+td {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #000;
 }
-
-h1 {
-    color: #333;
+.rojo {
+    background-color: red;
 }
-
-label {
-    display: block;
-    margin-bottom: 10px;
-}
-
-input {
-    width: 100px;
-    padding: 5px;
-    font-size: 16px;
-}
-
-button {
-    background-color: #0074D9;
-    color: #FFF;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-#resultado {
-    font-size: 18px;
-    margin-top: 20px;
+.verde {
+    background-color: green;
 }

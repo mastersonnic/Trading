@@ -6,16 +6,15 @@ fetch(apiUrl)
     .then(data => {
         // Procesar los datos (candlesticks, líneas, etc.)
         const chartData = data.map(item => ({
-            timestamp: item[0],
-            open: parseFloat(item[1]),
-            high: parseFloat(item[2]),
-            low: parseFloat(item[3]),
-            close: parseFloat(item[4]),
+            t: new Date(item[0]),
+            o: parseFloat(item[1]),
+            h: parseFloat(item[2]),
+            l: parseFloat(item[3]),
+            c: parseFloat(item[4]),
         }));
 
-        // Configurar el gráfico (puedes usar Chart.js, Highcharts, etc.)
-        // Aquí solo un ejemplo básico:
-        const ctx = document.getElementById('chart-container').getContext('2d');
+        // Configurar el gráfico con Chart.js
+        const ctx = document.getElementById('myChart').getContext('2d');
         new Chart(ctx, {
             type: 'candlestick',
             data: {

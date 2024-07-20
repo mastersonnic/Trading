@@ -1,42 +1,27 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const gridContainer = document.querySelector(".grid-container");
-    let sumatoria = 0;
-    const valoresCeldas = new Map(); // Almacena los valores de las celdas
+// Supongamos que tienes un array de precios llamado "precios"
+const precios = [
+    1.54, 1.67, 1.32, 1.78, 1.43, 1.62, 1.29, 1.71, 1.49, 1.75,
+    1.37, 1.58, 1.24, 1.76, 1.41, 1.65, 1.31, 1.73, 1.47, 1.79,
+    1.44, 1.61, 1.28, 1.72, 1.48, 1.77, 1.42, 1.64, 1.30, 1.74,
+    1.38, 1.59, 1.25, 1.70, 1.46, 1.80, 1.45, 1.63, 1.27, 1.69,
+    1.50, 1.26, 1.68, 1.40, 1.66, 1.36, 1.60, 1.33, 1.57, 1.23
+];
 
-    // Crea las celdas y agrega los eventos de clic
-    for (let i = 0; i < 20; i++) {
-        const celda = document.createElement("div");
-        celda.classList.add("celda");
-        gridContainer.appendChild(celda);
+// Calcula la frecuencia de cada intervalo (puedes ajustar los intervalos según tus necesidades)
+const intervalos = 10; // Por ejemplo, 10 intervalos
+const frecuencias = Array.from({ length: intervalos }, () => 0);
+const rango = 1.8 - 1.2;
 
-        celda.addEventListener("click", () => {
-            const valor = prompt("Ingresa un valor numérico (positivo o negativo):");
-            if (valor !== null && !isNaN(valor)) {
-                const valorAnterior = parseFloat(celda.textContent);
-                sumatoria -= valorAnterior; // Resta el valor anterior
-                celda.textContent = valor;
-                sumatoria += parseFloat(valor);
-                document.getElementById("sumatoria").textContent = `Sumatoria: ${sumatoria}`;
-                valoresCeldas.set(celda, parseFloat(valor)); // Almacena el nuevo valor
-            }
-        });
-    }
+for (const precio of precios) {
+    const intervalo = Math.floor((precio - 1.2) / (rango / intervalos));
+    frecuencias[intervalo]++;
+}
 
-    // Función para volver a blanco con valor 0
-    function volverABlanco(celda) {
-        const valorAnterior = valoresCeldas.get(celda);
-        sumatoria -= valorAnterior; // Resta el valor anterior
-        celda.textContent = "0"; // Vuelve a blanco con valor 0
-        celda.classList.remove("verde", "rojo"); // Elimina ambas clases
-        valoresCeldas.delete(celda); // Elimina el valor almacenado
-        document.getElementById("sumatoria").textContent = `Sumatoria: ${sumatoria}`;
-    }
-
-    // Agrega evento de doble clic para volver a blanco
-    gridContainer.addEventListener("dblclick", (event) => {
-        const celda = event.target;
-        if (celda.classList.contains("celda")) {
-            volverABlanco(celda);
-        }
-    });
-});
+// Dibuja el histograma
+const histogramaDiv = document.getElementById('histograma');
+for (let i = 0; i < intervalos; i++) {
+    const barra = document.createElement('div');
+    barra.className = 'barra';
+    barra.style.height = `${frecuencias[i] * 10}px`; // Ajusta la altura según tus datos
+    histogramaDiv.appendChild(barra);
+}

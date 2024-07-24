@@ -1,45 +1,26 @@
-// Obtener datos de la API de Binance (puedes usar fetch o axios)
-const apiUrl = 'https://api.binance.com/api/v3/klines?symbol=GBPUSD&interval=15m&limit=100'; // Cambia el límite según tus necesidades
+// script.js
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const apiKey = "69djlZdJU7cEHzbTP9g4NuzuttXinRl9waKJ5Rzk"; // Reemplaza con tu clave de API
+        const apiSecret = "is17cKtqqOcUs2lAwj3MuxtmsmXOvjBCRgeEq3aw"; // Reemplaza con tu secreto de API
 
-fetch(apiUrl)
-    .then(response => response.json())
-    .then(data => {
-        // Procesar los datos (candlesticks, líneas, etc.)
-        const chartData = data.map(item => ({
-            t: new Date(item[0]),
-            o: parseFloat(item[1]),
-            h: parseFloat(item[2]),
-            l: parseFloat(item[3]),
-            c: parseFloat(item[4]),
-        }));
-
-        // Configurar el gráfico con Chart.js
-        const ctx = document.getElementById('myChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'candlestick',
-            data: {
-                datasets: [{
-                    label: 'GBP/USD',
-                    data: chartData,
-                    borderColor: 'blue',
-                    borderWidth: 1,
-                }],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'hour', // Cambia la unidad según tus necesidades
-                        },
-                    },
-                    y: {
-                        beginAtZero: false,
-                    },
-                },
+        const response = await fetch("https://ff.io/api/v2/candles/BTCUSD/1m", {
+            headers: {
+                "Content-Type": "application/json; charset=UTF-8",
+                "X-API-KEY": apiKey,
+                "X-API-SIGN": apiSecret,
             },
         });
-    })
-    .catch(error => console.error('Error al obtener datos:', error));
+
+        const data = await response.json();
+        const priceList = document.getElementById("price-list");
+
+        data.forEach((candle) => {
+            const listItem = document.createElement("li");
+            listItem.textContent = `Cierre: ${candle.close}`;
+            priceList.appendChild(listItem);
+        });
+    } catch (error) {
+        console.error("Error al obtener datos:", error);
+    }
+});

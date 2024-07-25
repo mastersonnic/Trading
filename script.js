@@ -1,5 +1,5 @@
-// Datos de ejemplo (reemplaza con tus 999 números)
-const data = [
+// Datos de ejemplo (reemplaza con tus números)
+const input = "
 1.264339486
 1.265579294
 1.263664178
@@ -998,7 +998,10 @@ const data = [
 1.299118295
 1.305738303
 1.302023105
-1.304213184];
+1.304213184"; // Introduce tus números aquí sin separadores
+
+// Convertir la cadena de entrada en un arreglo de números
+const data = input.split("").map(Number);
 
 // Configuración del gráfico
 const chartOptions = {

@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const iframe = document.getElementById("webViewer");
-    iframe.src = "https://ff.io/rates/float.xml";
+    const iframes = document.querySelectorAll("iframe");
+    iframes.forEach(iframe => {
+        iframe.src = iframe.src; // Recargar cada iframe
+    });
 });

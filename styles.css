@@ -11,7 +11,7 @@ body {
     height: 100vh;
 }
 
-#iframe {
+iframe {
     width: 80%;
     height: 80%;
     border: 1px solid #ccc;

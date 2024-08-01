@@ -6,18 +6,18 @@ document.addEventListener("DOMContentLoaded", function() {
         { select: document.getElementById("exchange4"), iframe: document.getElementById("iframe4"), link: document.getElementById("link4") }
     ];
 
-    function updateIframes() {
-        exchanges.forEach(exchange => {
-            exchange.iframe.src = exchange.select.value;
-            exchange.link.href = exchange.select.value;
-            exchange.link.textContent = `Abrir ${exchange.select.options[exchange.select.selectedIndex].text}`;
-        });
+    function updateIframe(exchange) {
+        exchange.iframe.src = exchange.select.value;
+        exchange.link.href = exchange.select.value;
+        exchange.link.textContent = `Abrir ${exchange.select.options[exchange.select.selectedIndex].text}`;
     }
 
     exchanges.forEach(exchange => {
-        exchange.select.addEventListener("change", updateIframes);
+        exchange.select.addEventListener("change", function() {
+            updateIframe(exchange);
+        });
     });
 
     // Inicializar iframes con los valores por defecto
-    updateIframes();
+    exchanges.forEach(updateIframe);
 });

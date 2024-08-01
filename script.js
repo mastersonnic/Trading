@@ -3,11 +3,14 @@ let intervalId;
 
 async function fetchPrices() {
     try {
+        console.log('Fetching prices...');
         const response = await fetch('https://ff.io/rates/float.xml');
         const text = await response.text();
+        console.log('Fetched data:', text);
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(text, 'application/xml');
         const prices = parsePrices(xmlDoc);
+        console.log('Parsed prices:', prices);
         displayPrices(prices);
         detectChanges(prices);
         previousPrices = prices;

@@ -9,7 +9,7 @@ h1 {
     text-align: center;
 }
 
-#prices {
+#prices, #raw-data {
     margin: 20px auto;
     padding: 10px;
     background-color: #fff;

@@ -10,6 +10,9 @@ body {
 
 .selector-container {
     margin: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
 }
 
 .container {
@@ -21,9 +24,8 @@ body {
 }
 
 iframe {
-    width: 45%;
+    width: 50%;
     height: 100%;
-    margin: 0 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
 }

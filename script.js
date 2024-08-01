@@ -1,22 +1,22 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const exchange1 = document.getElementById("exchange1");
-    const exchange2 = document.getElementById("exchange2");
-    const iframe1 = document.getElementById("iframe1");
-    const iframe2 = document.getElementById("iframe2");
-    const link1 = document.getElementById("link1");
-    const link2 = document.getElementById("link2");
+    const exchanges = [
+        { select: document.getElementById("exchange1"), iframe: document.getElementById("iframe1"), link: document.getElementById("link1") },
+        { select: document.getElementById("exchange2"), iframe: document.getElementById("iframe2"), link: document.getElementById("link2") },
+        { select: document.getElementById("exchange3"), iframe: document.getElementById("iframe3"), link: document.getElementById("link3") },
+        { select: document.getElementById("exchange4"), iframe: document.getElementById("iframe4"), link: document.getElementById("link4") }
+    ];
 
     function updateIframes() {
-        iframe1.src = exchange1.value;
-        iframe2.src = exchange2.value;
-        link1.href = exchange1.value;
-        link1.textContent = `Abrir ${exchange1.options[exchange1.selectedIndex].text}`;
-        link2.href = exchange2.value;
-        link2.textContent = `Abrir ${exchange2.options[exchange2.selectedIndex].text}`;
+        exchanges.forEach(exchange => {
+            exchange.iframe.src = exchange.select.value;
+            exchange.link.href = exchange.select.value;
+            exchange.link.textContent = `Abrir ${exchange.select.options[exchange.select.selectedIndex].text}`;
+        });
     }
 
-    exchange1.addEventListener("change", updateIframes);
-    exchange2.addEventListener("change", updateIframes);
+    exchanges.forEach(exchange => {
+        exchange.select.addEventListener("change", updateIframes);
+    });
 
     // Inicializar iframes con los valores por defecto
     updateIframes();

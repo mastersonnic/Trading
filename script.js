@@ -20,7 +20,7 @@ function parsePrices(xmlDoc) {
     const prices = {};
     const rates = xmlDoc.getElementsByTagName('rate');
     for (let rate of rates) {
-        const asset = rate.getElementsByTagName('asset')[0].textContent;
+        const asset = rate.getElementsByTagName('symbol')[0].textContent;
         const price = parseFloat(rate.getElementsByTagName('price')[0].textContent);
         prices[asset] = price;
     }

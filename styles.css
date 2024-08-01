@@ -23,9 +23,18 @@ body {
     height: 80%;
 }
 
-iframe {
-    width: 50%;
-    height: 100%;
-    border: 1px solid #ccc;
+a {
+    display: block;
+    width: 45%;
+    text-align: center;
+    padding: 20px;
+    margin: 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
     border-radius: 8px;
+}
+
+a:hover {
+    background-color: #0056b3;
 }

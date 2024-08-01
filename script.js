@@ -19,5 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Inicializar iframes con los valores por defecto
-    exchanges.forEach(updateIframe);
+    exchanges.forEach(exchange => {
+        updateIframe(exchange);
+    });
 });

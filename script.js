@@ -5,6 +5,9 @@ async function fetchPrices() {
     try {
         console.log('Fetching prices...');
         const response = await fetch('https://ff.io/rates/float.xml');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
         const text = await response.text();
         console.log('Fetched data:', text);
         const parser = new DOMParser();
@@ -17,6 +20,7 @@ async function fetchPrices() {
         previousPrices = prices;
     } catch (error) {
         console.error('Error fetching prices:', error);
+        document.getElementById('raw-data').innerHTML = `<p>Error fetching prices: ${error.message}</p>`;
     }
 }
 

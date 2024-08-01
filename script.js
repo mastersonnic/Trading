@@ -1,25 +1,62 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const exchanges = [
-        { select: document.getElementById("exchange1"), iframe: document.getElementById("iframe1"), link: document.getElementById("link1") },
-        { select: document.getElementById("exchange2"), iframe: document.getElementById("iframe2"), link: document.getElementById("link2") },
-        { select: document.getElementById("exchange3"), iframe: document.getElementById("iframe3"), link: document.getElementById("link3") },
-        { select: document.getElementById("exchange4"), iframe: document.getElementById("iframe4"), link: document.getElementById("link4") }
-    ];
+let previousPrices = {};
+let intervalId;
 
-    function updateIframe(exchange) {
-        exchange.iframe.src = exchange.select.value;
-        exchange.link.href = exchange.select.value;
-        exchange.link.textContent = `Abrir ${exchange.select.options[exchange.select.selectedIndex].text}`;
+async function fetchPrices() {
+    try {
+        const response = await fetch('https://ff.io/rates/float.xml');
+        const text = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(text, 'application/xml');
+        const prices = parsePrices(xmlDoc);
+        displayPrices(prices);
+        detectChanges(prices);
+        previousPrices = prices;
+    } catch (error) {
+        console.error('Error fetching prices:', error);
     }
+}
 
-    exchanges.forEach(exchange => {
-        exchange.select.addEventListener("change", function() {
-            updateIframe(exchange);
-        });
-    });
+function parsePrices(xmlDoc) {
+    const prices = {};
+    const rates = xmlDoc.getElementsByTagName('rate');
+    for (let rate of rates) {
+        const asset = rate.getElementsByTagName('asset')[0].textContent;
+        const price = parseFloat(rate.getElementsByTagName('price')[0].textContent);
+        prices[asset] = price;
+    }
+    return prices;
+}
 
-    // Inicializar iframes con los valores por defecto
-    exchanges.forEach(exchange => {
-        updateIframe(exchange);
-    });
-});
+function displayPrices(prices) {
+    const pricesDiv = document.getElementById('prices');
+    pricesDiv.innerHTML = '';
+    for (let [asset, price] of Object.entries(prices)) {
+        const priceElement = document.createElement('div');
+        priceElement.textContent = `${asset}: ${price}`;
+        pricesDiv.appendChild(priceElement);
+    }
+}
+
+function detectChanges(newPrices) {
+    for (let asset in newPrices) {
+        if (previousPrices[asset] && Math.abs((newPrices[asset] - previousPrices[asset]) / previousPrices[asset]) > 0.001) {
+            const priceElement = document.createElement('div');
+            priceElement.textContent = `Cambio en ${asset}: ${previousPrices[asset]} -> ${newPrices[asset]}`;
+            priceElement.classList.add('price-change');
+            document.getElementById('prices').appendChild(priceElement);
+        }
+    }
+}
+
+function updateInterval() {
+    const interval = document.getElementById('update-interval').value;
+    clearInterval(intervalId);
+    intervalId = setInterval(fetchPrices, interval);
+    fetchPrices(); // Llamar inmediatamente al cambiar el intervalo
+}
+
+document.getElementById('update-interval').addEventListener('change', updateInterval);
+
+// Inicializar con el intervalo predeterminado de 10 segundos
+intervalId = setInterval(fetchPrices, 10000);
+fetchPrices(); // Llamar inmediatamente al cargar la página

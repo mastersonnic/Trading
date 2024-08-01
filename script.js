@@ -12,6 +12,7 @@ async function fetchPrices() {
         const prices = parsePrices(xmlDoc);
         console.log('Parsed prices:', prices);
         displayPrices(prices);
+        displayRawData(text);
         detectChanges(prices);
         previousPrices = prices;
     } catch (error) {
@@ -38,6 +39,11 @@ function displayPrices(prices) {
         priceElement.textContent = `${asset}: ${price}`;
         pricesDiv.appendChild(priceElement);
     }
+}
+
+function displayRawData(data) {
+    const rawDataDiv = document.getElementById('raw-data');
+    rawDataDiv.innerHTML = `<pre>${data}</pre>`;
 }
 
 function detectChanges(newPrices) {

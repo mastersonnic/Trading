@@ -1,5 +1,8 @@
 // script.js
-fetch('https://ff.io/rates/float.xml')
+const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+const targetUrl = 'https://ff.io/rates/float.xml';
+
+fetch(proxyUrl + targetUrl)
   .then(response => {
     if (!response.ok) {
       throw new Error('Error al cargar el XML');

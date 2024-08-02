@@ -1,3 +1,7 @@
+const API_KEY = '69djlZdJU7cEHzbTP9g4NuzuttXinRl9waKJ5Rzk';
+const API_SECRET = 'is17cKtqqOcUs2lAwj3MuxtmsmXOvjBCRgeEq3aw';
+const URL = 'https://ff.io/api/v2/getRates';
+
 let previousPrices = {};
 
 document.getElementById('update-interval').addEventListener('change', function() {
@@ -5,30 +9,39 @@ document.getElementById('update-interval').addEventListener('change', function()
     updateInterval = setInterval(fetchPrices, this.value);
 });
 
-let updateInterval = setInterval(fetchPrices, 10000);
+let updateInterval = setInterval(fetchPrices, 60000); // Default to 1 minute
 
 async function fetchPrices() {
     try {
-        const response = await fetch('https://ff.io/rates/float.xml');
-        const text = await response.text();
-        displayLastDownload(text);
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(text, 'text/xml');
-        const prices = parsePrices(xmlDoc);
+        const response = await fetch(URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'X-API-KEY': API_KEY,
+                'X-API-SIGN': getSignature('{}', API_SECRET)
+            },
+            body: '{}'
+        });
+        const data = await response.json();
+        displayLastDownload(data);
+        const prices = parsePrices(data);
         displayPrices(prices);
     } catch (error) {
         console.error('Error fetching prices:', error);
     }
 }
 
-function parsePrices(xmlDoc) {
+function getSignature(data, secret) {
+    return CryptoJS.HmacSHA256(data, secret).toString();
+}
+
+function parsePrices(data) {
     const prices = {};
-    const items = xmlDoc.getElementsByTagName('item');
-    for (let item of items) {
-        const symbol = item.getElementsByTagName('symbol')[0].textContent;
-        const price = parseFloat(item.getElementsByTagName('price')[0].textContent);
+    data.forEach(item => {
+        const symbol = item.symbol;
+        const price = parseFloat(item.price);
         prices[symbol] = price;
-    }
+    });
     return prices;
 }
 
@@ -49,7 +62,7 @@ function displayPrices(prices) {
     previousPrices = prices;
 }
 
-function displayLastDownload(text) {
+function displayLastDownload(data) {
     const lastDownloadDiv = document.getElementById('last-download');
-    lastDownloadDiv.textContent = text;
+    lastDownloadDiv.textContent = JSON.stringify(data, null, 2);
 }

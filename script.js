@@ -1,36 +1,33 @@
 let previousPrices = {};
-let intervalId;
+
+document.getElementById('update-interval').addEventListener('change', function() {
+    clearInterval(updateInterval);
+    updateInterval = setInterval(fetchPrices, this.value);
+});
+
+let updateInterval = setInterval(fetchPrices, 10000);
 
 async function fetchPrices() {
     try {
-        console.log('Fetching prices...');
         const response = await fetch('https://ff.io/rates/float.xml');
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
         const text = await response.text();
-        console.log('Fetched data:', text);
+        displayLastDownload(text);
         const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(text, 'application/xml');
+        const xmlDoc = parser.parseFromString(text, 'text/xml');
         const prices = parsePrices(xmlDoc);
-        console.log('Parsed prices:', prices);
         displayPrices(prices);
-        displayRawData(text);
-        detectChanges(prices);
-        previousPrices = prices;
     } catch (error) {
         console.error('Error fetching prices:', error);
-        document.getElementById('raw-data').innerHTML = `<p>Error fetching prices: ${error.message}</p>`;
     }
 }
 
 function parsePrices(xmlDoc) {
     const prices = {};
-    const rates = xmlDoc.getElementsByTagName('rate');
-    for (let rate of rates) {
-        const asset = rate.getElementsByTagName('symbol')[0].textContent;
-        const price = parseFloat(rate.getElementsByTagName('price')[0].textContent);
-        prices[asset] = price;
+    const items = xmlDoc.getElementsByTagName('item');
+    for (let item of items) {
+        const symbol = item.getElementsByTagName('symbol')[0].textContent;
+        const price = parseFloat(item.getElementsByTagName('price')[0].textContent);
+        prices[symbol] = price;
     }
     return prices;
 }
@@ -38,38 +35,21 @@ function parsePrices(xmlDoc) {
 function displayPrices(prices) {
     const pricesDiv = document.getElementById('prices');
     pricesDiv.innerHTML = '';
-    for (let [asset, price] of Object.entries(prices)) {
+    for (let symbol in prices) {
+        const price = prices[symbol];
+        const previousPrice = previousPrices[symbol];
+        const priceChange = previousPrice ? ((price - previousPrice) / previousPrice) * 100 : 0;
         const priceElement = document.createElement('div');
-        priceElement.textContent = `${asset}: ${price}`;
+        priceElement.textContent = `${symbol}: ${price}`;
+        if (Math.abs(priceChange) > 0.1) {
+            priceElement.classList.add('price-change');
+        }
         pricesDiv.appendChild(priceElement);
     }
+    previousPrices = prices;
 }
 
-function displayRawData(data) {
-    const rawDataDiv = document.getElementById('raw-data');
-    rawDataDiv.innerHTML = `<pre>${data}</pre>`;
+function displayLastDownload(text) {
+    const lastDownloadDiv = document.getElementById('last-download');
+    lastDownloadDiv.textContent = text;
 }
-
-function detectChanges(newPrices) {
-    for (let asset in newPrices) {
-        if (previousPrices[asset] && Math.abs((newPrices[asset] - previousPrices[asset]) / previousPrices[asset]) > 0.001) {
-            const priceElement = document.createElement('div');
-            priceElement.textContent = `Cambio en ${asset}: ${previousPrices[asset]} -> ${newPrices[asset]}`;
-            priceElement.classList.add('price-change');
-            document.getElementById('prices').appendChild(priceElement);
-        }
-    }
-}
-
-function updateInterval() {
-    const interval = document.getElementById('update-interval').value;
-    clearInterval(intervalId);
-    intervalId = setInterval(fetchPrices, interval);
-    fetchPrices(); // Llamar inmediatamente al cambiar el intervalo
-}
-
-document.getElementById('update-interval').addEventListener('change', updateInterval);
-
-// Inicializar con el intervalo predeterminado de 10 segundos
-intervalId = setInterval(fetchPrices, 10000);
-fetchPrices(); // Llamar inmediatamente al cargar la página

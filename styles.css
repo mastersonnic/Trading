@@ -1,5 +1,4 @@
 body {
-    body {
     font-family: Arial, sans-serif;
     margin: 20px;
 }
@@ -27,25 +26,4 @@ label {
 .price-change {
     color: red;
     font-weight: bold;
-}
-: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-}
-
-#prices, #raw-data {
-    margin: 20px auto;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    max-width: 600px;
-}
-
-.price-change {
-    color: red;
 }

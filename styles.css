@@ -1,5 +1,34 @@
 body {
+    body {
     font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+label {
+    font-weight: bold;
+}
+
+#prices {
+    margin-top: 20px;
+}
+
+#last-download {
+    margin-top: 20px;
+    white-space: pre-wrap; /* Preserve whitespace and line breaks */
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.price-change {
+    color: red;
+    font-weight: bold;
+}
+: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 20px;

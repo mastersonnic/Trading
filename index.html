@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Libertex Scraping</title>
+    <title>Navegador Web Simple</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="app">
-        <h1>Operaciones en Libertex</h1>
-        <button id="loadData">Cargar Datos</button>
-        <div id="operations"></div>
-    </div>
+    <header>
+        <h1>Navegador Web Simple</h1>
+    </header>
+    <main>
+        <input type="text" id="urlInput" placeholder="Escribe la URL aquí">
+        <button id="goButton">Ir</button>
+        <button id="backButton">Atrás</button>
+        <button id="forwardButton">Adelante</button>
+        <iframe id="webView" src="" frameborder="0"></iframe>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>

@@ -4,9 +4,9 @@ document.getElementById('goButton').addEventListener('click', function() {
 });
 
 document.getElementById('backButton').addEventListener('click', function() {
-    history.back();
+    document.getElementById('webView').contentWindow.history.back();
 });
 
 document.getElementById('forwardButton').addEventListener('click', function() {
-    history.forward();
+    document.getElementById('webView').contentWindow.history.forward();
 });

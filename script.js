@@ -1,19 +1,32 @@
-// script.js
-const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-const targetUrl = 'https://ff.io/rates/float.xml';
+const dominos = document.querySelectorAll('.domino');
 
-fetch(proxyUrl + targetUrl)
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Error al cargar el XML');
-    }
-    return response.text();
-  })
-  .then(data => {
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(data, "application/xml");
-    const serializer = new XMLSerializer();
-    const xmlStr = serializer.serializeToString(xmlDoc);
-    document.getElementById('xml-content').textContent = xmlStr;
-  })
-  .catch(error => console.error('Error al cargar el XML:', error));
+dominos.forEach(domino => {
+    domino.addEventListener('dragstart', dragStart);
+    domino.addEventListener('dragend', dragEnd);
+});
+
+function dragStart(e) {
+    e.dataTransfer.setData('text/plain', e.target.id);
+    setTimeout(() => {
+        e.target.classList.add('hide');
+    }, 0);
+}
+
+function dragEnd(e) {
+    e.target.classList.remove('hide');
+}
+
+document.body.addEventListener('dragover', e => {
+    e.preventDefault();
+});
+
+document.body.addEventListener('drop', e => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData('text');
+    const domino = document.getElementById(id);
+    const dropX = e.clientX - domino.offsetWidth / 2;
+    const dropY = e.clientY - domino.offsetHeight / 2;
+    domino.style.position = 'absolute';
+    domino.style.left = `${dropX}px`;
+    domino.style.top = `${dropY}px`;
+});

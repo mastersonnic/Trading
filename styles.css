@@ -4,21 +4,28 @@ body {
     align-items: center;
     height: 100vh;
     background-color: #f0f0f0;
+    overflow: hidden;
+    margin: 0;
 }
 
 .domino {
-    width: 60px;
-    height: 120px;
+    width: 100px;
+    height: 200px;
     margin: 10px;
     background-color: white;
     border: 2px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
+    font-size: 36px;
     cursor: grab;
+    position: absolute;
 }
 
 .domino:active {
     cursor: grabbing;
+}
+
+.hide {
+    display: none;
 }

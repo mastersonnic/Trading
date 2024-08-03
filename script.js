@@ -26,7 +26,8 @@ document.body.addEventListener('drop', e => {
     const domino = document.getElementById(id);
     const dropX = e.clientX - domino.offsetWidth / 2;
     const dropY = e.clientY - domino.offsetHeight / 2;
-    domino.style.position = 'absolute';
-    domino.style.left = `${dropX}px`;
-    domino.style.top = `${dropY}px`;
+    const maxX = window.innerWidth - domino.offsetWidth;
+    const maxY = window.innerHeight - domino.offsetHeight;
+    domino.style.left = `${Math.min(Math.max(0, dropX), maxX)}px`;
+    domino.style.top = `${Math.min(Math.max(0, dropY), maxY)}px`;
 });

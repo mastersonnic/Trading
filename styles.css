@@ -1,44 +1,39 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    background-color: #333;
-    color: white;
-    padding: 1em;
     text-align: center;
 }
 
-main {
-    padding: 2em;
-    text-align: center;
+#game {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
 }
 
-input {
-    width: 60%;
-    padding: 0.5em;
-    margin-bottom: 1em;
-}
-
-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 0.5em 1em;
-    cursor: pointer;
-    margin: 0 0.5em;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-iframe {
-    width: 100%;
-    height: 80vh;
+.player {
     border: 1px solid #ccc;
-    margin-top: 1em;
+    padding: 10px;
+    background-color: #fff;
+}
+
+.visor {
+    border: 1px solid #000;
+    margin: 5px;
+    padding: 5px;
+    min-height: 50px;
+}
+
+#mesa {
+    border: 2px solid #000;
+    margin: 20px auto;
+    padding: 10px;
+    width: 80%;
+    background-color: #fff;
+}
+
+.ficha {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #000;
 }

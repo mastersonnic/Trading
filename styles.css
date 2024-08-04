@@ -21,4 +21,5 @@ body {
     border: 1px solid #000;
     height: 100px;
     overflow-y: auto;
+    background-color: #f9f9f9;
 }

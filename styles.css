@@ -16,7 +16,23 @@ body {
     text-align: center;
 }
 
-#visor, #visor-pase-yo, #visor-pase-izquierda, #visor-pase-derecha, #visor-pase-frente {
+#yo {
+    background-color: #ffebcd; /* BlanchedAlmond */
+}
+
+#izquierda {
+    background-color: #e6e6fa; /* Lavender */
+}
+
+#derecha {
+    background-color: #f0fff0; /* HoneyDew */
+}
+
+#frente {
+    background-color: #f5f5dc; /* Beige */
+}
+
+#visor, #visor-pase-yo, #visor-pase-izquierda, #visor-pase-derecha, #visor-pase-frente, #visor-sali-yo, #visor-salio-izquierda, #visor-salio-derecha, #visor-salio-frente {
     margin-top: 10px;
     border: 1px solid #000;
     height: 100px;

@@ -1,61 +1,24 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Dominó</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div id="game-container">
-        <div class="player" id="yo">
-            <h2>Yo</h2>
-            <div class="visor" id="tengo"></div>
-            <div class="visor" id="salida-yo"></div>
-            <div class="visor" id="pase-yo"></div>
-            <div class="visor" id="mejor-salida"></div>
-            <div class="visor" id="mejor-jugada"></div>
-            <select id="fichas-yo"></select>
-            <select id="jugando-yo"></select>
-        </div>
-        <div class="player" id="derecha">
-            <h2>Mi Derecha</h2>
-            <div class="visor" id="salida-derecha"></div>
-            <div class="visor" id="pase-derecha"></div>
-            <div class="visor" id="probablemente-tiene-derecha"></div>
-            <div class="visor" id="tiene-derecha"></div>
-            <select id="jugadas-derecha"></select>
-            <select id="jugando-derecha"></select>
-        </div>
-        <div class="player" id="frente">
-            <h2>Mi Frente</h2>
-            <div class="visor" id="salida-frente"></div>
-            <div class="visor" id="pase-frente"></div>
-            <div class="visor" id="probablemente-tiene-frente"></div>
-            <div class="visor" id="tiene-frente"></div>
-            <select id="jugadas-frente"></select>
-            <select id="jugando-frente"></select>
-        </div>
-        <div class="player" id="izquierda">
-            <h2>Mi Izquierda</h2>
-            <div class="visor" id="salida-izquierda"></div>
-            <div class="visor" id="pase-izquierda"></div>
-            <div class="visor" id="probablemente-tiene-izquierda"></div>
-            <div class="visor" id="tiene-izquierda"></div>
-            <select id="jugadas-izquierda"></select>
-            <select id="jugando-izquierda"></select>
-        </div>
-    </div>
-    <div id="mesa">
-        <h2>Mesa</h2>
-        <div id="fichas-mesa"></div>
-    </div>
-    <div id="controles">
-        <button onclick="guardarMano()">Guardar Mano</button>
-        <button onclick="devolverUltimaJugada()">Devolver Última Jugada</button>
-        <button onclick="terminarMano()">Terminar Mano</button>
-        <button onclick="comenzarNuevaMano()">Comenzar Nueva Mano</button>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.player {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #000;
+    width: 200px;
+    text-align: center;
+}
+
+#visor {
+    margin-top: 10px;
+    border: 1px solid #000;
+    height: 100px;
+    overflow-y: auto;
+}

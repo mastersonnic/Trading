@@ -7,63 +7,23 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="game-container">
-        <div class="player" id="yo">
-            <h2>Yo</h2>
-            <div class="visor" id="tengo"></div>
-            <div class="visor" id="salida-yo"></div>
-            <div class="visor" id="pase-yo"></div>
-            <div class="visor" id="mejor-salida"></div>
-            <div class="visor" id="mejor-jugada"></div>
-            <label for="fichas-yo">Mis Fichas:</label>
-            <select id="fichas-yo"></select>
-            <label for="jugando-yo">Jugando:</label>
-            <select id="jugando-yo"></select>
-        </div>
-        <div class="player" id="derecha">
-            <h2>Mi Derecha</h2>
-            <div class="visor" id="salida-derecha"></div>
-            <div class="visor" id="pase-derecha"></div>
-            <div class="visor" id="probablemente-tiene-derecha"></div>
-            <div class="visor" id="tiene-derecha"></div>
-            <label for="jugadas-derecha">Jugadas:</label>
-            <select id="jugadas-derecha"></select>
-            <label for="jugando-derecha">Jugando:</label>
-            <select id="jugando-derecha"></select>
-        </div>
-        <div class="player" id="frente">
-            <h2>Mi Frente</h2>
-            <div class="visor" id="salida-frente"></div>
-            <div class="visor" id="pase-frente"></div>
-            <div class="visor" id="probablemente-tiene-frente"></div>
-            <div class="visor" id="tiene-frente"></div>
-            <label for="jugadas-frente">Jugadas:</label>
-            <select id="jugadas-frente"></select>
-            <label for="jugando-frente">Jugando:</label>
-            <select id="jugando-frente"></select>
-        </div>
-        <div class="player" id="izquierda">
-            <h2>Mi Izquierda</h2>
-            <div class="visor" id="salida-izquierda"></div>
-            <div class="visor" id="pase-izquierda"></div>
-            <div class="visor" id="probablemente-tiene-izquierda"></div>
-            <div class="visor" id="tiene-izquierda"></div>
-            <label for="jugadas-izquierda">Jugadas:</label>
-            <select id="jugadas-izquierda"></select>
-            <label for="jugando-izquierda">Jugando:</label>
-            <select id="jugando-izquierda"></select>
-        </div>
+    <div class="player" id="yo">
+        <h2>Yo</h2>
+        <label for="mis-fichas">Mis fichas:</label>
+        <select id="mis-fichas" multiple></select>
+        <div id="visor"></div>
     </div>
-    <div id="mesa">
-        <h2>Mesa</h2>
-        <div id="fichas-mesa"></div>
+    <div class="player" id="izquierda">
+        <h2>Mi Izquierda</h2>
     </div>
-    <div id="controles">
-        <button onclick="guardarMano()">Guardar Mano</button>
-        <button onclick="devolverUltimaJugada()">Devolver Última Jugada</button>
-        <button onclick="terminarMano()">Terminar Mano</button>
-        <button onclick="comenzarNuevaMano()">Comenzar Nueva Mano</button>
+    <div class="player" id="derecha">
+        <h2>Mi Derecha</h2>
     </div>
+    <div class="player" id="frente">
+        <h2>Mi Frente</h2>
+    </div>
+    <label for="switch-frente">Jugar con Frente:</label>
+    <input type="checkbox" id="switch-frente">
     <script src="script.js"></script>
 </body>
 </html>

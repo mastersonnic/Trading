@@ -16,7 +16,7 @@ body {
     text-align: center;
 }
 
-#visor {
+#visor, #visor-pase-yo, #visor-pase-izquierda, #visor-pase-derecha, #visor-pase-frente {
     margin-top: 10px;
     border: 1px solid #000;
     height: 100px;

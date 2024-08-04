@@ -29,6 +29,15 @@ function comenzarNuevaMano() {
     alert("Nueva mano comenzada");
 }
 
+function abrirManoGuardada() {
+    if (historialJugadas.length > 0) {
+        manoActual = historialJugadas[historialJugadas.length - 1];
+        alert("Mano guardada abierta");
+    } else {
+        alert("No hay manos guardadas");
+    }
+}
+
 function seleccionarFicha(jugador, ficha, extremo) {
     mesa.push({ jugador, ficha, extremo });
     actualizarMesa();

@@ -28,4 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     switchFrente.addEventListener('change', () => {
         frente.style.display = switchFrente.checked ? 'block' : 'none';
     });
+
+    // Inicialmente ocultar "Mi Frente"
+    frente.style.display = 'none';
 });

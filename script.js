@@ -1,70 +1,31 @@
-let historialJugadas = [];
-let manoActual = [];
-
 document.addEventListener('DOMContentLoaded', () => {
-    inicializarJuego();
-});
+    const misFichasSelect = document.getElementById('mis-fichas');
+    const visor = document.getElementById('visor');
+    const switchFrente = document.getElementById('switch-frente');
+    const frente = document.getElementById('frente');
 
-function inicializarJuego() {
-    const jugadores = ['yo', 'derecha', 'frente', 'izquierda'];
-    jugadores.forEach(jugador => {
-        const jugadasSelect = document.getElementById(`jugadas-${jugador}`);
-        const jugandoSelect = document.getElementById(`jugando-${jugador}`);
-        for (let i = 0; i <= 6; i++) {
-            for (let j = i; j <= 6; j++) {
-                const ficha = `${i}-${j}`;
-                const option = document.createElement('option');
-                option.value = ficha;
-                option.text = ficha;
-                jugadasSelect.appendChild(option.cloneNode(true));
-                jugandoSelect.appendChild(option.cloneNode(true));
-            }
-        }
+    // Añadir opciones a la lista desplegable
+    const fichas = ['0-0', '0-1', '0-2', '0-3', '0-4', '0-5', '0-6', '1-1', '1-2', '1-3', '1-4', '1-5', '1-6', '2-2', '2-3', '2-4', '2-5', '2-6', '3-3', '3-4', '3-5', '3-6', '4-4', '4-5', '4-6', '5-5', '5-6', '6-6'];
+    fichas.forEach(ficha => {
+        const option = document.createElement('option');
+        option.value = ficha;
+        option.textContent = ficha;
+        misFichasSelect.appendChild(option);
     });
-}
 
-function guardarMano() {
-    historialJugadas.push([...manoActual]);
-    console.log('Mano guardada:', historialJugadas);
-}
+    // Mostrar fichas seleccionadas en el visor
+    misFichasSelect.addEventListener('change', () => {
+        visor.innerHTML = '';
+        const selectedOptions = Array.from(misFichasSelect.selectedOptions);
+        selectedOptions.slice(0, 7).forEach(option => {
+            const fichaDiv = document.createElement('div');
+            fichaDiv.textContent = option.value;
+            visor.appendChild(fichaDiv);
+        });
+    });
 
-function devolverUltimaJugada() {
-    if (manoActual.length > 0) {
-        const ultimaJugada = manoActual.pop();
-        console.log('Última jugada devuelta:', ultimaJugada);
-    } else {
-        console.log('No hay jugadas para devolver');
-    }
-}
-
-function terminarMano() {
-    manoActual = [];
-    console.log('Mano terminada');
-}
-
-function comenzarNuevaMano() {
-    historialJugadas = [];
-    manoActual = [];
-    console.log('Nueva mano comenzada');
-}
-
-function seleccionarFicha(jugador, ficha, extremo) {
-    const fichasMesa = document.getElementById('fichas-mesa');
-    const fichaElemento = document.createElement('div');
-    fichaElemento.className = 'ficha';
-    fichaElemento.innerText = ficha;
-    fichaElemento.style.backgroundColor = obtenerColorJugador(jugador);
-    fichasMesa.appendChild(fichaElemento);
-    manoActual.push({ jugador, ficha, extremo });
-    console.log(`Jugador ${jugador} coloca ${ficha} en el extremo ${extremo}`);
-}
-
-function obtenerColorJugador(jugador) {
-    switch (jugador) {
-        case 'yo': return 'blue';
-        case 'derecha': return 'red';
-        case 'frente': return 'green';
-        case 'izquierda': return 'yellow';
-        default: return 'black';
-    }
-}
+    // Mostrar u ocultar el jugador "Mi Frente"
+    switchFrente.addEventListener('change', () => {
+        frente.style.display = switchFrente.checked ? 'block' : 'none';
+    });
+});

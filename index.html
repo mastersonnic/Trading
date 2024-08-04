@@ -7,52 +7,55 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Juego de Dominó</h1>
-    <div id="game">
+    <div id="game-container">
         <div class="player" id="yo">
             <h2>Yo</h2>
-            <div class="hand" id="mi-mano">Mis Fichas</div>
-            <label for="mi-tengo">Mis Fichas Iniciales:</label>
-            <select id="mi-tengo"></select>
-            <div class="visor" id="mi-salida">Mi Salida</div>
-            <div class="visor" id="mi-pase">Mis Pasos</div>
-            <div class="visor" id="mi-mejor-salida">Mejor Ficha para Salir</div>
-            <div class="visor" id="mi-mejor-jugada">Mejor Ficha para Jugar</div>
+            <div class="visor" id="tengo"></div>
+            <div class="visor" id="salida-yo"></div>
+            <div class="visor" id="pase-yo"></div>
+            <div class="visor" id="mejor-salida"></div>
+            <div class="visor" id="mejor-jugada"></div>
+            <select id="fichas-yo"></select>
+            <select id="jugando-yo"></select>
         </div>
         <div class="player" id="derecha">
             <h2>Mi Derecha</h2>
-            <label for="derecha-jugando">Ficha Jugada:</label>
-            <select id="derecha-jugando"></select>
-            <div class="visor" id="derecha-salida">Salida</div>
-            <div class="visor" id="derecha-pase">Pasos</div>
-            <div class="visor" id="derecha-probablemente-tiene">Probablemente Tiene</div>
-            <div class="visor" id="derecha-tiene">Tiene</div>
+            <div class="visor" id="salida-derecha"></div>
+            <div class="visor" id="pase-derecha"></div>
+            <div class="visor" id="probablemente-tiene-derecha"></div>
+            <div class="visor" id="tiene-derecha"></div>
+            <select id="jugadas-derecha"></select>
+            <select id="jugando-derecha"></select>
         </div>
         <div class="player" id="frente">
             <h2>Mi Frente</h2>
-            <label for="frente-jugando">Ficha Jugada:</label>
-            <select id="frente-jugando"></select>
-            <div class="visor" id="frente-salida">Salida</div>
-            <div class="visor" id="frente-pase">Pasos</div>
-            <div class="visor" id="frente-probablemente-tiene">Probablemente Tiene</div>
-            <div class="visor" id="frente-tiene">Tiene</div>
+            <div class="visor" id="salida-frente"></div>
+            <div class="visor" id="pase-frente"></div>
+            <div class="visor" id="probablemente-tiene-frente"></div>
+            <div class="visor" id="tiene-frente"></div>
+            <select id="jugadas-frente"></select>
+            <select id="jugando-frente"></select>
         </div>
         <div class="player" id="izquierda">
             <h2>Mi Izquierda</h2>
-            <label for="izquierda-jugando">Ficha Jugada:</label>
-            <select id="izquierda-jugando"></select>
-            <div class="visor" id="izquierda-salida">Salida</div>
-            <div class="visor" id="izquierda-pase">Pasos</div>
-            <div class="visor" id="izquierda-probablemente-tiene">Probablemente Tiene</div>
-            <div class="visor" id="izquierda-tiene">Tiene</div>
+            <div class="visor" id="salida-izquierda"></div>
+            <div class="visor" id="pase-izquierda"></div>
+            <div class="visor" id="probablemente-tiene-izquierda"></div>
+            <div class="visor" id="tiene-izquierda"></div>
+            <select id="jugadas-izquierda"></select>
+            <select id="jugando-izquierda"></select>
         </div>
     </div>
-    <div id="mesa">Mesa de Juego</div>
-    <button onclick="guardarMano()">Guardar Mano</button>
-    <button onclick="devolverUltimaJugada()">Devolver Última Jugada</button>
-    <button onclick="terminarMano()">Terminar Mano</button>
-    <button onclick="comenzarNuevaMano()">Comenzar Nueva Mano</button>
-    <button onclick="abrirManoGuardada()">Abrir Mano Guardada</button>
+    <div id="mesa">
+        <h2>Mesa</h2>
+        <div id="fichas-mesa"></div>
+    </div>
+    <div id="controles">
+        <button onclick="guardarMano()">Guardar Mano</button>
+        <button onclick="devolverUltimaJugada()">Devolver Última Jugada</button>
+        <button onclick="terminarMano()">Terminar Mano</button>
+        <button onclick="comenzarNuevaMano()">Comenzar Nueva Mano</button>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

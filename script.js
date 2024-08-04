@@ -66,6 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
         frente.style.display = switchFrente.checked ? 'block' : 'none';
     });
 
-    // Inicialmente ocultar "Mi Frente"
-    frente.style.display = 'none';
+    // Inicialmente mostrar "Mi Frente"
+    frente.style.display = 'block';
 });

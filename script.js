@@ -36,8 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fichas = ['0-0', '0-1', '0-2', '0-3', '0-4', '0-5', '0-6', '1-1', '1-2', '1-3', '1-4', '1-5', '1-6', '2-2', '2-3', '2-4', '2-5', '2-6', '3-3', '3-4', '3-5', '3-6', '4-4', '4-5', '4-6', '5-5', '5-6', '6-6'];
     fichas.forEach(ficha => {
         const option = document.createElement('option');
-        option
-                option.value = ficha;
+        option.value = ficha;
         option.textContent = ficha;
         misFichasSelect.appendChild(option);
 
@@ -99,12 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const updateJugadasVisor = (selectElement, visorElement) => {
-        visorElement.innerHTML = '';
         const selectedOptions = Array.from(selectElement.selectedOptions);
         selectedOptions.slice(0, 7).forEach(option => {
-            const fichaDiv = document.createElement('div');
-            fichaDiv.textContent = option.value;
-            visorElement.appendChild(fichaDiv);
+            if (!Array.from(visorElement.children).some(child => child.textContent === option.value)) {
+                const fichaDiv = document.createElement('div');
+                fichaDiv.textContent = option.value;
+                visorElement.appendChild(fichaDiv);
+            }
         });
     };
 
@@ -130,6 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
             salioIzquierdaSelect.value = 'no sale';
             salioDerechaSelect.value = 'no sale';
             salioFrenteSelect.value = 'no sale';
+        } else {
+            visorSaliYo.innerHTML = '';
         }
     });
     salioIzquierdaSelect.addEventListener('change', () => {
@@ -138,6 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
             saliYoSelect.value = 'no sale';
             salioDerechaSelect.value = 'no sale';
             salioFrenteSelect.value = 'no sale';
+        } else {
+            visorSalioIzquierda.innerHTML = '';
         }
     });
     salioDerechaSelect.addEventListener('change', () => {
@@ -146,6 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
             saliYoSelect.value = 'no sale';
             salioIzquierdaSelect.value = 'no sale';
             salioFrenteSelect.value = 'no sale';
+        } else {
+            visorSalioDerecha.innerHTML = '';
         }
     });
     salioFrenteSelect.addEventListener('change', () => {
@@ -154,9 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
             saliYoSelect.value = 'no sale';
             salioIzquierdaSelect.value = 'no sale';
             salioDerechaSelect.value = 'no sale';
+        } else {
+            visorSalioFrente.innerHTML = '';
         }
     });
-
     jugadasYoSelect.addEventListener('change', () => {
         updateJugadasVisor(jugadasYoSelect, visorJugadasYo);
         const selectedOptions = Array.from(jugadasYoSelect.selectedOptions);
@@ -234,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const optionSalioFrente = option.cloneNode(true);
                 salioFrenteSelect.appendChild(optionSalioFrente);
 
-                const optionJugadasYo = option.cloneNode(true)
+                const optionJugadasYo = option.cloneNode(true);
                 jugadasYoSelect.appendChild(optionJugadasYo);
 
                 const optionJugadasIzquierda = option.cloneNode(true);

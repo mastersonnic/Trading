@@ -31,6 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const jugadasFrenteSelect = document.getElementById('jugadas-frente');
     const visorJugadasFrente = document.getElementById('visor-jugadas-frente');
 
+    const mejorFichaDiv = document.getElementById('mejor-ficha');
+    const borrarValoresButton = document.getElementById('borrar-valores');
     const acabarManoButton = document.getElementById('acabar-mano');
 
     const fichas = ['0-0', '0-1', '0-2', '0-3', '0-4', '0-5', '0-6', '1-1', '1-2', '1-3', '1-4', '1-5', '1-6', '2-2', '2-3', '2-4', '2-5', '2-6', '3-3', '3-4', '3-5', '3-6', '4-4', '4-5', '4-6', '5-5', '5-6', '6-6'];
@@ -118,7 +120,69 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    misFichasSelect.addEventListener('change', () => updateVisor(misFichasSelect, visor));
+    const calcularMejorFicha = () => {
+        const fichasDisponibles = Array.from(misFichasSelect.options).map(option => option.value);
+        let mejorFicha = '';
+        let mejorSumatoria = 0;
+        let valoresSumados = '';
+
+        // Condición 1: Doble con al menos dos números más del mismo doble
+        fichasDisponibles.forEach(ficha => {
+            const [num1, num2] = ficha.split('-').map(Number);
+            if (num1 === num2) {
+                const count = fichasDisponibles.filter(f => f.includes(num1)).length;
+                if (count >= 3) {
+                    const sumatoria = num1 * 3;
+                    if (sumatoria > mejorSumatoria) {
+                        mejorFicha = ficha;
+                        mejorSumatoria = sumatoria;
+                        valoresSumados = `${num1} + ${num1} + ${num1}`;
+                    }
+                }
+            }
+        });
+
+        // Condición 2: Tres números del mismo en tres fichas
+        if (!mejorFicha) {
+            const numeros = {};
+            fichasDisponibles.forEach(ficha => {
+                const [num1, num2] = ficha.split('-').map(Number);
+                numeros[num1] = (numeros[num1] || 0) + 1;
+                numeros[num2] = (numeros[num2] || 0) + 1;
+            });
+            Object.keys(numeros).forEach(num => {
+                if (numeros[num] >= 3) {
+                    const sumatoria = num * 3;
+                    if (sumatoria > mejorSumatoria) {
+                        mejorFicha = fichasDisponibles.find(f => f.includes(num));
+                        mejorSumatoria = sumatoria;
+                        valoresSumados = `${num} + ${num} + ${num}`;
+                    }
+                }
+            });
+        }
+
+        // Condición 3: Ficha más alta
+        if (!mejorFicha) {
+            fichasDisponibles.forEach(ficha => {
+                const [num1, num2] = ficha.split('-').map(Number);
+                const sumatoria = num1 + num2;
+                if (sumatoria > mejorSumatoria) {
+                    mejorFicha = ficha;
+                    mejorSumatoria = sumatoria;
+                    valoresSumados = `${num1} + ${num2}`;
+                }
+            });
+        }
+
+        mejorFichaDiv.textContent = `Mejor ficha: ${mejorFicha} (${valoresSumados})`;
+    };
+
+    misFichasSelect.addEventListener('change', () => {
+        updateVisor(misFichasSelect, visor);
+                calcularMejorFicha();
+    });
+
     paseYoSelect.addEventListener('change', () => updateVisor(paseYoSelect, visorPaseYo));
     paseIzquierdaSelect.addEventListener('change', () => updateVisor(paseIzquierdaSelect, visorPaseIzquierda));
     paseDerechaSelect.addEventListener('change', () => updateVisor(paseDerechaSelect, visorPaseDerecha));
@@ -164,6 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
             visorSalioFrente.innerHTML = '';
         }
     });
+
     jugadasYoSelect.addEventListener('change', () => {
         updateJugadasVisor(jugadasYoSelect, visorJugadasYo);
         const selectedOptions = Array.from(jugadasYoSelect.selectedOptions);
@@ -198,6 +263,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!switchFrente.checked) {
         frente.style.display = 'none';
     }
+
+    // Funcionalidad del botón "Borrar valores"
+    borrarValoresButton.addEventListener('click', () => {
+        const allVisors = [visor, visorPaseYo, visorPaseIzquierda, visorPaseDerecha, visorPaseFrente, visorSaliYo, visorSalioIzquierda, visorSalioDerecha, visorSalioFrente, visorJugadasYo, visorJugadasIzquierda, visorJugadasDerecha, visorJugadasFrente];
+        allVisors.forEach(visor => {
+            visor.innerHTML = '';
+        });
+    });
 
     // Funcionalidad del botón "Acabar mano"
     acabarManoButton.addEventListener('click', () => {
@@ -256,3 +329,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+

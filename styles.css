@@ -32,7 +32,7 @@ body {
     background-color: #f5f5dc; /* Beige */
 }
 
-#visor, #visor-pase-yo, #visor-pase-izquierda, #visor-pase-derecha, #visor-pase-frente, #visor-sali-yo, #visor-salio-izquierda, #visor-salio-derecha, #visor-salio-frente, #visor-jugadas-yo, #visor-jugadas-izquierda, #visor-jugadas-derecha, #visor-jugadas-frente {
+#visor, #visor-pase-yo, #visor-pase-izquierda, #visor-pase-derecha, #visor-pase-frente, #visor-sali-yo, #visor-salio-izquierda, #visor-salio-derecha, #visor-salio-frente, #visor-jugadas-yo, #visor-jugadas-izquierda, #visor-jugadas-derecha, #visor-jugadas-frente, #mejor-ficha {
     margin-top: 10px;
     border: 1px solid #000;
     height: 100px;

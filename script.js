@@ -31,10 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const jugadasFrenteSelect = document.getElementById('jugadas-frente');
     const visorJugadasFrente = document.getElementById('visor-jugadas-frente');
 
+    const acabarManoButton = document.getElementById('acabar-mano');
+
     const fichas = ['0-0', '0-1', '0-2', '0-3', '0-4', '0-5', '0-6', '1-1', '1-2', '1-3', '1-4', '1-5', '1-6', '2-2', '2-3', '2-4', '2-5', '2-6', '3-3', '3-4', '3-5', '3-6', '4-4', '4-5', '4-6', '5-5', '5-6', '6-6'];
     fichas.forEach(ficha => {
         const option = document.createElement('option');
-        option.value = ficha;
+        option
+                option.value = ficha;
         option.textContent = ficha;
         misFichasSelect.appendChild(option);
 
@@ -164,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedOptions = Array.from(jugadasIzquierdaSelect.selectedOptions);
         selectedOptions.forEach(option => removeFichaFromAllJugadas(option.value));
     });
-        jugadasDerechaSelect.addEventListener('change', () => {
+    jugadasDerechaSelect.addEventListener('change', () => {
         updateJugadasVisor(jugadasDerechaSelect, visorJugadasDerecha);
         const selectedOptions = Array.from(jugadasDerechaSelect.selectedOptions);
         selectedOptions.forEach(option => removeFichaFromAllJugadas(option.value));
@@ -188,4 +191,61 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!switchFrente.checked) {
         frente.style.display = 'none';
     }
+
+    // Funcionalidad del botón "Acabar mano"
+    acabarManoButton.addEventListener('click', () => {
+        if (confirm('¿Estás seguro de que quieres acabar la mano?')) {
+            // Limpiar y reiniciar todo
+            const allSelects = [misFichasSelect, paseYoSelect, paseIzquierdaSelect, paseDerechaSelect, paseFrenteSelect, saliYoSelect, salioIzquierdaSelect, salioDerechaSelect, salioFrenteSelect, jugadasYoSelect, jugadasIzquierdaSelect, jugadasDerechaSelect, jugadasFrenteSelect];
+            allSelects.forEach(select => {
+                select.innerHTML = '';
+            });
+            const allVisors = [visor, visorPaseYo, visorPaseIzquierda, visorPaseDerecha, visorPaseFrente, visorSaliYo, visorSalioIzquierda, visorSalioDerecha, visorSalioFrente, visorJugadasYo, visorJugadasIzquierda, visorJugadasDerecha, visorJugadasFrente];
+            allVisors.forEach(visor => {
+                visor.innerHTML = '';
+            });
+            fichas.forEach(ficha => {
+                const option = document.createElement('option');
+                option.value = ficha;
+                option.textContent = ficha;
+                misFichasSelect.appendChild(option);
+
+                const optionPaseYo = option.cloneNode(true);
+                paseYoSelect.appendChild(optionPaseYo);
+
+                const optionPaseIzquierda = option.cloneNode(true);
+                paseIzquierdaSelect.appendChild(optionPaseIzquierda);
+
+                const optionPaseDerecha = option.cloneNode(true);
+                paseDerechaSelect.appendChild(optionPaseDerecha);
+
+                const optionPaseFrente = option.cloneNode(true);
+                paseFrenteSelect.appendChild(optionPaseFrente);
+
+                const optionSaliYo = option.cloneNode(true);
+                saliYoSelect.appendChild(optionSaliYo);
+
+                const optionSalioIzquierda = option.cloneNode(true);
+                salioIzquierdaSelect.appendChild(optionSalioIzquierda);
+
+                const optionSalioDerecha = option.cloneNode(true);
+                salioDerechaSelect.appendChild(optionSalioDerecha);
+
+                const optionSalioFrente = option.cloneNode(true);
+                salioFrenteSelect.appendChild(optionSalioFrente);
+
+                const optionJugadasYo = option.cloneNode(true)
+                jugadasYoSelect.appendChild(optionJugadasYo);
+
+                const optionJugadasIzquierda = option.cloneNode(true);
+                jugadasIzquierdaSelect.appendChild(optionJugadasIzquierda);
+
+                const optionJugadasDerecha = option.cloneNode(true);
+                jugadasDerechaSelect.appendChild(optionJugadasDerecha);
+
+                const optionJugadasFrente = option.cloneNode(true);
+                jugadasFrenteSelect.appendChild(optionJugadasFrente);
+            });
+        }
+    });
 });

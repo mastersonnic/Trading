@@ -1,11 +1,33 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+#fichas-container {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#fichas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.ficha {
+    width: 50px;
+    height: 100px;
+    border: 1px solid #000;
+    margin: 5px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    margin: 0;
+    cursor: pointer;
 }
 
 .player {
@@ -14,6 +36,7 @@ body {
     border: 1px solid #000;
     width: 200px;
     text-align: center;
+    flex: 1;
 }
 
 #yo {

@@ -21,25 +21,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const switchFrente = document.getElementById('switch-frente');
     const frente = document.getElementById('frente');
     let activeVisor = null;
-    const fichasSeleccionadas = []; 
 
         const fichas = ['0-0', '0-1', '0-2', '0-3', '0-4', '0-5', '0-6', '1-1', '1-2', '1-3', '1-4', '1-5', '1-6', '2-2', '2-3', '2-4', '2-5', '2-6', '3-3', '3-4', '3-5', '3-6', '4-4', '4-5', '4-6', '5-5', '5-6', '6-6']; 
     // Funcionalidad al hacer clic en una ficha
-    fichas.forEach(ficha => { const fichaDiv = document.createElement('div'); fichaDiv.className = 'ficha'; fichaDiv.textContent = ficha; fichaDiv.addEventListener('click', () => { if (activeVisor) { fichasSeleccionadas.push(ficha); // Agregar la ficha seleccionada a la lista actualizarVisor(activeVisor); // Actualizar el contenido del visor } });
-
-fichasContainer.appendChild(fichaDiv);
-    });
-
-    // Función para actualizar el contenido del visor
-    function actualizarVisor(visorId) {
-        const visor = visores[visorId];
-        visor.innerHTML = ''; // Limpiar el visor
-        fichasSeleccionadas.forEach(ficha => {
-            const fichaElement = document.createElement('div');
-            fichaElement.textContent = ficha;
-            visor.appendChild(fichaElement);
+    fichas.forEach(ficha => {
+        const fichaDiv = document.createElement('div');
+        fichaDiv.className = 'ficha';
+        fichaDiv.textContent = ficha;
+        fichaDiv.addEventListener('click', () => {
+            if (activeVisor) {
+                const fichaElement = document.createElement('div');
+                fichaElement.textContent = ficha;
+                visores[activeVisor].appendChild(fichaElement);
+            }
         });
-    }
         fichasContainer.appendChild(fichaDiv);
     });
 

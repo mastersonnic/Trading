@@ -23,8 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeVisor = null;
 
         const fichas = ['0-0', '0-1', '0-2', '0-3', '0-4', '0-5', '0-6', '1-1', '1-2', '1-3', '1-4', '1-5', '1-6', '2-2', '2-3', '2-4', '2-5', '2-6', '3-3', '3-4', '3-5', '3-6', '4-4', '4-5', '4-6', '5-5', '5-6', '6-6']; 
-    // Funcionalidad al hacer clic en una ficha
-
+    // Funcionalidad al hacer clic en una ficha        
 fichas.forEach(ficha => {
     const fichaDiv = document.createElement('div');
     fichaDiv.className = 'ficha';
@@ -34,8 +33,8 @@ fichas.forEach(ficha => {
             const fichaElement = document.createElement('div');
             fichaElement.textContent = ficha;
             visores[activeVisor].appendChild(fichaElement);
-            // Actualizar la "mejor ficha para salir" con la ficha seleccionada
-            mejorFichaDiv.textContent = `Mejor ficha: ${ficha}`;
+            // Actualizar el visor "Ficha tocada" con la ficha seleccionada
+            visores['visor-jugadas-yo'].textContent = `Ficha tocada: ${ficha}`;
         }
     });
     fichasContainer.appendChild(fichaDiv);

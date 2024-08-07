@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+ document.addEventListener('DOMContentLoaded', () => {
     const fichasContainer = document.getElementById('fichas');
     const visores = {
         'visor': document.getElementById('visor'),

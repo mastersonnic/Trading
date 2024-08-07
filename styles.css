@@ -1,33 +1,11 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
-}
-
-#fichas-container {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#fichas {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.ficha {
-    width: 50px;
-    height: 100px;
-    border: 1px solid #000;
-    margin: 5px;
-    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
+    height: 100vh;
+    margin: 0;
 }
 
 .player {
@@ -36,7 +14,6 @@ body {
     border: 1px solid #000;
     width: 200px;
     text-align: center;
-    flex: 1;
 }
 
 #yo {
@@ -55,7 +32,7 @@ body {
     background-color: #f5f5dc; /* Beige */
 }
 
-#visor, #visor-pase-yo, #visor-pase-izquierda, #visor-pase-derecha, #visor-pase-frente, #visor-sali-yo, #visor-salio-izquierda, #visor-salio-derecha, #visor-salio-frente, #visor-jugadas-yo, #visor-jugadas-izquierda, #visor-jugadas-derecha, #visor-jugadas-frente, #mejor-ficha {
+#visor, #visor-pase-yo, #visor-pase-izquierda, #visor-pase-derecha, #visor-pase-frente, #visor-sali-yo, #visor-salio-izquierda, #visor-salio-derecha, #visor-salio-frente, #visor-jugadas-yo, #visor-jugadas-izquierda, #visor-jugadas-derecha, #visor-jugadas-frente {
     margin-top: 10px;
     border: 1px solid #000;
     height: 100px;

@@ -132,18 +132,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             fichasContainer.innerHTML = '';
             fichas.forEach(ficha => {
-                const fichaDiv = document.createElement('div');
-                fichaDiv.className = 'ficha';
-                fichaDiv.textContent = ficha;
-                fichaDiv.addEventListener('click', () => {
-                    if (activeVisor) {
-                        const fichaElement = document.createElement('div');
-                        fichaElement.textContent = ficha;
-                        visores[activeVisor].appendChild(fichaElement);
-                    }
-                });
-                fichasContainer.appendChild(fichaDiv);
-            });
+    const fichaDiv = document.createElement('div');
+    fichaDiv.className = 'ficha';
+    fichaDiv.textContent = ficha;
+    fichaDiv.addEventListener('click', () => {
+        if (activeVisor) {
+            const fichaElement = document.createElement('div');
+            fichaElement.textContent = ficha;
+            visores[activeVisor].appendChild(fichaElement);
+            // Actualizar la "mejor ficha para salir" con la ficha seleccionada
+            mejorFichaDiv.textContent = `Mejor ficha: ${ficha}`;
+        }
+    });
+    fichasContainer.appendChild(fichaDiv);
+});
         }
     });
 

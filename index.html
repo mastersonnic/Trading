@@ -7,64 +7,64 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="fichas-container">
-        <h2>Fichas</h2>
-        <div id="fichas"></div>
-    </div>
     <div class="player" id="yo">
         <h2>Yo</h2>
+        <label for="mis-fichas">Mis fichas:</label>
+        <select id="mis-fichas" multiple size="7"></select>
         <div id="visor"></div>
-        <label for="switch-jugadas-yo">Jugadas</label>
-        <input type="radio" name="visor-switch" id="switch-jugadas-yo">
-        <div id="visor-jugadas-yo"></div>
-        <label for="switch-pase-yo">Pasé</label>
-        <input type="radio" name="visor-switch" id="switch-pase-yo">
+        <label for="pase-yo">Pasé:</label>
+        <select id="pase-yo" multiple size="7"></select>
         <div id="visor-pase-yo"></div>
-        <label for="switch-sali-yo">Salí</label>
-        <input type="radio" name="visor-switch" id="switch-sali-yo">
+        <label for="sali-yo">Salí:</label>
+        <select id="sali-yo" size="1">
+            <option value="no sale">no sale</option>
+        </select>
         <div id="visor-sali-yo"></div>
-        <label for="mejor-ficha">Mejor ficha para salir:</label>
-        <div id="mejor-ficha"></div>
-        <button class="borrar-valores">Borrar valores</button>
+        <label for="jugadas-yo">Jugadas:</label>
+        <select id="jugadas-yo" multiple size="7"></select>
+        <div id="visor-jugadas-yo"></div>
     </div>
     <div class="player" id="izquierda">
         <h2>Mi Izquierda</h2>
+        <label for="pase-izquierda">Pasó:</label>
+        <select id="pase-izquierda" multiple size="7"></select>
         <div id="visor-pase-izquierda"></div>
-        <label for="switch-pase-izquierda">Pasó</label>
-        <input type="radio" name="visor-switch" id="switch-pase-izquierda">
+        <label for="salio-izquierda">Salió:</label>
+        <select id="salio-izquierda" size="1">
+            <option value="no sale">no sale</option>
+        </select>
         <div id="visor-salio-izquierda"></div>
-        <label for="switch-salio-izquierda">Salió</label>
-        <input type="radio" name="visor-switch" id="switch-salio-izquierda">
+        <label for="jugadas-izquierda">Jugadas:</label>
+        <select id="jugadas-izquierda" multiple size="7"></select>
         <div id="visor-jugadas-izquierda"></div>
-        <label for="switch-jugadas-izquierda">Jugadas</label>
-        <input type="radio" name="visor-switch" id="switch-jugadas-izquierda">
-        <button class="borrar-valores">Borrar valores</button>
     </div>
     <div class="player" id="derecha">
         <h2>Mi Derecha</h2>
+        <label for="pase-derecha">Pasó:</label>
+        <select id="pase-derecha" multiple size="7"></select>
         <div id="visor-pase-derecha"></div>
-        <label for="switch-pase-derecha">Pasó</label>
-        <input type="radio" name="visor-switch" id="switch-pase-derecha">
+        <label for="salio-derecha">Salió:</label>
+        <select id="salio-derecha" size="1">
+            <option value="no sale">no sale</option>
+        </select>
         <div id="visor-salio-derecha"></div>
-        <label for="switch-salio-derecha">Salió</label>
-        <input type="radio" name="visor-switch" id="switch-salio-derecha">
+        <label for="jugadas-derecha">Jugadas:</label>
+        <select id="jugadas-derecha" multiple size="7"></select>
         <div id="visor-jugadas-derecha"></div>
-        <label for="switch-jugadas-derecha">Jugadas</label>
-        <input type="radio" name="visor-switch" id="switch-jugadas-derecha">
-        <button class="borrar-valores">Borrar valores</button>
     </div>
     <div class="player" id="frente">
         <h2>Mi Frente</h2>
+        <label for="pase-frente">Pasó:</label>
+        <select id="pase-frente" multiple size="7"></select>
         <div id="visor-pase-frente"></div>
-        <label for="switch-pase-frente">Pasó</label>
-        <input type="radio" name="visor-switch" id="switch-pase-frente">
+        <label for="salio-frente">Salió:</label>
+        <select id="salio-frente" size="1">
+            <option value="no sale">no sale</option>
+        </select>
         <div id="visor-salio-frente"></div>
-        <label for="switch-salio-frente">Salió</label>
-        <input type="radio" name="visor-switch" id="switch-salio-frente">
+        <label for="jugadas-frente">Jugadas:</label>
+        <select id="jugadas-frente" multiple size="7"></select>
         <div id="visor-jugadas-frente"></div>
-        <label for="switch-jugadas-frente">Jugadas</label>
-        <input type="radio" name="visor-switch" id="switch-jugadas-frente">
-        <button class="borrar-valores">Borrar valores</button>
     </div>
     <label for="switch-frente">Jugar con Frente:</label>
     <input type="checkbox" id="switch-frente" checked>

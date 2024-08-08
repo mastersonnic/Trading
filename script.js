@@ -3,21 +3,15 @@ document.addEventListener('DOMContentLoaded', () => {
         yo: document.getElementById('jugadas-yo'),
         izquierda: document.getElementById('jugadas-izquierda'),
         derecha: document.getElementById('jugadas-derecha'),
-        frente: document.getElementById('jugadas-frente')
-    };
-
-    const paseSelects = {
-        yo: document.getElementById('pase-yo'),
-        izquierda: document.getElementById('pase-izquierda'),
-        derecha: document.getElementById('pase-derecha'),
-        frente: document.getElementById('pase-frente')
-    };
-
-    const salioSelects = {
-        yo: document.getElementById('sali-yo'),
-        izquierda: document.getElementById('salio-izquierda'),
-        derecha: document.getElementById('salio-derecha'),
-        frente: document.getElementById('salio-frente')
+        frente: document.getElementById('jugadas-frente'),
+        paseYo: document.getElementById('pase-yo'),
+        salioYo: document.getElementById('salio-yo'),
+        paseIzquierda: document.getElementById('pase-izquierda'),
+        salioIzquierda: document.getElementById('salio-izquierda'),
+        paseDerecha: document.getElementById('pase-derecha'),
+        salioDerecha: document.getElementById('salio-derecha'),
+        paseFrente: document.getElementById('pase-frente'),
+        salioFrente: document.getElementById('salio-frente')
     };
 
     const switchFrente = document.getElementById('switch-frente');
@@ -33,9 +27,19 @@ document.addEventListener('DOMContentLoaded', () => {
         fichaDiv.textContent = ficha;
         fichaDiv.addEventListener('click', () => {
             const jugadasDiv = jugadasSelects[activeJugadas];
+            const paseDiv = jugadasSelects[`pase${activeJugadas.charAt(0).toUpperCase() + activeJugadas.slice(1)}`];
+            const salioDiv = jugadasSelects[`salio${activeJugadas.charAt(0).toUpperCase() + activeJugadas.slice(1)}`];
+
             const fichaElement = document.createElement('div');
             fichaElement.textContent = ficha;
-            jugadasDiv.appendChild(fichaElement);
+
+            if (activeJugadas.includes('jugadas')) {
+                jugadasDiv.appendChild(fichaElement);
+            } else if (activeJugadas.includes('pase')) {
+                paseDiv.appendChild(fichaElement);
+            } else if (activeJugadas.includes('salio')) {
+                salioDiv.appendChild(fichaElement);
+            }
         });
         grupoFichas.appendChild(fichaDiv);
     });
@@ -58,43 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
         jugadasSelects.frente.parentElement.style.display = 'none';
     }
 
-        acabarManoButton.addEventListener('click', () => {
+    acabarManoButton.addEventListener('click', () => {
         if (confirm('¿Estás seguro de que quieres acabar la mano?')) {
             Object.values(jugadasSelects).forEach(select => {
                 select.innerHTML = '';
             });
-            Object.values(paseSelects).forEach(select => {
-                select.innerHTML = '';
-            });
-            Object.values(salioSelects).forEach(select => {
-                select.innerHTML = '';
-            });
         }
-    });
-
-    // Funcionalidad para asignar fichas a los visores de "Pasé" y "Salí"
-    fichas.forEach(ficha => {
-        const fichaDiv = document.createElement('div');
-        fichaDiv.className = 'ficha';
-        fichaDiv.textContent = ficha;
-        fichaDiv.addEventListener('click', () => {
-            const jugadasDiv = jugadasSelects[activeJugadas];
-            const paseDiv = paseSelects[activeJugadas];
-            const salioDiv = salioSelects[activeJugadas];
-
-            const fichaElement = document.createElement('div');
-            fichaElement.textContent = ficha;
-
-            if (activeJugadas === 'yo') {
-                jugadasDiv.appendChild(fichaElement);
-            } else if (activeJugadas === 'izquierda') {
-                paseDiv.appendChild(fichaElement);
-            } else if (activeJugadas === 'derecha') {
-                salioDiv.appendChild(fichaElement);
-            } else if (activeJugadas === 'frente') {
-                jugadasDiv.appendChild(fichaElement);
-            }
-        });
-        grupoFichas.appendChild(fichaDiv);
     });
 });

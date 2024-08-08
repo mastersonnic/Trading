@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const switchFrente = document.getElementById('switch-frente');
-    const acabarManoButton = document.getElementById('acabar-mano');
     const grupoFichas = document.getElementById('grupo-fichas');
     let activeJugadas = 'yo';
 
@@ -27,19 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
         fichaDiv.textContent = ficha;
         fichaDiv.addEventListener('click', () => {
             const jugadasDiv = jugadasSelects[activeJugadas];
-            const paseDiv = jugadasSelects[`pase${activeJugadas.charAt(0).toUpperCase() + activeJugadas.slice(1)}`];
-            const salioDiv = jugadasSelects[`salio${activeJugadas.charAt(0).toUpperCase() + activeJugadas.slice(1)}`];
-
             const fichaElement = document.createElement('div');
             fichaElement.textContent = ficha;
-
-            if (activeJugadas.includes('jugadas')) {
-                jugadasDiv.appendChild(fichaElement);
-            } else if (activeJugadas.includes('pase')) {
-                paseDiv.appendChild(fichaElement);
-            } else if (activeJugadas.includes('salio')) {
-                salioDiv.appendChild(fichaElement);
-            }
+            jugadasDiv.appendChild(fichaElement);
         });
         grupoFichas.appendChild(fichaDiv);
     });
@@ -51,17 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     switchFrente.addEventListener('change', () => {
-        if (switchFrente.checked) {
-            jugadasSelects.frente.parentElement.style.display = 'block';
-        } else {
-            jugadasSelects.frente.parentElement.style.display = 'none';
-        }
+        jugadasSelects.frente.parentElement.style.display = switchFrente.checked ? 'block' : 'none';
     });
 
-    if (!switchFrente.checked) {
-        jugadasSelects.frente.parentElement.style.display = 'none';
-    }
-
+    const acabarManoButton = document.getElementById('acabar-mano');
     acabarManoButton.addEventListener('click', () => {
         if (confirm('¿Estás seguro de que quieres acabar la mano?')) {
             Object.values(jugadasSelects).forEach(select => {

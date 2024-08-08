@@ -32,7 +32,7 @@ body {
     background-color: #f5f5dc; /* Beige */
 }
 
-#visor, #visor-pase-yo, #visor-pase-izquierda, #visor-pase-derecha, #visor-pase-frente, #visor-sali-yo, #visor-salio-izquierda, #visor-salio-derecha, #visor-salio-frente, #visor-jugadas-yo, #visor-jugadas-izquierda, #visor-jugadas-derecha, #visor-jugadas-frente {
+.jugadas {
     margin-top: 10px;
     border: 1px solid #000;
     height: 100px;
@@ -44,4 +44,18 @@ button {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 16px;
+}
+
+.grupo-fichas {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.ficha {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #000;
+    cursor: pointer;
+    background-color: #fff;
 }

@@ -54,8 +54,14 @@ button {
 
 .ficha {
     margin: 5px;
-    padding: 10px;
+    padding: 20px;
     border: 1px solid #000;
     cursor: pointer;
     background-color: #fff;
+    font-size: 18px;
+}
+
+input[type="radio"] {
+    transform: scale(1.5);
+    margin-top: 10px;
 }

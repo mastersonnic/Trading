@@ -1,4 +1,3 @@
-// script.js
 let fichaSeleccionada = null;
 
 document.querySelectorAll('.domino-tile').forEach((ficha) => {

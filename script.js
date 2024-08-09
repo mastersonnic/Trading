@@ -1,17 +1,23 @@
 // script.js
 
-document.querySelectorAll('.domino-tile').forEach((ficha) => {
-    ficha.addEventListener('click', () => {
-        // Desactivamos todos los visores
-        document.querySelectorAll('.visor input[type="checkbox"]').forEach((visor) => {
-            visor.checked = false;
-        });
+// Obtener todos los visores
+const visores = document.querySelectorAll('.visor input[type="checkbox"]');
 
-        // Activamos el visor correspondiente a la ficha seleccionada
-        const visorActivo = document.querySelector(`#${ficha.dataset.visor}`);
-        visorActivo.checked = true;
+// Asignar evento al cambio de estado del switch
+visores.forEach((visor) => {
+    visor.addEventListener('change', () => {
+        // Si se activa un switch, desactivar los demás
+        if (visor.checked) {
+            visores.forEach((otroVisor) => {
+                if (otroVisor !== visor) {
+                    otroVisor.checked = false;
+                }
+            });
 
-        // Mostramos la ficha seleccionada en el visor
-        visorActivo.nextElementSibling.textContent = `Ficha: ${ficha.textContent}`;
+            // Obtener la ficha seleccionada
+            const fichaSeleccionada = visor.dataset.ficha;
+            // Mostrar la ficha en el visor activo
+            visor.nextElementSibling.textContent = `Ficha: ${fichaSeleccionada}`;
+        }
     });
 });

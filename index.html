@@ -105,5 +105,44 @@
     </div>
     <div id="ficha-seleccionada"></div>
     <script src="script.js"></script>
+    // Variables para controlar los visores
+        const visorYo = document.getElementById("yo");
+        const visorIzquierda = document.getElementById("mi-izquierda");
+        const visorDerecha = document.getElementById("mi-derecha");
+        const visorFrente = document.getElementById("mi-frente");
+
+        // Evento al hacer clic en una ficha
+        document.querySelectorAll('.domino-tile').forEach((ficha) => {
+            ficha.addEventListener('click', () => {
+                fichaSeleccionada = ficha.textContent;
+                document.getElementById("ficha-seleccionada").textContent = `Ficha seleccionada: ${fichaSeleccionada}`;
+
+                // Asignar la ficha al visor activo
+                if (visorYo.querySelector('input').checked) {
+                    visorYo.querySelector('.jugadas-yo').textContent += ` ${fichaSeleccionada}`;
+                } else if (visorIzquierda.querySelector('input').checked) {
+                    visorIzquierda.querySelector('.jugadas-izquierda').textContent += ` ${fichaSeleccionada}`;
+                } else if (visorDerecha.querySelector('input').checked) {
+                    visorDerecha.querySelector('.jugadas-derecha').textContent += ` ${fichaSeleccionada}`;
+                } else if (visorFrente.querySelector('input').checked) {
+                    visorFrente.querySelector('.jugadas-frente').textContent += ` ${fichaSeleccionada}`;
+                }
+            });
+        });
+
+        // Evento al hacer clic en "Terminar Mano"
+        document.getElementById("terminar-mano").addEventListener('click', () => {
+            // Limpiar todos los visores y la ficha seleccionada
+            visorYo.querySelector('.jugadas-yo').textContent = 'Mis Jugadas:';
+            visorIzquierda.querySelector('.jugadas-izquierda').textContent = 'Jugadas:';
+            visorDerecha.querySelector('.jugadas-derecha').textContent = 'Jugadas:';
+            visorFrente.querySelector('.jugadas-frente').textContent = 'Jugadas:';
+            fichaSeleccionada = null;
+            document.getElementById("ficha-seleccionada").textContent = '';
+        });
+    </script>
+</body>
+</html>
+
 </body>
 </html>

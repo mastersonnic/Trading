@@ -27,6 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
         fichaDiv.className = 'ficha';
         fichaDiv.textContent = ficha;
         fichaDiv.addEventListener('click', () => {
+            fichaSeleccionada = ficha;
+
+            // Mostrar la ficha seleccionada junto al marco del jugador "Yo"
+            const fichaMostrada = document.createElement('div');
+            fichaMostrada.textContent = ficha;
+            jugadasSelects.yo.appendChild(fichaMostrada);
+            
             const jugadasDiv = jugadasSelects[activeJugadas];
             const paseDiv = jugadasSelects[`pase${activeJugadas.charAt(0).toUpperCase() + activeJugadas.slice(1)}`];
             const salioDiv = jugadasSelects[`salio${activeJugadas.charAt(0).toUpperCase() + activeJugadas.slice(1)}`];

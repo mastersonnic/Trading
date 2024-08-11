@@ -1,18 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const jugadasSelects = {
-        yo: document.getElementById('jugadas-yo'),
-        izquierda: document.getElementById('jugadas-izquierda'),
-        derecha: document.getElementById('jugadas-derecha'),
-        frente: document.getElementById('jugadas-frente'),
-        paseYo: document.getElementById('pase-yo'),
-        salioYo: document.getElementById('salio-yo'),
-        paseIzquierda: document.getElementById('pase-izquierda'),
-        salioIzquierda: document.getElementById('salio-izquierda'),
-        paseDerecha: document.getElementById('pase-derecha'),
-        salioDerecha: document.getElementById('salio-derecha'),
-        paseFrente: document.getElementById('pase-frente'),
-        salioFrente: document.getElementById('salio-frente')
-    };
+    const jugadores = ['yo', 'izquierda', 'derecha', 'frente'];
+    const jugadasSelects = {};
+
+    jugadores.forEach(jugador => {
+        jugadasSelects[jugador] = {
+            jugadas: document.getElementById(`jugadas-${jugador}`),
+            pase: document.getElementById(`pase-${jugador}`),
+            salio: document.getElementById(`salio-${jugador}`)
+        };
+    });
+
+    const switchFrente = document.getElementById('switch-frente');
+    const acabarManoButton = document.getElementById('acabar-mano');
+    const grupoFichas = document.getElementById('grupo-fichas');
+    let fichaSeleccionada = null;
+
+    const fichas = ['document.addEventListener('DOMContentLoaded', () => {
+    const jugadores = ['yo', 'izquierda', 'derecha', 'frente'];
+    const jugadasSelects = {};
+
+    jugadores.forEach(jugador => {
+        jugadasSelects[jugador] = {
+            jugadas: document.getElementById(`jugadas-${jugador}`),
+            pase: document.getElementById(`pase-${jugador}`),
+            salio: document.getElementById(`salio-${jugador}`)
+        };
+    });
 
     const switchFrente = document.getElementById('switch-frente');
     const acabarManoButton = document.getElementById('acabar-mano');
@@ -31,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const fichaMostrada = document.createElement('div');
             fichaMostrada.textContent = ficha;
 
-            const activeJugadas = switchFrente.checked ? 'frente' : 'yo';
-            const jugadasDiv = jugadasSelects[activeJugadas];
+            const activeJugador = switchFrente.checked ? 'frente' : 'yo';
+            const jugadasDiv = jugadasSelects[activeJugador].jugadas;
 
             const fichaElement = document.createElement('div');
             fichaElement.textContent = ficha;
@@ -43,13 +56,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     switchFrente.addEventListener('change', () => {
-        jugadasSelects.frente.parentElement.style.display = switchFrente.checked ? 'block' : 'none';
+        jugadasSelects.frente.jugadas.parentElement.style.display = switchFrente.checked ? 'block' : 'none';
     });
 
     acabarManoButton.addEventListener('click', () => {
         if (confirm('¿Estás seguro de que quieres acabar la mano?')) {
-            Object.values(jugadasSelects).forEach(select => {
-                select.innerHTML = '';
+            Object.values(jugadasSelects).forEach(selects => {
+                Object.values(selects).forEach(select => {
+                    select.innerHTML = '';
+                });
+            });
+        }
+    });
+});
+
+    fichas.forEach(ficha => {
+        const fichaDiv = document.createElement('div');
+        fichaDiv.className = 'ficha';
+        fichaDiv.textContent = ficha;
+        fichaDiv.addEventListener('click', () => {
+            fichaSeleccionada = ficha;
+
+            const fichaMostrada = document.createElement('div');
+            fichaMostrada.textContent = ficha;
+
+            const activeJugador = switchFrente.checked ? 'frente' : 'yo';
+            const jugadasDiv = jugadasSelects[activeJugador].jugadas;
+
+            const fichaElement = document.createElement('div');
+            fichaElement.textContent = ficha;
+
+            jugadasDiv.appendChild(fichaElement);
+        });
+        grupoFichas.appendChild(fichaDiv);
+    });
+
+    switchFrente.addEventListener('change', () => {
+        jugadasSelects.frente.jugadas.parentElement.style.display = switchFrente.checked ? 'block' : 'none';
+    });
+
+    acabarManoButton.addEventListener('click', () => {
+        if (confirm('¿Estás seguro de que quieres acabar la mano?')) {
+            Object.values(jugadasSelects).forEach(selects => {
+                Object.values(selects).forEach(select => {
+                    select.innerHTML = '';
+                });
             });
         }
     });

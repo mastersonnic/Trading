@@ -65,4 +65,203 @@ button {
 input[type="radio"] {
     transform: scale(1.5);
     margin-top: 10px;
-}     
+}      aun no me ayudes con nada hasta que te de nuevas instrucciones. por ahora espera el script.js body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.player {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #000;
+    width: 200px;
+    text-align: center;
+}
+
+#yo {
+    background-color: #ffebcd; /* BlanchedAlmond */
+}
+
+#izquierda {
+    background-color: #e6e6fa; /* Lavender */
+}
+
+#derecha {
+    background-color: #f0fff0; /* HoneyDew */
+}
+
+#frente {
+    background-color: #f5f5dc; /* Beige */
+}
+
+.jugadas {
+    margin-top: 10px;
+    border: 1px solid #000;
+    height: 100px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.grupo-fichas {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.ficha {
+    margin: 5px;
+    padding: 20px;
+    border: 1px solid #000;
+    cursor: pointer;
+    background-color: #fff;
+    font-size: 18px;
+}
+
+input[type="radio"] {
+    transform: scale(1.5);
+    margin-top: 10px;
+}               styles.css: body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+overflow: auto;
+
+.player {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #000;
+    width: 200px;
+    text-align: center;
+}
+
+#yo {
+    background-color: #ffebcd; /* BlanchedAlmond */
+}
+
+#izquierda {
+    background-color: #e6e6fa; /* Lavender */
+}
+
+#derecha {
+    background-color: #f0fff0; /* HoneyDew */
+}
+
+#frente {
+    background-color: #f5f5dc; /* Beige */
+}
+
+.jugadas {
+    margin-top: 10px;
+    border: 1px solid #000;
+    height: 100px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.grupo-fichas {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.ficha {
+    margin: 5px;
+    padding: 20px;
+    border: 1px solid #000;
+    cursor: pointer;
+    background-color: #fff;
+    font-size: 18px;
+}
+
+input[type="radio"] {
+    transform: scale(1.5);
+    margin-top: 10px;
+}      aun no me ayudes con nada hasta que te de nuevas instrucciones. por ahora espera el script.jsbody {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.player {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #000;
+    width: 200px;
+    text-align: center;
+}
+
+#yo {
+    background-color: #ffebcd; /* BlanchedAlmond */
+}
+
+#izquierda {
+    background-color: #e6e6fa; /* Lavender */
+}
+
+#derecha {
+    background-color: #f0fff0; /* HoneyDew */
+}
+
+#frente {
+    background-color: #f5f5dc; /* Beige */
+}
+
+.jugadas {
+    margin-top: 10px;
+    border: 1px solid #000;
+    height: 100px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.grupo-fichas {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.ficha {
+    margin: 5px;
+    padding: 20px;
+    border: 1px solid #000;
+    cursor: pointer;
+    background-color: #fff;
+    font-size: 18px;
+}
+
+input[type="radio"] {
+    transform: scale(1.5);
+    margin-top: 10px;
+}

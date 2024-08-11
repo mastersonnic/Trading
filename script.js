@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let fichaSeleccionada = null;
 
     const fichas = ['0-0', '0-1', '0-2', '0-3', '0-4', '0-5', '0-6', '1-1', '1-2', '1-3', '1-4', '1-5', '1-6', '2-2', '2-3', '2-4', '2-5', '2-6', '3-3', '3-4', '3-5', '3-6', '4-4', '4-5', '4-6', '5-5', '5-6', '6-6'];
+
     fichas.forEach(ficha => {
         const fichaDiv = document.createElement('div');
         fichaDiv.className = 'ficha';
@@ -32,25 +33,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const activeJugadas = switchFrente.checked ? 'frente' : 'yo';
             const jugadasDiv = jugadasSelects[activeJugadas];
-            const paseDiv = jugadasSelects[`pase${activeJugadas.charAt(0).toUpperCase() + activeJugadas.slice(1)}`];
-            const salioDiv = jugadasSelects[`salio${activeJugadas.charAt(0).toUpperCase() + activeJugadas.slice(1)}`];
 
             const fichaElement = document.createElement('div');
             fichaElement.textContent = ficha;
 
-            if (activeJugadas.includes('jugadas')) {
-                jugadasDiv.appendChild(fichaElement);
-            } else if (activeJugadas.includes('pase')) {
-                paseDiv.appendChild(fichaElement);
-            } else if (activeJugadas.includes('salio')) {
-                salioDiv.appendChild(fichaElement);
-            }
+            jugadasDiv.appendChild(fichaElement);
         });
         grupoFichas.appendChild(fichaDiv);
     });
 
     switchFrente.addEventListener('change', () => {
-        const activeJugadas = switchFrente.checked ? 'frente' : 'yo';
         jugadasSelects.frente.parentElement.style.display = switchFrente.checked ? 'block' : 'none';
     });
 

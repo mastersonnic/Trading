@@ -1,4 +1,4 @@
-    body {       
+body {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
@@ -65,4 +65,4 @@ button {
 input[type="radio"] {
     transform: scale(1.5);
     margin-top: 10px;
-} 
+}      

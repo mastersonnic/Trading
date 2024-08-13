@@ -6,8 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (element.classList.contains('domino') || element.parentElement.id === 'right-grid') {
                 copiedElement = element.cloneNode(true);
             } else if (element.parentElement.id === 'left-grid' && copiedElement) {
-                element.textContent = copiedElement.textContent;
-                element.dataset.value = copiedElement.dataset.value;
+                if (copiedElement.dataset.value === 'nada') {
+                    element.textContent = '';
+                    element.removeAttribute('data-value');
+                } else {
+                    element.textContent = copiedElement.textContent;
+                    element.dataset.value = copiedElement.dataset.value;
+                }
             }
         });
     });
@@ -18,11 +23,11 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < 30; i++) {
         for (let j = 0; j < 30; j++) {
             const leftCell = document.createElement('div');
-            leftCell.textContent = `${String.fromCharCode(65 + i)}${j + 1}`;
+            leftCell.textContent = '';
             leftGrid.appendChild(leftCell);
 
             const rightCell = document.createElement('div');
-            rightCell.textContent = `${String.fromCharCode(65 + i)}${j + 1}`;
+            rightCell.textContent = '';
             rightGrid.appendChild(rightCell);
         }
     }

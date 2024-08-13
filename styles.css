@@ -17,9 +17,6 @@ body {
 .switch-container {
     margin-bottom: 20px;
     font-size: 2rem; /* Hacer el switch más grande */
-input[type="checkbox"] {
-    width: 40px; /* Aumentar el tamaño del checkbox */
-    height: 20px; /* Aumentar el tamaño del checkbox */
 }
 
 .grid-container {

@@ -9,18 +9,10 @@ body {
     background-color: #f0f0f0;
 }
 
-.excel-link {
+.excel-container {
+    width: 100%;
+    max-width: 800px;
     margin-bottom: 20px;
-}
-
-.excel-link a {
-    font-size: 1.5rem;
-    color: #007bff;
-    text-decoration: none;
-}
-
-.excel-link a:hover {
-    text-decoration: underline;
 }
 
 .domino-set, .number-list {
@@ -50,10 +42,10 @@ body {
 
 .domino:nth-child(1),
 .domino:nth-child(8),
-.domino:nth-child(15),
-.domino:nth-child(22),
-.domino:nth-child(29),
-.domino:nth-child(36),
-.domino:nth-child(43) {
+.domino:nth-child(14),
+.domino:nth-child(19),
+.domino:nth-child(23),
+.domino:nth-child(26),
+.domino:nth-child(28) {
     background-color: #ffcccb; /* Color diferente para los dobles */
 }

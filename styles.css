@@ -16,7 +16,12 @@ body {
 
 .switch-container {
     margin-bottom: 20px;
-    font-size: 2rem; /* Hacer el switch más grande */
+    font-size: 1.5rem; /* Hacer el switch más grande */
+}
+
+.switch-container input[type="checkbox"] {
+    width: 20px; /* Aumentar el tamaño del checkbox */
+    height: 20px; /* Aumentar el tamaño del checkbox */
 }
 
 .grid-container {
@@ -45,7 +50,7 @@ th, .grid-container th, .grid-container td:first-child {
 td[contenteditable="true"] {
     background-color: #fff;
     cursor: pointer;
-    font-size: 1.5rem; /* Aumentar el tamaño de las letras de las celdas */
+    font-size: 1.2rem; /* Aumentar el tamaño de las letras de las celdas */
 }
 
 .domino-set, .number-list {

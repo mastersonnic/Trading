@@ -34,6 +34,12 @@ body {
     background-color: #d3d3d3;
 }
 
-.domino:nth-child(7n+1) {
+.domino:nth-child(7n+1):nth-child(-n+7),
+.domino:nth-child(8n+1):nth-child(-n+8),
+.domino:nth-child(9n+1):nth-child(-n+9),
+.domino:nth-child(10n+1):nth-child(-n+10),
+.domino:nth-child(11n+1):nth-child(-n+11),
+.domino:nth-child(12n+1):nth-child(-n+12),
+.domino:nth-child(13n+1):nth-child(-n+13) {
     background-color: #ffcccb; /* Color diferente para los dobles */
 }

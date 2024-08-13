@@ -6,14 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (element.classList.contains('domino') || element.parentElement.id === 'right-grid') {
                 copiedElement = element.cloneNode(true);
             } else if (element.parentElement.id === 'left-grid' && copiedElement) {
-                if (copiedElement.dataset.value === 'nada') {
-                    element.textContent = '';
-                    element.dataset.value = '';
-                } else {
-                    element.textContent = copiedElement.textContent;
-                    element.dataset.value = copiedElement.dataset.value;
-                }
-                syncGrids();
+                element.textContent = copiedElement.textContent;
+                element.dataset.value = copiedElement.dataset.value;
             }
         });
     });
@@ -31,15 +25,5 @@ document.addEventListener('DOMContentLoaded', () => {
             rightCell.textContent = `${String.fromCharCode(65 + i)}${j + 1}`;
             rightGrid.appendChild(rightCell);
         }
-    }
-
-    function syncGrids() {
-        const leftCells = leftGrid.querySelectorAll('div');
-        const rightCells = rightGrid.querySelectorAll('div');
-
-        leftCells.forEach((leftCell, index) => {
-            rightCells[index].textContent = leftCell.textContent;
-            rightCells[index].dataset.value = leftCell.dataset.value;
-        });
     }
 });

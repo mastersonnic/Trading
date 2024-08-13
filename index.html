@@ -9,11 +9,15 @@
 <body>
     <div class="switch-container">
         <label for="auto-paste-switch">Auto Pegar</label>
-        <input type="checkbox" id="auto-paste-switch">
+        <input type="checkbox" id="auto-paste-switch" checked>
     </div>
     <div class="switch-container">
         <label for="play-with-front-switch">Jugar con frente</label>
-        <input type="checkbox" id="play-with-front-switch">
+        <input type="checkbox" id="play-with-front-switch" checked>
+    </div>
+    <div class="button-container">
+        <button id="undo-button">Deshacer</button>
+        <button id="redo-button">Rehacer</button>
     </div>
     <div class="grid-container">
         <table id="editable-grid">
@@ -43,7 +47,7 @@
                         A6: 'PASE',
                         A7: 'MEJOR FICHA PARA SALIR',
                         A8: 'MEJOR FICHA PARA JUGAR',
-                        B1: 'YO.......',
+                        B1: 'YO......',
                         C1: 'MI IZQUIERDA',
                         D1: 'MI FRENTE',
                         E1: 'MI DERECHA'

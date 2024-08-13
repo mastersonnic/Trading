@@ -45,6 +45,7 @@ th, .grid-container th, .grid-container td:first-child {
 td[contenteditable="true"] {
     background-color: #fff;
     cursor: pointer;
+    font-size: 1.5rem; /* Aumentar el tamaño de las letras de las celdas */
 }
 
 .domino-set, .number-list {

@@ -3,16 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fichas de Dominó</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
-    <title>Tablero de Dominó</title>
 </head>
 <body>
-    <!-- Fichas de dominó -->
-    <div id="domino-tiles"></div>
-
-    <!-- Cuadrículas -->
-    <div id="left-grid"></div>
-    <div id="right-grid"></div>
+    <div class="domino-container">
+        <!-- Fichas de dominó -->
+        <div class="domino" id="domino-0-0">
+            <div class="half">0</div>
+            <div class="half">0</div>
+        </div>
+        <!-- ... Repite para las otras 27 fichas -->
+    </div>
+    <div class="grid-container">
+        <!-- Cuadrícula de 30x30 -->
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <!-- Encabezados de columnas -->
+                    <th>A</th>
+                    <th>B</th>
+                    <!-- ... Repite para las otras 26 columnas -->
+                    <th>AB</th>
+                    <th>AC</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Filas de la cuadrícula -->
+                <script>
+                    for (let i = 1; i <= 30; i++) {
+                        document.write('<tr><th>' + i + '</th>');
+                        for (let j = 1; j <= 30; j++) {
+                            document.write('<td></td>');
+                        }
+                        document.write('</tr>');
+                    }
+                </script>
+            </tbody>
+        </table>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>

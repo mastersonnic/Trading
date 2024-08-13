@@ -1,12 +1,31 @@
 let selectedCell = null;
-let autoPaste = false;
+let autoPaste = true;
+let playWithFront = true;
+let undoStack = [];
+let redoStack = [];
 
 document.getElementById('auto-paste-switch').addEventListener('change', function() {
     autoPaste = this.checked;
 });
 
 document.getElementById('play-with-front-switch').addEventListener('change', function() {
-    // Lógica para jugar con frente
+    playWithFront = this.checked;
+});
+
+document.getElementById('undo-button').addEventListener('click', function() {
+    if (undoStack.length > 0) {
+        const lastAction = undoStack.pop();
+        redoStack.push(lastAction);
+        lastAction.undo();
+    }
+});
+
+document.getElementById('redo-button').addEventListener('click', function() {
+    if (redoStack.length > 0) {
+        const lastAction = redoStack.pop();
+        undoStack.push(lastAction);
+        lastAction.redo();
+    }
 });
 
 function selectCell(cell) {
@@ -27,6 +46,7 @@ function copyToClipboard(element) {
             } else {
                 selectedCell.innerText = currentText ? currentText + ', ' + text : text;
             }
+            saveState();
         }
     }).catch(err => {
         console.error('Error al copiar al portapapeles: ', err);
@@ -97,3 +117,24 @@ function updateBestTile() {
 document.querySelectorAll('#B2, #B3').forEach(cell => {
     cell.addEventListener('input', updateBestTile);
 });
+
+function saveState() {
+    const state = {
+        B2: document.querySelector('#B2').innerText,
+        B3: document.querySelector('#B3').innerText,
+        B7: document.querySelector('#B7').innerText
+    };
+    undoStack.push({
+        undo: () => {
+            document.querySelector('#B2').innerText = state.B2;
+            document.querySelector('#B3').innerText = state.B3;
+            document.querySelector('#B7').innerText = state.B7;
+        },
+        redo: () => {
+            document.querySelector('#B2').innerText = state.B2;
+            document.querySelector('#B3').innerText = state.B3;
+            document.querySelector('#B7').innerText = state.B7;
+        }
+    });
+    redoStack = [];
+}

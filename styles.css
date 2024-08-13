@@ -1,6 +1,6 @@
 :root {
     --grid-width: 100%; /* Ancho de la cuadrícula */
-    --grid-height: 40%; /* Altura de la cuadrícula */
+    --grid-height: 50%; /* Altura de la cuadrícula */
 }
 
 body {
@@ -16,6 +16,7 @@ body {
 
 .switch-container {
     margin-bottom: 20px;
+    font-size: 1.5rem; /* Hacer el switch más grande */
 }
 
 .grid-container {
@@ -37,8 +38,8 @@ th, td {
     text-align: center;
 }
 
-th {
-    background-color: #f0f0f0;
+th, .grid-container th, .grid-container td:first-child {
+    font-weight: bold; /* Negrita para la fila 1 y la columna A */
 }
 
 td[contenteditable="true"] {

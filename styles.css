@@ -1,3 +1,8 @@
+:root {
+    --grid-width: 100%; /* Ancho de la cuadrícula */
+    --grid-height: 50%; /* Altura de la cuadrícula */
+}
+
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -9,13 +14,20 @@ body {
     background-color: #f0f0f0;
 }
 
+.switch-container {
+    margin-bottom: 20px;
+}
+
 .grid-container {
-    width: 95%;
-    margin-bottom: 10px;
+    width: var(--grid-width);
+    height: var(--grid-height);
+    margin-bottom: 20px;
+    overflow: auto;
 }
 
 table {
     width: 100%;
+    height: 100%;
     border-collapse: collapse;
 }
 

@@ -3,44 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domino y Cuadrículas</title>
+    <title>Dominó</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="grid-container">
-        <div class="grid" id="left-grid"></div>
-        <div class="dominoes">
-            <div class="domino" data-value="0-0">0|0</div>
-            <div class="domino" data-value="0-1">0|1</div>
-            <div class="domino" data-value="0-2">0|2</div>
-            <div class="domino" data-value="0-3">0|3</div>
-            <div class="domino" data-value="0-4">0|4</div>
-            <div class="domino" data-value="0-5">0|5</div>
-            <div class="domino" data-value="0-6">0|6</div>
-            <div class="domino" data-value="1-1">1|1</div>
-            <div class="domino" data-value="1-2">1|2</div>
-            <div class="domino" data-value="1-3">1|3</div>
-            <div class="domino" data-value="1-4">1|4</div>
-            <div class="domino" data-value="1-5">1|5</div>
-            <div class="domino" data-value="1-6">1|6</div>
-            <div class="domino" data-value="2-2">2|2</div>
-            <div class="domino" data-value="2-3">2|3</div>
-            <div class="domino" data-value="2-4">2|4</div>
-            <div class="domino" data-value="2-5">2|5</div>
-            <div class="domino" data-value="2-6">2|6</div>
-            <div class="domino" data-value="3-3">3|3</div>
-            <div class="domino" data-value="3-4">3|4</div>
-            <div class="domino" data-value="3-5">3|5</div>
-            <div class="domino" data-value="3-6">3|6</div>
-            <div class="domino" data-value="4-4">4|4</div>
-            <div class="domino" data-value="4-5">4|5</div>
-            <div class="domino" data-value="4-6">4|6</div>
-            <div class="domino" data-value="5-5">5|5</div>
-            <div class="domino" data-value="5-6">5|6</div>
-            <div class="domino" data-value="6-6">6|6</div>
-            <div class="domino" data-value="nada">Nada</div>
-        </div>
-        <div class="grid" id="right-grid"></div>
+    <div class="domino-set">
+        <div class="domino" onclick="copyToClipboard(this)">0 | 0</div>
+        <div class="domino" onclick="copyToClipboard(this)">0 | 1</div>
+        <div class="domino" onclick="copyToClipboard(this)">0 | 2</div>
+        <div class="domino" onclick="copyToClipboard(this)">0 | 3</div>
+        <div class="domino" onclick="copyToClipboard(this)">0 | 4</div>
+        <div class="domino" onclick="copyToClipboard(this)">0 | 5</div>
+        <div class="domino" onclick="copyToClipboard(this)">0 | 6</div>
+        <div class="domino" onclick="copyToClipboard(this)">1 | 1</div>
+        <div class="domino" onclick="copyToClipboard(this)">1 | 2</div>
+        <div class="domino" onclick="copyToClipboard(this)">1 | 3</div>
+        <div class="domino" onclick="copyToClipboard(this)">1 | 4</div>
+        <div class="domino" onclick="copyToClipboard(this)">1 | 5</div>
+        <div class="domino" onclick="copyToClipboard(this)">1 | 6</div>
+        <div class="domino" onclick="copyToClipboard(this)">2 | 2</div>
+        <div class="domino" onclick="copyToClipboard(this)">2 | 3</div>
+        <div class="domino" onclick="copyToClipboard(this)">2 | 4</div>
+        <div class="domino" onclick="copyToClipboard(this)">2 | 5</div>
+        <div class="domino" onclick="copyToClipboard(this)">2 | 6</div>
+        <div class="domino" onclick="copyToClipboard(this)">3 | 3</div>
+        <div class="domino" onclick="copyToClipboard(this)">3 | 4</div>
+        <div class="domino" onclick="copyToClipboard(this)">3 | 5</div>
+        <div class="domino" onclick="copyToClipboard(this)">3 | 6</div>
+        <div class="domino" onclick="copyToClipboard(this)">4 | 4</div>
+        <div class="domino" onclick="copyToClipboard(this)">4 | 5</div>
+        <div class="domino" onclick="copyToClipboard(this)">4 | 6</div>
+        <div class="domino" onclick="copyToClipboard(this)">5 | 5</div>
+        <div class="domino" onclick="copyToClipboard(this)">5 | 6</div>
+        <div class="domino" onclick="copyToClipboard(this)">6 | 6</div>
+    </div>
+    <div class="number-list">
+        <div class="number" onclick="copyToClipboard(this)">0</div>
+        <div class="number" onclick="copyToClipboard(this)">1</div>
+        <div class="number" onclick="copyToClipboard(this)">2</div>
+        <div class="number" onclick="copyToClipboard(this)">3</div>
+        <div class="number" onclick="copyToClipboard(this)">4</div>
+        <div class="number" onclick="copyToClipboard(this)">5</div>
+        <div class="number" onclick="copyToClipboard(this)">6</div>
     </div>
     <script src="script.js"></script>
 </body>

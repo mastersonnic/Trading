@@ -3,175 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fichas de Dominó</title>
+    <title>Fichas de Dominó y Cuadrículas</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="domino-container">
-    <!-- Fichas de dominó -->
-    <div class="domino" id="domino-0-0">
-        <div class="half">0</div>
-        <div class="half">0</div>
-    </div>
-    <div class="domino" id="domino-0-1">
-        <div class="half">0</div>
-        <div class="half">1</div>
-    </div>
-    <div class="domino" id="domino-0-2">
-        <div class="half">0</div>
-        <div class="half">2</div>
-    </div>
-    <div class="domino" id="domino-0-3">
-        <div class="half">0</div>
-        <div class="half">3</div>
-    </div>
-    <div class="domino" id="domino-0-4">
-        <div class="half">0</div>
-        <div class="half">4</div>
-    </div>
-    <div class="domino" id="domino-0-5">
-        <div class="half">0</div>
-        <div class="half">5</div>
-    </div>
-    <div class="domino" id="domino-0-6">
-        <div class="half">0</div>
-        <div class="half">6</div>
-    </div>
-    <div class="domino" id="domino-1-1">
-        <div class="half">1</div>
-        <div class="half">1</div>
-    </div>
-    <div class="domino" id="domino-1-2">
-        <div class="half">1</div>
-        <div class="half">2</div>
-    </div>
-    <div class="domino" id="domino-1-3">
-        <div class="half">1</div>
-        <div class="half">3</div>
-    </div>
-    <div class="domino" id="domino-1-4">
-        <div class="half">1</div>
-        <div class="half">4</div>
-    </div>
-    <div class="domino" id="domino-1-5">
-        <div class="half">1</div>
-        <div class="half">5</div>
-    </div>
-    <div class="domino" id="domino-1-6">
-        <div class="half">1</div>
-        <div class="half">6</div>
-    </div>
-    <div class="domino" id="domino-2-2">
-        <div class="half">2</div>
-        <div class="half">2</div>
-    </div>
-    <div class="domino" id="domino-2-3">
-        <div class="half">2</div>
-        <div class="half">3</div>
-    </div>
-    <div class="domino" id="domino-2-4">
-        <div class="half">2</div>
-        <div class="half">4</div>
-    </div>
-    <div class="domino" id="domino-2-5">
-        <div class="half">2</div>
-        <div class="half">5</div>
-    </div>
-    <div class="domino" id="domino-2-6">
-        <div class="half">2</div>
-        <div class="half">6</div>
-    </div>
-    <div class="domino" id="domino-3-3">
-        <div class="half">3</div>
-        <div class="half">3</div>
-    </div>
-    <div class="domino" id="domino-3-4">
-        <div class="half">3</div>
-        <div class="half">4</div>
-    </div>
-    <div class="domino" id="domino-3-5">
-        <div class="half">3</div>
-        <div class="half">5</div>
-    </div>
-    <div class="domino" id="domino-3-6">
-        <div class="half">3</div>
-        <div class="half">6</div>
-    </div>
-    <div class="domino" id="domino-4-4">
-        <div class="half">4</div>
-        <div class="half">4</div>
-    </div>
-    <div class="domino" id="domino-4-5">
-        <div class="half">4</div>
-        <div class="half">5</div>
-    </div>
-    <div class="domino" id="domino-4-6">
-        <div class="half">4</div>
-        <div class="half">6</div>
-    </div>
-    <div class="domino" id="domino-5-5">
-        <div class="half">5</div>
-        <div class="half">5</div>
-    </div>
-    <div class="domino" id="domino-5-6">
-        <div class="half">5</div>
-        <div class="half">6</div>
-    </div>
-    <div class="domino" id="domino-6-6">
-        <div class="half">6</div>
-        <div class="half">6</div>
+    <div class="container">
+        <div class="grid-container" id="left-grid">
+            <table>
+                <tbody>
+                    <!-- Genera la cuadrícula 30x30 en el lado izquierdo -->
+                    ${Array.from({ length: 30 }, (_, rowIndex) => `
+                        <tr>
+                            ${Array.from({ length: 30 }, (_, colIndex) => `
+                                <td data-row="${rowIndex}" data-col="${colIndex}"></td>
+                            `).join('')}
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="domino-container">
+            <!-- Fichas de dominó en el lado derecho -->
+            ${Array.from({ length: 28 }, (_, i) => `
+                <div class="domino" data-id="${i}">
+                    ${Array.from({ length: 7 }, (_, j) => `
+                        <div class="dot${i % 2 === j % 2 ? '' : ' hidden'}"></div>
+                    `).join('')}
+                </div>
+            `).join('')}
+        </div>
+
+        <div class="grid-container" id="right-grid">
+            <table>
+                <tbody>
+                    <!-- Genera la cuadrícula 30x30 en el lado derecho -->
+                    ${Array.from({ length: 30 }, (_, rowIndex) => `
+                        <tr>
+                            ${Array.from({ length: 30 }, (_, colIndex) => `
+                                <td data-row="${rowIndex}" data-col="${colIndex}"></td>
+                            `).join('')}
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div class="grid-container">
-        <!-- Cuadrícula de 30x30 -->
-        <table>
-            <thead>
-                <tr>
-                    <th>A</th>
-                    <th>B</th>
-                    <th>C</th>
-                    <th>D</th>
-                    <th>E</th>
-                    <th>F</th>
-                    <th>G</th>
-                    <th>H</th>
-                    <th>I</th>
-                    <th>J</th>
-                    <th>K</th>
-                    <th>L</th>
-                    <th>M</th>
-                    <th>N</th>
-                    <th>O</th>
-                    <th>P</th>
-                    <th>Q</th>
-                    <th>R</th>
-                    <th>S</th>
-                    <th>T</th>
-                    <th>U</th>
-                    <th>V</th>
-                    <th>W</th>
-                    <th>X</th>
-                    <th>Y</th>
-                    <th>Z</th>
-                    <th>AA</th>
-                    <th>AB</th>
-                    <th>AC</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Filas de la cuadrícula -->
-                <script>
-                    for (let i = 1; i <= 30; i++) {
-                        document.write('<tr><th>' + i + '</th>');
-                        for (let j = 1; j <= 30; j++) {
-                            document.write('<td></td>');
-                        }
-                        document.write('</tr>');
-                    }
-                </script>
-            </tbody>
-        </table>
-    </div>
     <script src="script.js"></script>
 </body>
 </html>

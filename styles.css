@@ -1,6 +1,6 @@
 :root {
     --grid-width: 100%; /* Ancho de la cuadrícula */
-    --grid-height: 50%; /* Altura de la cuadrícula */
+    --grid-height: 40%; /* Altura de la cuadrícula */
 }
 
 body {

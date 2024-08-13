@@ -34,6 +34,8 @@ body {
     flex-wrap: wrap;
     gap: 10px;
     max-width: 200px;
+    overflow-y: auto;
+    height: 100vh;
 }
 
 .domino {

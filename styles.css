@@ -1,53 +1,67 @@
-/* styles.css */
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    margin: 0;
-    padding: 0;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1500px;
+}
+
+.grid-container {
+    border: 1px solid #000;
+    background-color: #fff;
+    padding: 10px;
+    overflow: hidden;
+    width: 300px;
+}
+
+.grid-container table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.grid-container td {
+    border: 1px solid #ccc;
+    width: 10px;
+    height: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
 }
 
 .domino-container {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 20px;
+    width: 600px;
 }
 
 .domino {
-    width: 100px;
-    height: 200px;
-    border: 2px solid black;
-    border-radius: 10px;
+    width: 60px;
+    height: 30px;
+    background-color: #ddd;
+    border: 1px solid #000;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 10px;
-    background-color: white;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
 }
 
-.domino::before,
-.domino::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 2px;
-    background-color: black;
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: #000;
+    border-radius: 50%;
 }
 
-.grid-container {
-    margin-top: 20px;
-}
-
-table {
-    border-collapse: collapse;
-}
-
-th, td {
-    border: 1px solid black;
-    width: 20px;
-    height: 20px;
-    text-align: center;
+.hidden {
+    display: none;
 }

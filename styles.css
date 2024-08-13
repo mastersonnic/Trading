@@ -1,14 +1,19 @@
 /* Estilos para las fichas de dominó */
 #domino-tiles {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.domino-tile {
     width: 80px;
     height: 120px;
     background-color: #ffffff;
     border: 2px solid #000000;
     margin: 10px;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 16px;
-    text-align: center;
-    line-height: 120px;
     font-weight: bold;
 }
 

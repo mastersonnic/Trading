@@ -3,12 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dominó</title>
+    <title>Cuadrícula Editable y Fichas de Dominó</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="excel-container">
-        <iframe id="excel-iframe" src="https://docs.google.com/spreadsheets/d/1eV5kSFKZop0aZw1K6oRW4AMw0UAEM1zhU7LznLGLRus/edit?usp=drivesdk"></iframe>
+    <div class="grid-container">
+        <table id="editable-grid">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>C</th>
+                    <th>D</th>
+                    <th>E</th>
+                    <th>F</th>
+                    <th>G</th>
+                    <th>H</th>
+                    <th>I</th>
+                    <th>J</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Generar filas de la cuadrícula -->
+                <script>
+                    for (let i = 1; i <= 10; i++) {
+                        document.write('<tr><th>' + i + '</th>');
+                        for (let j = 0; j < 10; j++) {
+                            document.write('<td contenteditable="true" onclick="copyToClipboard(this)"></td>');
+                        }
+                        document.write('</tr>');
+                    }
+                </script>
+            </tbody>
+        </table>
     </div>
     <div class="domino-set">
         <div class="domino" onclick="copyToClipboard(this)">0 | 0</div>

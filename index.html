@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="excel-container">
-        <iframe src="https://docs.google.com/spreadsheets/d/1eV5kSFKZop0aZw1K6oRW4AMw0UAEM1zhU7LznLGLRus/edit?usp=drivesdk" width="100%" height="400px"></iframe>
+        <iframe id="excel-iframe" src="https://docs.google.com/spreadsheets/d/1eV5kSFKZop0aZw1K6oRW4AMw0UAEM1zhU7LznLGLRus/edit?usp=drivesdk"></iframe>
     </div>
     <div class="domino-set">
         <div class="domino" onclick="copyToClipboard(this)">0 | 0</div>
@@ -49,6 +49,7 @@
         <div class="number" onclick="copyToClipboard(this)">5</div>
         <div class="number" onclick="copyToClipboard(this)">6</div>
     </div>
+    <div id="confirmation" class="confirmation">Copiado al portapapeles</div>
     <script src="script.js"></script>
 </body>
 </html>

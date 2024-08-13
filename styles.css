@@ -10,9 +10,14 @@ body {
 }
 
 .excel-container {
-    width: 100%;
-    max-width: 800px;
+    width: var(--excel-width, 100%);
+    height: var(--excel-height, 50%);
     margin-bottom: 20px;
+}
+
+#excel-iframe {
+    width: 100%;
+    height: 100%;
 }
 
 .domino-set, .number-list {
@@ -48,4 +53,17 @@ body {
 .domino:nth-child(26),
 .domino:nth-child(28) {
     background-color: #ffcccb; /* Color diferente para los dobles */
+}
+
+.confirmation {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.5s;
 }

@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="switch-container">
+        <label for="auto-paste-switch">Auto Pegar</label>
+        <input type="checkbox" id="auto-paste-switch">
+    </div>
     <div class="grid-container">
         <table id="editable-grid">
             <thead>
@@ -27,10 +31,26 @@
             <tbody>
                 <!-- Generar filas de la cuadrícula -->
                 <script>
+                    const defaultValues = {
+                        A2: 'MIS DOBLES',
+                        A3: 'MIS FICHAS',
+                        A4: 'JUGADAS',
+                        A5: 'SALIDAS',
+                        A6: 'PASE',
+                        A7: 'MEJOR FICHA PARA SALIR',
+                        A8: 'MEJOR FICHA PARA JUGAR',
+                        B1: 'YO',
+                        C1: 'MI IZQUIERDA',
+                        D1: 'MI FRENTE',
+                        E1: 'MI DERECHA'
+                    };
+
                     for (let i = 1; i <= 10; i++) {
                         document.write('<tr><th>' + i + '</th>');
                         for (let j = 0; j < 10; j++) {
-                            document.write('<td contenteditable="true" onclick="copyToClipboard(this)"></td>');
+                            const cellId = String.fromCharCode(65 + j) + i;
+                            const cellValue = defaultValues[cellId] || '';
+                            document.write('<td contenteditable="true" onclick="selectCell(this)">' + cellValue + '</td>');
                         }
                         document.write('</tr>');
                     }

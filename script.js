@@ -40,6 +40,7 @@ function copyToClipboard(element) {
             const currentText = selectedCell.innerText;
             selectedCell.innerText = currentText ? currentText + ', ' + text : text;
             saveState();
+            updateBestTile(); // Actualizar la mejor ficha después de pegar
         }
     }).catch(err => {
         console.error('Error al copiar al portapapeles: ', err);
@@ -63,24 +64,22 @@ document.addEventListener('focusin', (e) => {
 
 // Lógica para determinar la mejor ficha para salir
 function updateBestTile() {
-    const myTiles = document.querySelector('#B3').innerText.split(', ').map(Number);
-    if (myTiles.length === 0) {
+    const b3Values = document.querySelector('#B3').innerText.split(', ').map(Number);
+    if (b3Values.length === 0) {
         document.querySelector('#B7').innerText = '';
         return;
     }
 
-    let highestTile = Math.max(...myTiles);
-    let mostFrequentTile = myTiles.sort((a, b) =>
-        myTiles.filter(v => v === a).length - myTiles.filter(v => v === b).length
+    const highestTile = Math.max(...b3Values);
+    const mostFrequentTile = b3Values.sort((a, b) =>
+        b3Values.filter(v => v === a).length - b3Values.filter(v => v === b).length
     ).pop();
 
     document.querySelector('#B7').innerText = `${highestTile}, ${mostFrequentTile}`;
 }
 
 // Actualizar la mejor ficha para salir en tiempo real
-document.querySelectorAll('#B3').forEach(cell => {
-    cell.addEventListener('input', updateBestTile);
-});
+document.querySelector('#B3').addEventListener('input', updateBestTile);
 
 function saveState() {
     const state = {

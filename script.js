@@ -122,18 +122,27 @@ function saveState() {
     const state = {
         B2: document.querySelector('#B2').innerText,
         B3: document.querySelector('#B3').innerText,
-        B7: document.querySelector('#B7').innerText
+        B7: document.querySelector('#B7').innerText,
+        B4: document.querySelector('#B4').innerText,
+        B5: document.querySelector('#B5').innerText,
+        B6: document.querySelector('#B6').innerText
     };
     undoStack.push({
         undo: () => {
             document.querySelector('#B2').innerText = state.B2;
             document.querySelector('#B3').innerText = state.B3;
             document.querySelector('#B7').innerText = state.B7;
+            document.querySelector('#B4').innerText = state.B4;
+            document.querySelector('#B5').innerText = state.B5;
+            document.querySelector('#B6').innerText = state.B6;
         },
         redo: () => {
             document.querySelector('#B2').innerText = state.B2;
             document.querySelector('#B3').innerText = state.B3;
             document.querySelector('#B7').innerText = state.B7;
+            document.querySelector('#B4').innerText = state.B4;
+            document.querySelector('#B5').innerText = state.B5;
+            document.querySelector('#B6').innerText = state.B6;
         }
     });
     redoStack = [];

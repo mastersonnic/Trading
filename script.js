@@ -71,10 +71,14 @@ document.addEventListener('focusin', (e) => {
 // Lógica para determinar la mejor ficha para salir
 function updateBestTile() {
     const myTiles = document.querySelector('#B3').innerText.split(', ').map(Number);
+    if (myTiles.length === 0) {
+        document.querySelector('#B7').innerText = '';
+        return;
+    }
+
     let highestTile = Math.max(...myTiles);
-    let mostFrequentTile = myTiles.sort((a,b) =>
-          myTiles.filter(v => v===a).length
-        - myTiles.filter(v => v===b).length
+    let mostFrequentTile = myTiles.sort((a, b) =>
+        myTiles.filter(v => v === a).length - myTiles.filter(v => v === b).length
     ).pop();
 
     document.querySelector('#B7').innerText = `${highestTile}, ${mostFrequentTile}`;

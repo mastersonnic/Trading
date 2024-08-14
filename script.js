@@ -71,9 +71,22 @@ function updateBestTile() {
     }
 
     const highestTile = Math.max(...b3Values);
-    const mostFrequentTile = b3Values.sort((a, b) =>
-        b3Values.filter(v => v === a).length - b3Values.filter(v => v === b).length
-    ).pop();
+    const frequencyMap = {};
+    let mostFrequentTile = b3Values[0];
+    let maxCount = 1;
+
+    b3Values.forEach(value => {
+        if (frequencyMap[value]) {
+            frequencyMap[value]++;
+        } else {
+            frequencyMap[value] = 1;
+        }
+
+        if (frequencyMap[value] > maxCount) {
+            mostFrequentTile = value;
+            maxCount = frequencyMap[value];
+        }
+    });
 
     document.querySelector('#B7').innerText = `${highestTile}, ${mostFrequentTile}`;
 }

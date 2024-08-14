@@ -38,13 +38,11 @@ table {
 }
 
 th, td {
-    border: 1px solid #000;
+    border: 2px solid #000; /* Líneas más negras */
     padding: 10px;
     text-align: center;
-}
-
-th, .grid-container th, .grid-container td:first-child {
-    font-weight: bold; /* Negrita para la fila 1 y la columna A */
+    color: #000; /* Letras más negras */
+    font-weight: bold; /* Letras en negrita */
 }
 
 td[contenteditable="true"] {

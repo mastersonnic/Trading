@@ -70,51 +70,18 @@ document.addEventListener('focusin', (e) => {
 
 // Lógica para determinar la mejor ficha para salir
 function updateBestTile() {
-    const myDoubles = document.querySelector('#B2').innerText.split(', ').map(Number);
     const myTiles = document.querySelector('#B3').innerText.split(', ').map(Number);
-    let bestTile = '';
-    let maxPoints = 0;
+    let highestTile = Math.max(...myTiles);
+    let mostFrequentTile = myTiles.sort((a,b) =>
+          myTiles.filter(v => v===a).length
+        - myTiles.filter(v => v===b).length
+    ).pop();
 
-    // Verificar dobles con al menos dos números más del mismo doble
-    myDoubles.forEach(double => {
-        const count = myTiles.filter(tile => tile === double).length;
-        if (count >= 2) {
-            const points = double * 2 + count;
-            if (points > maxPoints) {
-                maxPoints = points;
-                bestTile = `${double}, ${double}`;
-            }
-        }
-    });
-
-    // Verificar fichas con tres números del mismo
-    if (!bestTile) {
-        const tileCounts = {};
-        myTiles.forEach(tile => {
-            tileCounts[tile] = (tileCounts[tile] || 0) + 1;
-        });
-        Object.keys(tileCounts).forEach(tile => {
-            if (tileCounts[tile] >= 3) {
-                const points = tile * 3;
-                if (points > maxPoints) {
-                    maxPoints = points;
-                    bestTile = `${tile}, ${tile}`;
-                }
-            }
-        });
-    }
-
-    // Verificar la ficha más alta
-    if (!bestTile) {
-        const highestTile = Math.max(...myTiles);
-        bestTile = `${highestTile}, ${highestTile}`;
-    }
-
-    document.querySelector('#B7').innerText = bestTile;
+    document.querySelector('#B7').innerText = `${highestTile}, ${mostFrequentTile}`;
 }
 
 // Actualizar la mejor ficha para salir en tiempo real
-document.querySelectorAll('#B2, #B3').forEach(cell => {
+document.querySelectorAll('#B3').forEach(cell => {
     cell.addEventListener('input', updateBestTile);
 });
 

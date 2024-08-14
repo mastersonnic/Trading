@@ -17,6 +17,7 @@ document.getElementById('undo-button').addEventListener('click', function() {
         const lastAction = undoStack.pop();
         redoStack.push(lastAction);
         lastAction.undo();
+        updateBestTile(); // Actualizar después de deshacer
     }
 });
 
@@ -25,6 +26,7 @@ document.getElementById('redo-button').addEventListener('click', function() {
         const lastAction = redoStack.pop();
         undoStack.push(lastAction);
         lastAction.redo();
+        updateBestTile(); // Actualizar después de rehacer
     }
 });
 
@@ -70,23 +72,32 @@ function updateBestTile() {
         return;
     }
 
-    const highestTile = Math.max(...b3Values);
-    const frequencyMap = {};
+    let highestTile = b3Values[0];
+    let frequencyMap = {};
     let mostFrequentTile = b3Values[0];
     let maxCount = 1;
 
-    b3Values.forEach(value => {
+    for (let i = 0; i < b3Values.length; i++) {
+        let value = b3Values[i];
+
+        // Encontrar el valor más grande
+        if (value > highestTile) {
+            highestTile = value;
+        }
+
+        // Contar las frecuencias
         if (frequencyMap[value]) {
             frequencyMap[value]++;
         } else {
             frequencyMap[value] = 1;
         }
 
+        // Encontrar el valor más recurrente
         if (frequencyMap[value] > maxCount) {
             mostFrequentTile = value;
             maxCount = frequencyMap[value];
         }
-    });
+    }
 
     document.querySelector('#B7').innerText = `${highestTile}, ${mostFrequentTile}`;
 }

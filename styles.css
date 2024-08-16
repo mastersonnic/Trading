@@ -1,111 +1,24 @@
-:root {
-    --grid-width: 100%; /* Ancho de la cuadrícula */
-    --grid-height: 50%; /* Altura de la cuadrícula */
-}
-
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
     background-color: #f0f0f0;
-}
-
-.switch-container {
-    margin-bottom: 20px;
-    font-size: 1.5rem; /* Hacer el switch más grande */
-}
-
-.switch-container input[type="checkbox"] {
-    width: 20px; /* Aumentar el tamaño del checkbox */
-    height: 20px; /* Aumentar el tamaño del checkbox */
-}
-
-.grid-container {
-    width: var(--grid-width);
-    height: var(--grid-height);
-    margin-bottom: 20px;
-    overflow: auto;
-}
-
-table {
-    width: 100%;
-    height: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
-    border: 2px solid #000; /* Líneas más negras */
-    padding: 10px;
     text-align: center;
-    color: #000; /* Letras más negras */
-    font-weight: bold; /* Letras en negrita */
+    padding: 50px;
 }
 
-td[contenteditable="true"] {
-    background-color: #fff;
-    cursor: pointer;
-    font-size: 1.2rem; /* Aumentar el tamaño de las letras de las celdas */
-}
-
-.domino-set, .number-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 20px;
-}
-
-.domino, .number {
-    font-size: 2rem;
-    margin: 10px;
-    padding: 20px;
-    border: 2px solid #000;
-    border-radius: 5px;
-    cursor: pointer;
-    user-select: none;
-}
-
-.domino {
-    background-color: #fff;
-}
-
-.number {
-    background-color: #d3d3d3;
-}
-
-.domino:nth-child(1),
-.domino:nth-child(8),
-.domino:nth-child(14),
-.domino:nth-child(19),
-.domino:nth-child(23),
-.domino:nth-child(26),
-.domino:nth-child(28) {
-    background-color: #ffcccb; /* Color diferente para los dobles */
-}
-
-.confirmation {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #4caf50;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    opacity: 0;
-    transition: opacity 0.5s;
-}
-
-.button-container {
-    margin-bottom: 20px;
+h1 {
+    color: #333;
 }
 
 button {
-    font-size: 1.2rem;
     padding: 10px 20px;
-    margin: 0 10px;
+    font-size: 16px;
     cursor: pointer;
+    margin-top: 20px;
+}
+
+#gameState {
+    margin-top: 20px;
+    text-align: left;
+    white-space: pre-wrap;
+    font-family: monospace;
 }

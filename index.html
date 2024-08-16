@@ -3,109 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuadrícula Editable y Fichas de Dominó</title>
+    <title>Juego de Dominó</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="switch-container">
-        <label for="auto-paste-switch">Auto Pegar</label>
-        <input type="checkbox" id="auto-paste-switch" checked>
-    </div>
-    <div class="switch-container">
-        <label for="play-with-front-switch">Jugar con frente</label>
-        <input type="checkbox" id="play-with-front-switch" checked>
-    </div>
-    <div class="button-container">
-        <button id="undo-button">Deshacer</button>
-        <button id="redo-button">Rehacer</button>
-    </div>
-    <div class="grid-container">
-        <table id="editable-grid">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>A</th>
-                    <th>B</th>
-                    <th>C</th>
-                    <th>D</th>
-                    <th>E</th>
-                    <th>F</th>
-                    <th>G</th>
-                    <th>H</th>
-                    <th>I</th>
-                    <th>J</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Generar filas de la cuadrícula -->
-                <script>
-                    const defaultValues = {
-                        A2: 'MIS DOBLES',
-                        A3: 'MIS FICHAS',
-                        A4: 'JUGADAS',
-                        A5: 'SALIDAS',
-                        A6: 'PASE',
-                        A7: 'MEJOR FICHA PARA SALIR',
-                        A8: 'MEJOR FICHA PARA JUGAR',
-                        B1: 'YO......',
-                        C1: 'MI IZQUIERDA',
-                        D1: 'MI FRENTE',
-                        E1: 'MI DERECHA'
-                    };
-
-                    for (let i = 1; i <= 10; i++) {
-                        document.write('<tr><th>' + i + '</th>');
-                        for (let j = 0; j < 10; j++) {
-                            const cellId = String.fromCharCode(65 + j) + i;
-                            const cellValue = defaultValues[cellId] || '';
-                            document.write('<td contenteditable="true" onclick="selectCell(this)">' + cellValue + '</td>');
-                        }
-                        document.write('</tr>');
-                    }
-                </script>
-            </tbody>
-        </table>
-    </div>
-    <div class="domino-set">
-        <div class="domino" onclick="copyToClipboard(this)">0, 0</div>
-        <div class="domino" onclick="copyToClipboard(this)">0, 1</div>
-        <div class="domino" onclick="copyToClipboard(this)">0, 2</div>
-        <div class="domino" onclick="copyToClipboard(this)">0, 3</div>
-        <div class="domino" onclick="copyToClipboard(this)">0, 4</div>
-        <div class="domino" onclick="copyToClipboard(this)">0, 5</div>
-        <div class="domino" onclick="copyToClipboard(this)">0, 6</div>
-        <div class="domino" onclick="copyToClipboard(this)">1, 1</div>
-        <div class="domino" onclick="copyToClipboard(this)">1, 2</div>
-        <div class="domino" onclick="copyToClipboard(this)">1, 3</div>
-        <div class="domino" onclick="copyToClipboard(this)">1, 4</div>
-        <div class="domino" onclick="copyToClipboard(this)">1, 5</div>
-        <div class="domino" onclick="copyToClipboard(this)">1, 6</div>
-        <div class="domino" onclick="copyToClipboard(this)">2, 2</div>
-        <div class="domino" onclick="copyToClipboard(this)">2, 3</div>
-        <div class="domino" onclick="copyToClipboard(this)">2, 4</div>
-        <div class="domino" onclick="copyToClipboard(this)">2, 5</div>
-        <div class="domino" onclick="copyToClipboard(this)">2, 6</div>
-        <div class="domino" onclick="copyToClipboard(this)">3, 3</div>
-        <div class="domino" onclick="copyToClipboard(this)">3, 4</div>
-        <div class="domino" onclick="copyToClipboard(this)">3, 5</div>
-        <div class="domino" onclick="copyToClipboard(this)">3, 6</div>
-        <div class="domino" onclick="copyToClipboard(this)">4, 4</div>
-        <div class="domino" onclick="copyToClipboard(this)">4, 5</div>
-        <div class="domino" onclick="copyToClipboard(this)">4, 6</div>
-        <div class="domino" onclick="copyToClipboard(this)">5, 5</div>
-        <div class="domino" onclick="copyToClipboard(this)">5, 6</div>
-        <div class="domino" onclick="copyToClipboard(this)">6, 6</div>
-    </div>
-    <div class="number-list">
-        <div class="number" onclick="copyToClipboard(this)">0</div>
-        <div class="number" onclick="copyToClipboard(this)">1</div>
-        <div class="number" onclick="copyToClipboard(this)">2</div>
-        <div class="number" onclick="copyToClipboard(this)">3</div>
-        <div class="number" onclick="copyToClipboard(this)">4</div>
-        <div class="number" onclick="copyToClipboard(this)">5</div>
-        <div class="number" onclick="copyToClipboard(this)">6</div>
-    </div>
-    <div id="confirmation" class="confirmation">Copiado al portapapeles</div>
+    <h1>Juego de Dominó</h1>
+    <button id="startGame">Iniciar Juego</button>
+    <div id="gameState"></div>
     <script src="script.js"></script>
 </body>
 </html>

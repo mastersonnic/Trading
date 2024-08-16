@@ -1,136 +1,104 @@
-let selectedCell = null;
-let autoPaste = true;
-let playWithFront = true;
-let undoStack = [];
-let redoStack = [];
-
-document.getElementById('auto-paste-switch').addEventListener('change', function() {
-    autoPaste = this.checked;
-});
-
-document.getElementById('play-with-front-switch').addEventListener('change', function() {
-    playWithFront = this.checked;
-});
-
-document.getElementById('undo-button').addEventListener('click', function() {
-    if (undoStack.length > 0) {
-        const lastAction = undoStack.pop();
-        redoStack.push(lastAction);
-        lastAction.undo();
-        updateBestTile(); // Actualizar después de deshacer
-    }
-});
-
-document.getElementById('redo-button').addEventListener('click', function() {
-    if (redoStack.length > 0) {
-        const lastAction = redoStack.pop();
-        undoStack.push(lastAction);
-        lastAction.redo();
-        updateBestTile(); // Actualizar después de rehacer
-    }
-});
-
-function selectCell(cell) {
-    selectedCell = cell;
-}
-
-function copyToClipboard(element) {
-    const text = element.innerText.replace('|', ',');
-    navigator.clipboard.writeText(text).then(() => {
-        showConfirmation();
-        if (autoPaste && selectedCell) {
-            const currentText = selectedCell.innerText;
-            selectedCell.innerText = currentText ? currentText + ', ' + text : text;
-            saveState();
-            updateBestTile(); // Actualizar la mejor ficha después de pegar
+function inicializarJuego() {
+    let fichas = [];
+    for (let i = 0; i < 7; i++) {
+        for (let j = i; j < 7; j++) {
+            fichas.push([i, j]);
         }
-    }).catch(err => {
-        console.error('Error al copiar al portapapeles: ', err);
-    });
+    }
+    fichas = fichas.sort(() => Math.random() - 0.5);
+    return fichas;
 }
 
-function showConfirmation() {
-    const confirmation = document.getElementById('confirmation');
-    confirmation.style.opacity = '1';
-    setTimeout(() => {
-        confirmation.style.opacity = '0';
-    }, 500);
+function distribuirFichas(fichas) {
+    let manos = [];
+    for (let i = 0; i < 4; i++) {
+        manos.push(fichas.splice(0, 7));
+    }
+    return manos;
 }
 
-// Evitar que la página haga zoom hacia la celda que se está editando
-document.addEventListener('focusin', (e) => {
-    if (e.target.tagName === 'TD' && e.target.contentEditable === 'true') {
-        e.target.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+function puedeJugar(ficha, extremos) {
+    return ficha.includes(extremos[0]) || ficha.includes(extremos[1]);
+}
+
+function jugarFicha(ficha, extremos) {
+    if (ficha[0] === extremos[0]) {
+        return [[ficha[1], extremos[1]], "izquierdo"];
+    } else if (ficha[1] === extremos[0]) {
+        return [[ficha[0], extremos[1]], "izquierdo"];
+    } else if (ficha[0] === extremos[1]) {
+        return [[extremos[0], ficha[1]], "derecho"];
+    } else if (ficha[1] === extremos[1]) {
+        return [[extremos[0], ficha[0]], "derecho"];
     }
-});
+    return [extremos, null];
+}
 
-// Lógica para determinar la mejor ficha para salir
-function updateBestTile() {
-    const b3Values = document.querySelector('#B3').innerText.split(', ').map(Number);
-    if (b3Values.length === 0) {
-        document.querySelector('#B7').innerText = '';
-        return;
+function calcularPuntos(mano) {
+    return mano.reduce((total, ficha) => total + ficha[0] + ficha[1], 0);
+}
+
+function mostrarEstado(manos, mesa, extremos, jugadorActual) {
+    let estado = `Turno del Jugador ${jugadorActual + 1}\n`;
+    estado += `Mano: ${JSON.stringify(manos[jugadorActual])}\n`;
+    estado += `Mesa: ${JSON.stringify(mesa)}\n`;
+    estado += `Extremos: ${JSON.stringify(extremos)}\n\n`;
+    document.getElementById('gameState').innerText += estado;
+}
+
+function estrategiaAvanzada(mano, extremos, jugadorActual) {
+    let jugadasValidas = mano.filter(ficha => puedeJugar(ficha, extremos));
+    if (jugadorActual === 1 || jugadorActual === 3) {
+        jugadasValidas.sort((a, b) => (b[0] + b[1]) - (a[0] + a[1]));
+    } else {
+        jugadasValidas.sort((a, b) => (b[0] + b[1]) - (a[0] + a[1]));
     }
+    return jugadasValidas[0] || null;
+}
 
-    let highestTile = b3Values[0];
-    let frequencyMap = {};
-    let mostFrequentTile = b3Values[0];
-    let maxCount = 1;
+function jugarPartida() {
+    let fichas = inicializarJuego();
+    let manos = distribuirFichas(fichas);
+    let mesa = [];
+    let jugadorActual = Math.floor(Math.random() * 3) + 1;
+    let fichaInicial = manos[jugadorActual].shift();
+    mesa.push(fichaInicial);
+    let extremos = fichaInicial;
 
-    for (let i = 0; i < b3Values.length; i++) {
-        let value = b3Values[i];
+    document.getElementById('gameState').innerText = `El Jugador ${jugadorActual + 1} inicia el juego con ${JSON.stringify(fichaInicial)}.\n\n`;
 
-        // Encontrar el valor más grande
-        if (value > highestTile) {
-            highestTile = value;
-        }
-
-        // Contar las frecuencias
-        if (frequencyMap[value]) {
-            frequencyMap[value]++;
+    while (true) {
+        mostrarEstado(manos, mesa, extremos, jugadorActual);
+        let fichaAJugar = estrategiaAvanzada(manos[jugadorActual], extremos, jugadorActual);
+        if (fichaAJugar) {
+            [extremos, lado] = jugarFicha(fichaAJugar, extremos);
+            mesa.push(fichaAJugar);
+            manos[jugadorActual] = manos[jugadorActual].filter(ficha => ficha !== fichaAJugar);
+            document.getElementById('gameState').innerText += `El Jugador ${jugadorActual + 1} jugó ${JSON.stringify(fichaAJugar)} por el extremo ${lado}. Quedan los extremos ${JSON.stringify(extremos)}.\n\n`;
         } else {
-            frequencyMap[value] = 1;
+            document.getElementById('gameState').innerText += `El Jugador ${jugadorActual + 1} pasa.\n\n`;
         }
 
-        // Encontrar el valor más recurrente
-        if (frequencyMap[value] > maxCount) {
-            mostFrequentTile = value;
-            maxCount = frequencyMap[value];
+        if (manos[jugadorActual].length === 0) {
+            document.getElementById('gameState').innerText += `El Jugador ${jugadorActual + 1} se queda sin fichas. ¡Su equipo gana!\n\n`;
+            return;
         }
+
+        if (manos.every(mano => mano.every(ficha => !puedeJugar(ficha, extremos)))) {
+            break;
+        }
+
+        jugadorActual = (jugadorActual + 1) % 4;
     }
 
-    document.querySelector('#B7').innerText = `${highestTile}, ${mostFrequentTile}`;
+    let puntosEquipo1 = calcularPuntos(manos[0]) + calcularPuntos(manos[2]);
+    let puntosEquipo2 = calcularPuntos(manos[1]) + calcularPuntos(manos[3]);
+
+    if (puntosEquipo1 < puntosEquipo2) {
+        document.getElementById('gameState').innerText += "El equipo 1 gana por menor número de puntos.\n\n";
+    } else {
+        document.getElementById('gameState').innerText += "El equipo 2 gana por menor número de puntos.\n\n";
+    }
 }
 
-// Actualizar la mejor ficha para salir en tiempo real
-document.querySelector('#B3').addEventListener('input', updateBestTile);
-
-function saveState() {
-    const state = {
-        B2: document.querySelector('#B2').innerText,
-        B3: document.querySelector('#B3').innerText,
-        B7: document.querySelector('#B7').innerText,
-        B4: document.querySelector('#B4').innerText,
-        B5: document.querySelector('#B5').innerText,
-        B6: document.querySelector('#B6').innerText
-    };
-    undoStack.push({
-        undo: () => {
-            document.querySelector('#B2').innerText = state.B2;
-            document.querySelector('#B3').innerText = state.B3;
-            document.querySelector('#B7').innerText = state.B7;
-            document.querySelector('#B4').innerText = state.B4;
-            document.querySelector('#B5').innerText = state.B5;
-            document.querySelector('#B6').innerText = state.B6;
-        },
-        redo: () => {
-            document.querySelector('#B2').innerText = state.B2;
-            document.querySelector('#B3').innerText = state.B3;
-            document.querySelector('#B7').innerText = state.B7;
-            document.querySelector('#B4').innerText = state.B4;
-            document.querySelector('#B5').innerText = state.B5;
-            document.querySelector('#B6').innerText = state.B6;
-        }
-    });
-    redoStack = [];
-}
+document.getElementById('startGame').addEventListener('click', jugarPartida);

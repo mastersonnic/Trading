@@ -14,23 +14,25 @@ function createDomino(value1, value2) {
     domino.style.left = `${Math.random() * (board.clientWidth - 80)}px`;
     domino.style.top = `${Math.random() * (board.clientHeight - 160)}px`;
     domino.draggable = true;
-    domino.ondragstart = (e) => {
-        e.dataTransfer.setData('text/plain', null);
-        e.dataTransfer.setDragImage(new Image(), 0, 0);
-        domino.classList.add('dragging');
-    };
-    domino.ondrag = (e) => {
-        const x = e.clientX - board.offsetLeft - 40;
-        const y = e.clientY - board.offsetTop - 80;
-        domino.style.left = `${x}px`;
-        domino.style.top = `${y}px`;
-    };
-    domino.ondragend = () => {
-        domino.classList.remove('dragging');
-        checkAttraction(domino);
-    };
+    domino.addEventListener('dragstart', dragStart);
+    domino.addEventListener('dragend', dragEnd);
     board.appendChild(domino);
     dominoes.push(domino);
+}
+
+function dragStart(e) {
+    e.dataTransfer.setData('text/plain', null);
+    e.dataTransfer.setDragImage(new Image(), 0, 0);
+    this.classList.add('dragging');
+}
+
+function dragEnd(e) {
+    this.classList.remove('dragging');
+    const x = e.clientX - board.offsetLeft - 40;
+    const y = e.clientY - board.offsetTop - 80;
+    this.style.left = `${x}px`;
+    this.style.top = `${y}px`;
+    checkAttraction(this);
 }
 
 function checkAttraction(domino) {

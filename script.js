@@ -1,67 +1,103 @@
-const board = document.getElementById('board');
-const dominoes = [];
+const dominos = [];
+const players = [[], [], [], []];
+const gameArea = document.getElementById('game-area');
 
-function createDomino(value1, value2) {
-    const domino = document.createElement('div');
-    domino.classList.add('domino');
-    if (value1 === value2) {
-        domino.classList.add('double');
+// Crear fichas de dominó
+for (let i = 0; i <= 6; i++) {
+    for (let j = i; j <= 6; j++) {
+        dominos.push({ left: i, right: j });
     }
-    domino.innerHTML = `
-        <div class="half">${value1}</div>
-        <div class="half">${value2}</div>
-    `;
-    domino.style.left = `${Math.random() * (board.clientWidth - 80)}px`;
-    domino.style.top = `${Math.random() * (board.clientHeight - 160)}px`;
-    domino.draggable = true;
-    domino.addEventListener('dragstart', dragStart);
-    domino.addEventListener('dragend', dragEnd);
-    board.appendChild(domino);
-    dominoes.push(domino);
 }
 
-function dragStart(e) {
-    e.dataTransfer.setData('text/plain', null);
-    e.dataTransfer.setDragImage(new Image(), 0, 0);
-    this.classList.add('dragging');
+// Barajar y repartir fichas
+function shuffleAndDeal() {
+    const shuffled = dominos.sort(() => 0.5 - Math.random());
+    for (let i = 0; i < 28; i++) {
+        players[Math.floor(i / 7)].push(shuffled[i]);
+    }
 }
 
-function dragEnd(e) {
-    this.classList.remove('dragging');
-    const x = e.clientX - board.offsetLeft - 40;
-    const y = e.clientY - board.offsetTop - 80;
-    this.style.left = `${x}px`;
-    this.style.top = `${y}px`;
-    checkAttraction(this);
-}
-
-function checkAttraction(domino) {
-    const rect1 = domino.getBoundingClientRect();
-    dominoes.forEach(other => {
-        if (other !== domino) {
-            const rect2 = other.getBoundingClientRect();
-            if (rect1.left < rect2.right && rect1.right > rect2.left &&
-                rect1.top < rect2.bottom && rect1.bottom > rect2.top) {
-                const value1 = domino.querySelector('.half:first-child').textContent;
-                const value2 = domino.querySelector('.half:last-child').textContent;
-                const otherValue1 = other.querySelector('.half:first-child').textContent;
-                const otherValue2 = other.querySelector('.half:last-child').textContent;
-                if (value1 === otherValue2 || value2 === otherValue1) {
-                    const dx = rect2.left - rect1.left;
-                    const dy = rect2.top - rect1.top;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < 20) {
-                        domino.style.left = `${parseFloat(domino.style.left) + dx / 2}px`;
-                        domino.style.top = `${parseFloat(domino.style.top) + dy / 2}px`;
-                    }
-                }
+// Renderizar fichas
+function renderDominos() {
+    gameArea.innerHTML = '';
+    players.forEach((player, index) => {
+        const playerDiv = document.getElementById(`player${index + 1}`);
+        playerDiv.innerHTML = '';
+        player.forEach(domino => {
+            const dominoDiv = document.createElement('div');
+            dominoDiv.className = 'domino';
+            if (domino.left === domino.right) {
+                dominoDiv.classList.add('double');
             }
-        }
+            dominoDiv.innerHTML = `${domino.left} | ${domino.right}`;
+            dominoDiv.draggable = true;
+            dominoDiv.addEventListener('dragstart', dragStart);
+            dominoDiv.addEventListener('dragend', dragEnd);
+            playerDiv.appendChild(dominoDiv);
+        });
     });
 }
 
-for (let i = 0; i <= 6; i++) {
-    for (let j = i; j <= 6; j++) {
-        createDomino(i, j);
-    }
+// Drag and drop
+let draggedDomino = null;
+
+function dragStart(e) {
+    draggedDomino = e.target;
+    setTimeout(() => e.target.classList.add('dragging'), 0);
 }
+
+function dragEnd(e) {
+    e.target.classList.remove('dragging');
+    draggedDomino = null;
+}
+
+gameArea.addEventListener('dragover', e => {
+    e.preventDefault();
+    const afterElement = getDragAfterElement(gameArea, e.clientY);
+    if (afterElement == null) {
+        gameArea.appendChild(draggedDomino);
+    } else {
+        gameArea.insertBefore(draggedDomino, afterElement);
+    }
+    checkForMatch();
+});
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.domino:not(.dragging)')];
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+function checkForMatch() {
+    const dominos = [...gameArea.querySelectorAll('.domino')];
+    dominos.forEach(domino => {
+        const [left, right] = domino.innerHTML.split(' | ').map(Number);
+        dominos.forEach(otherDomino => {
+            if (domino !== otherDomino) {
+                const [otherLeft, otherRight] = otherDomino.innerHTML.split(' | ').map(Number);
+                if (left === otherRight || right === otherLeft) {
+                    const rect1 = domino.getBoundingClientRect();
+                    const rect2 = otherDomino.getBoundingClientRect();
+                    const distance = Math.hypot(rect1.x - rect2.x, rect1.y - rect2.y);
+                    if (distance < 20) {
+                        const angle = Math.atan2(rect2.y - rect1.y, rect2.x - rect1.x);
+                        domino.style.left = `${rect2.x - Math.cos(angle) * 20}px`;
+                        domino.style.top = `${rect2.y - Math.sin(angle) * 20}px`;
+                    }
+                }
+            }
+        });
+    });
+}
+
+// Inicializar juego
+shuffleAndDeal();
+renderDominos();

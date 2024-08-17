@@ -19,6 +19,12 @@ function createDomino(value1, value2) {
         e.dataTransfer.setDragImage(new Image(), 0, 0);
         domino.classList.add('dragging');
     };
+    domino.ondrag = (e) => {
+        const x = e.clientX - board.offsetLeft - 40;
+        const y = e.clientY - board.offsetTop - 80;
+        domino.style.left = `${x}px`;
+        domino.style.top = `${y}px`;
+    };
     domino.ondragend = () => {
         domino.classList.remove('dragging');
         checkAttraction(domino);

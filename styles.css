@@ -1,19 +1,19 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #ffebee; /* Color de fondo claro en tonos rojos */
-    color: #b71c1c; /* Texto en color rojo oscuro para buena visibilidad */
+    background-color: #e8f5e9; /* Color de fondo claro en tonos verde limón */
+    color: #388e3c; /* Texto en verde oscuro para buena visibilidad */
     text-align: center;
 }
 
 h1, h2 {
-    color: #c62828; /* Rojo más intenso para los encabezados */
+    color: #2c6b2f; /* Verde más intenso para los encabezados */
 }
 
 #setup, #choose-start, #game {
     margin: 20px auto;
     padding: 20px;
     border-radius: 8px;
-    background-color: #ffcccc; /* Fondo de las secciones en un rojo claro */
+    background-color: #c8e6c9; /* Fondo de las secciones en verde claro */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 600px;
 }
@@ -23,14 +23,14 @@ button {
     padding: 10px 20px;
     font-size: 16px;
     color: #ffffff;
-    background-color: #c62828; /* Rojo para los botones */
+    background-color: #66bb6a; /* Verde claro para los botones */
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #b71c1c; /* Rojo más oscuro al pasar el ratón */
+    background-color: #4caf50; /* Verde más oscuro al pasar el ratón */
 }
 
 #ficha-list button {
@@ -38,19 +38,19 @@ button:hover {
     padding: 10px;
     font-size: 14px;
     color: #ffffff;
-    background-color: #e57373; /* Rojo claro para las fichas */
+    background-color: #81c784; /* Verde claro para las fichas */
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
 #ficha-list button:hover {
-    background-color: #f44336; /* Rojo más intenso al pasar el ratón */
+    background-color: #66bb6a; /* Verde más intenso al pasar el ratón */
 }
 
 #extremos-mesa, #fichas-disponibles, #fichas-mano, #mejor-salida, #mejor-jugar {
     padding: 10px;
-    border: 1px solid #e57373; /* Borde en rojo claro */
+    border: 1px solid #81c784; /* Borde en verde claro */
     border-radius: 4px;
     background-color: #ffffff; /* Fondo blanco para buen contraste */
     margin: 10px 0;

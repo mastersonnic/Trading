@@ -7,33 +7,43 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="game-container">
-        <div id="player-selection">
-            <h2>Elige tus 7 fichas</h2>
-            <select id="fichas-list" multiple></select>
-            <button id="confirm-fichas">Confirmar Fichas</button>
-        </div>
+    <h1>Juego de Dominó</h1>
+    
+    <div id="setup">
+        <h2>1. Selecciona tus 7 fichas</h2>
+        <div id="ficha-list"></div>
+        <button onclick="startGame()">Iniciar Juego</button>
+    </div>
+    
+    <div id="choose-start" style="display: none;">
+        <h2>2. Elige quién sale</h2>
+        <button onclick="setStarter('J1')">J1</button>
+        <button onclick="setStarter('J2')">J2</button>
+        <button onclick="setStarter('J3')">J3</button>
+        <button onclick="setStarter('J4')">J4</button>
+    </div>
 
-        <div id="player-turn" style="display: none;">
-            <h2 id="turn-title">Turno de J1</h2>
-            <div id="menu">
-                <button id="play-btn">Jugar</button>
-                <button id="pass-btn">Pasar</button>
-                <button id="restart-btn">Reiniciar</button>
-            </div>
+    <div id="game" style="display: none;">
+        <h2 id="player-turn">Turno de:</h2>
+        <div id="fichas-jugador"></div>
+        <div id="acciones">
+            <button onclick="play()">Jugar</button>
+            <button onclick="pass()">Pasar</button>
+            <button onclick="reset()">Reiniciar</button>
         </div>
-
-        <div id="game-info" style="display: none;">
-            <h3>Extremos actuales de la mesa:</h3>
-            <div id="extremos"></div>
-            <h3>Mejor ficha para jugar:</h3>
-            <div id="mejor-ficha"></div>
-            <h3>Fichas a las que han pasado los oponentes:</h3>
-            <div id="fichas-pasadas"></div>
-            <h3>Mis fichas en las manos:</h3>
+        <div id="mesa">
+            <h2>Extremos en la Mesa (G)</h2>
+            <div id="extremos-mesa"></div>
+        </div>
+        <div id="listas">
+            <h2>Lista de Fichas Disponibles (A)</h2>
+            <div id="fichas-disponibles"></div>
+            <h2>Lista de Fichas en Mano (B)</h2>
             <div id="fichas-mano"></div>
-            <h3>Fichas jugadas:</h3>
-            <div id="fichas-jugadas"></div>
+            <h2>Mejor Ficha para Salir (F)</h2>
+            <div id="mejor-salida"></div>
+            <h2>Mejor Ficha para Jugar (H)</h2>
+            <div id="mejor-jugar"></div>
         </div>
     </div>
 

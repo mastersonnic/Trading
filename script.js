@@ -15,13 +15,13 @@ let manoJ3 = [];
 let manoJ4 = [];
 let fichasMesa = [];
 let extremos = [];
-let fichaElegida = '';
-let jugadores = ['J1', 'J2', 'J3', 'J4'];
 let jugadorActual = '';
+let jugadores = ['J1', 'J2', 'J3', 'J4'];
 let turno = 0;
 let puntosEquipo1 = 0;
 let puntosEquipo2 = 0;
 const puntosGanador = 100;
+let juegoEnCurso = false;
 
 // Inicialización de fichas
 function initializeFichas() {
@@ -38,12 +38,13 @@ function initializeFichas() {
 }
 
 function toggleFicha(ficha) {
+    if (!juegoEnCurso) return;  // No se puede seleccionar fichas si el juego no está en curso
     if (jugadorActual === 'J1') {
         const index = manoJ1.indexOf(ficha);
         if (index > -1) {
-            manoJ1.splice(index, 1);
+            manoJ1.splice(index, 1); // Remover ficha si ya está seleccionada
         } else if (manoJ1.length < 7) {
-            manoJ1.push(ficha);
+            manoJ1.push(ficha); // Añadir ficha si aún no se seleccionó
         }
         updateHandDisplay();
     }
@@ -61,6 +62,7 @@ function updateHandDisplay() {
     });
 
     if (manoJ1.length === 7) {
+        document.getElementById('hand-list').style.display = 'block';
         showPlayerSelection();
     }
 }
@@ -74,6 +76,7 @@ function setStartingPlayer(player) {
     jugadorActual = jugadores[player - 1];
     document.getElementById('player-selection').style.display = 'none';
     document.getElementById('gameplay').style.display = 'block';
+    juegoEnCurso = true;
     updateTurn();
 }
 
@@ -83,32 +86,34 @@ function updateTurn() {
     updateBestPlay();
 }
 
-function play() {
-    // Implement play logic
+function play(ficha) {
+    if (!juegoEnCurso) return;
     if (jugadorActual === 'J1') {
-        // J1 juega
-        alert('Elige una ficha para jugar');
-        // Implement logic to play the selected ficha
-        // For example, remove ficha from manoJ1 and add to fichasMesa
-        // Update extremos
-        // Check game status
-        siguienteTurno();
+        // Lógica para cuando J1 juega
+        if (manoJ1.includes(ficha)) {
+            manoJ1 = manoJ1.filter(f => f !== ficha); // Quitar ficha de mano
+            fichasMesa.push(ficha); // Agregar ficha a la mesa
+            updateExtremos();
+            updateHandDisplay();
+            siguienteTurno();
+        } else {
+            alert('Ficha no disponible en tu mano.');
+        }
     } else {
-        // Other players' turns to play
-        // Example placeholder implementation
+        // Lógica para otros jugadores
+        // Placeholder: Solo para demostración
         alert('El jugador actual juega');
         siguienteTurno();
     }
 }
 
 function pass() {
-    // Implement pass logic
+    if (!juegoEnCurso) return;
     alert(`${jugadorActual} pasa su turno`);
     siguienteTurno();
 }
 
 function restart() {
-    // Implement restart logic
     manoJ1 = [];
     manoJ2 = [];
     manoJ3 = [];
@@ -118,54 +123,45 @@ function restart() {
     turno = 0;
     puntosEquipo1 = 0;
     puntosEquipo2 = 0;
+    juegoEnCurso = false;
     initializeFichas();
     showPlayerSelection();
 }
 
 function siguienteTurno() {
-    turno = (turno + 1) % 4;
+    if (jugadorActual === 'J1' && manoJ1.length === 0) {
+        // J1 ya salió, pasa turno a J2
+        turno = (turno + 1) % 4;
+    }
     jugadorActual = jugadores[turno];
     updateTurn();
 }
 
 function updateBestPlay() {
-    // Implement logic to update the best ficha to play
     const bestPlayElement = document.getElementById('best-play');
     bestPlayElement.innerHTML = 'Mejor ficha para jugar: <br> Actualizar con lógica basada en las fichas de mano y los extremos';
 }
 
+function updateExtremos() {
+    // Actualizar los extremos actuales de la mesa
+    if (fichasMesa.length > 0) {
+        extremos = [fichasMesa[0].split('-')[0], fichasMesa[fichasMesa.length - 1].split('-')[1]];
+    } else {
+        extremos = [];
+    }
+    document.getElementById('extremos').textContent = `Extremos actuales: ${extremos.join(' - ')}`;
+}
+
 function updateGameStatus() {
-    // Implement logic to update the game status
-    const fichasPasadasElement = document.getElementById('fichas-pasadas');
-    fichasPasadasElement.innerHTML = 'Fichas pasadas: <br> Actualizar con las fichas pasadas por cada jugador';
-
-    const fichasJugadasElement = document.getElementById('fichas-jugadas');
-    fichasJugadasElement.innerHTML = 'Fichas jugadas: <br> Actualizar con las fichas jugadas en la mesa';
-
-    const turnHistoryElement = document.getElementById('turn-history');
-    turnHistoryElement.innerHTML = 'Historial de turnos: <br> Actualizar con el historial de jugadas y pases';
+    // Implementar actualización del estado del juego
 }
 
 function checkGameEnd() {
-    // Implement game end logic
-    // Check if any player has won or if the game is blocked
-    const winner = determineWinner();
-    if (winner) {
-        alert(`Juego terminado. Ganador: ${winner}`);
-        restart();
-    }
+    // Implementar lógica para determinar el fin del juego
 }
 
 function determineWinner() {
-    // Implement logic to determine the winner
-    // Check if a player has no fichas or if a team reaches 100 points
-    // Example placeholder implementation
-    if (puntosEquipo1 >= puntosGanador) {
-        return 'Equipo 1';
-    } else if (puntosEquipo2 >= puntosGanador) {
-        return 'Equipo 2';
-    }
-    return null;
+    // Implementar lógica para determinar el ganador
 }
 
 // Inicializa las fichas al principio

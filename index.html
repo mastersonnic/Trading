@@ -8,54 +8,35 @@
 </head>
 <body>
     <div id="game-container">
-        <h1>Juego de Dominó</h1>
-        <!-- Sección de selección inicial -->
-        <div id="initial-selection" class="section">
-            <h2>Selecciona tus 7 fichas (J1)</h2>
-            <div id="fichas-list"></div>
-            <button onclick="showPlayerSelection()">Seleccionar Fichas</button>
+        <div id="player-selection">
+            <h2>Elige tus 7 fichas</h2>
+            <select id="fichas-list" multiple></select>
+            <button id="confirm-fichas">Confirmar Fichas</button>
         </div>
 
-        <!-- Sección de selección del jugador que sale -->
-        <div id="player-selection" class="section" style="display: none;">
-            <h2>Elige quién sale</h2>
-            <button onclick="setStartingPlayer(1)">J1</button>
-            <button onclick="setStartingPlayer(2)">J2</button>
-            <button onclick="setStartingPlayer(3)">J3</button>
-            <button onclick="setStartingPlayer(4)">J4</button>
-        </div>
-
-        <!-- Sección de juego -->
-        <div id="gameplay" class="section" style="display: none;">
-            <h2 id="current-turn">Turno de J1</h2>
-            <div id="hand-section">
-                <h3>Fichas en mano</h3>
-                <div id="hand-list"></div>
-            </div>
-            <div id="extremos-section">
-                <h3>Extremos en la mesa</h3>
-                <div id="extremos"></div>
-            </div>
-            <div id="best-play-section">
-                <h3>Mejor Ficha para Jugar</h3>
-                <div id="best-play"></div>
-            </div>
-            <div id="player-actions">
-                <h3>Acciones</h3>
-                <button onclick="play()">Jugar</button>
-                <button onclick="pass()">Pasar</button>
-                <button onclick="restart()">Reiniciar</button>
+        <div id="player-turn" style="display: none;">
+            <h2 id="turn-title">Turno de J1</h2>
+            <div id="menu">
+                <button id="play-btn">Jugar</button>
+                <button id="pass-btn">Pasar</button>
+                <button id="restart-btn">Reiniciar</button>
             </div>
         </div>
 
-        <!-- Sección de estado del juego -->
-        <div id="game-status" class="section">
-            <h2>Estado del Juego</h2>
+        <div id="game-info" style="display: none;">
+            <h3>Extremos actuales de la mesa:</h3>
+            <div id="extremos"></div>
+            <h3>Mejor ficha para jugar:</h3>
+            <div id="mejor-ficha"></div>
+            <h3>Fichas a las que han pasado los oponentes:</h3>
             <div id="fichas-pasadas"></div>
+            <h3>Mis fichas en las manos:</h3>
+            <div id="fichas-mano"></div>
+            <h3>Fichas jugadas:</h3>
             <div id="fichas-jugadas"></div>
-            <div id="turn-history"></div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>

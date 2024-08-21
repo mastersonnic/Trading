@@ -7,12 +7,54 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="game-area"></div>
-    <div id="players">
-        <div id="player1" class="player">Jugador 1</div>
-        <div id="player2" class="player">Jugador 2</div>
-        <div id="player3" class="player">Jugador 3</div>
-        <div id="player4" class="player">Jugador 4</div>
+    <div id="game-container">
+        <h1>Juego de Dominó</h1>
+        <!-- Sección de selección inicial -->
+        <div id="initial-selection" class="section">
+            <h2>Selecciona tus 7 fichas (J1)</h2>
+            <div id="fichas-list"></div>
+            <button onclick="showPlayerSelection()">Seleccionar Fichas</button>
+        </div>
+
+        <!-- Sección de selección del jugador que sale -->
+        <div id="player-selection" class="section" style="display: none;">
+            <h2>Elige quién sale</h2>
+            <button onclick="setStartingPlayer(1)">J1</button>
+            <button onclick="setStartingPlayer(2)">J2</button>
+            <button onclick="setStartingPlayer(3)">J3</button>
+            <button onclick="setStartingPlayer(4)">J4</button>
+        </div>
+
+        <!-- Sección de juego -->
+        <div id="gameplay" class="section" style="display: none;">
+            <h2 id="current-turn">Turno de J1</h2>
+            <div id="hand-section">
+                <h3>Fichas en mano</h3>
+                <div id="hand-list"></div>
+            </div>
+            <div id="extremos-section">
+                <h3>Extremos en la mesa</h3>
+                <div id="extremos"></div>
+            </div>
+            <div id="best-play-section">
+                <h3>Mejor Ficha para Jugar</h3>
+                <div id="best-play"></div>
+            </div>
+            <div id="player-actions">
+                <h3>Acciones</h3>
+                <button onclick="play()">Jugar</button>
+                <button onclick="pass()">Pasar</button>
+                <button onclick="restart()">Reiniciar</button>
+            </div>
+        </div>
+
+        <!-- Sección de estado del juego -->
+        <div id="game-status" class="section">
+            <h2>Estado del Juego</h2>
+            <div id="fichas-pasadas"></div>
+            <div id="fichas-jugadas"></div>
+            <div id="turn-history"></div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

@@ -12,7 +12,6 @@ let fichasMano = [];
 let fichasDisponibles = [];
 let extremosMesa = [];
 let fichasJugadas = [];
-let listaFichas = [];
 let mejorSalida = [];
 let mejorJugar = [];
 let jugadores = ['J1', 'J2', 'J3', 'J4'];
@@ -43,7 +42,7 @@ function setStarter(jugador) {
 
 function updateUI() {
     document.getElementById('player-turn').textContent = `Turno de: ${jugadorActual}`;
-    document.getElementById('fichas-mano').innerHTML = fichasMano.join(', ');
+    document.getElementById('fichas-seleccionadas').innerHTML = fichasMano.join(', ');
     document.getElementById('fichas-disponibles').innerHTML = fichasDisponibles.join(', ');
     document.getElementById('extremos-mesa').innerHTML = extremosMesa.join(', ');
     document.getElementById('mejor-salida').innerHTML = mejorSalida.join(', ');
@@ -54,7 +53,7 @@ function selectFicha(ficha) {
     if (fichasMano.length < 7 && !fichasMano.includes(ficha)) {
         fichasMano.push(ficha);
         fichasDisponibles = fichas.filter(fichaDisponible => !fichasMano.includes(fichaDisponible));
-        setupGame();
+        updateUI();
     }
 }
 

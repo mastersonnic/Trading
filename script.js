@@ -17,6 +17,7 @@ let mejorJugar = [];
 let jugadores = ['J1', 'J2', 'J3', 'J4'];
 let jugadorActual = null;
 let turnoIndex = 0;
+let fichasJugadasEnMesa = [];
 
 function setupGame() {
     const fichaList = document.getElementById('ficha-list');
@@ -58,14 +59,30 @@ function selectFicha(ficha) {
 }
 
 function play() {
-    if (!fichasMano.length) return;
-    // Implementar lógica para jugar una ficha
-    // Actualizar extremosMesa y fichasJugadas
-    siguienteJugador();
+    if (fichasMano.length === 0) return;
+    
+    const fichaList = fichasDisponibles.filter(ficha => isPlayable(ficha));
+    if (fichaList.length === 0) {
+        alert('No tienes fichas jugables.');
+        return;
+    }
+
+    const ficha = prompt("Selecciona una ficha para jugar (ej. '0-1'):", fichaList.join(', '));
+    if (ficha && fichaList.includes(ficha)) {
+        fichasJugadas.push(ficha);
+        extremosMesa = updateExtremosMesa(ficha);
+        fichasMano = fichasMano.filter(fichaMano => fichaMano !== ficha);
+        fichasDisponibles = fichas.filter(fichaDisponible => !fichasMano.includes(fichaDisponible));
+        updateUI();
+        siguienteJugador();
+    } else {
+        alert('Ficha no válida o no seleccionada.');
+    }
 }
 
 function pass() {
-    if (!fichasMano.length) return;
+    if (fichasMano.length === 0) return;
+
     // Implementar lógica para pasar turno
     siguienteJugador();
 }
@@ -88,6 +105,16 @@ function siguienteJugador() {
     turnoIndex = (turnoIndex + 1) % jugadores.length;
     jugadorActual = jugadores[turnoIndex];
     updateUI();
+}
+
+function isPlayable(ficha) {
+    // Implementar lógica para determinar si la ficha es jugable según los extremos en la mesa
+    return true; // Placeholder
+}
+
+function updateExtremosMesa(ficha) {
+    // Implementar lógica para actualizar extremos de la mesa
+    return extremosMesa; // Placeholder
 }
 
 // Inicializar el juego

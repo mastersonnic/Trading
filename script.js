@@ -1,103 +1,172 @@
-const dominos = [];
-const players = [[], [], [], []];
-const gameArea = document.getElementById('game-area');
+// Fichas de dominó
+const fichas = [
+    '0-0', '0-1', '0-2', '0-3', '0-4', '0-5', '0-6',
+    '1-1', '1-2', '1-3', '1-4', '1-5', '1-6',
+    '2-2', '2-3', '2-4', '2-5', '2-6',
+    '3-3', '3-4', '3-5', '3-6',
+    '4-4', '4-5', '4-6',
+    '5-5', '5-6',
+    '6-6'
+];
 
-// Crear fichas de dominó
-for (let i = 0; i <= 6; i++) {
-    for (let j = i; j <= 6; j++) {
-        dominos.push({ left: i, right: j });
-    }
-}
+let manoJ1 = [];
+let manoJ2 = [];
+let manoJ3 = [];
+let manoJ4 = [];
+let fichasMesa = [];
+let extremos = [];
+let fichaElegida = '';
+let jugadores = ['J1', 'J2', 'J3', 'J4'];
+let jugadorActual = '';
+let turno = 0;
+let puntosEquipo1 = 0;
+let puntosEquipo2 = 0;
+const puntosGanador = 100;
 
-// Barajar y repartir fichas
-function shuffleAndDeal() {
-    const shuffled = dominos.sort(() => 0.5 - Math.random());
-    for (let i = 0; i < 28; i++) {
-        players[Math.floor(i / 7)].push(shuffled[i]);
-    }
-}
+// Inicialización de fichas
+function initializeFichas() {
+    const listaFichas = document.getElementById('fichas-list');
+    listaFichas.innerHTML = '';
 
-// Renderizar fichas
-function renderDominos() {
-    gameArea.innerHTML = '';
-    players.forEach((player, index) => {
-        const playerDiv = document.getElementById(`player${index + 1}`);
-        playerDiv.innerHTML = '';
-        player.forEach(domino => {
-            const dominoDiv = document.createElement('div');
-            dominoDiv.className = 'domino';
-            if (domino.left === domino.right) {
-                dominoDiv.classList.add('double');
-            }
-            dominoDiv.innerHTML = `${domino.left} | ${domino.right}`;
-            dominoDiv.draggable = true;
-            dominoDiv.addEventListener('dragstart', dragStart);
-            dominoDiv.addEventListener('dragend', dragEnd);
-            playerDiv.appendChild(dominoDiv);
-        });
+    fichas.forEach(ficha => {
+        const fichaElement = document.createElement('div');
+        fichaElement.classList.add('ficha');
+        fichaElement.textContent = ficha;
+        fichaElement.onclick = () => toggleFicha(ficha);
+        listaFichas.appendChild(fichaElement);
     });
 }
 
-// Drag and drop
-let draggedDomino = null;
-
-function dragStart(e) {
-    draggedDomino = e.target;
-    setTimeout(() => e.target.classList.add('dragging'), 0);
-}
-
-function dragEnd(e) {
-    e.target.classList.remove('dragging');
-    draggedDomino = null;
-}
-
-gameArea.addEventListener('dragover', e => {
-    e.preventDefault();
-    const afterElement = getDragAfterElement(gameArea, e.clientY);
-    if (afterElement == null) {
-        gameArea.appendChild(draggedDomino);
-    } else {
-        gameArea.insertBefore(draggedDomino, afterElement);
-    }
-    checkForMatch();
-});
-
-function getDragAfterElement(container, y) {
-    const draggableElements = [...container.querySelectorAll('.domino:not(.dragging)')];
-
-    return draggableElements.reduce((closest, child) => {
-        const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-            return { offset: offset, element: child };
-        } else {
-            return closest;
+function toggleFicha(ficha) {
+    if (jugadorActual === 'J1') {
+        const index = manoJ1.indexOf(ficha);
+        if (index > -1) {
+            manoJ1.splice(index, 1);
+        } else if (manoJ1.length < 7) {
+            manoJ1.push(ficha);
         }
-    }, { offset: Number.NEGATIVE_INFINITY }).element;
+        updateHandDisplay();
+    }
 }
 
-function checkForMatch() {
-    const dominos = [...gameArea.querySelectorAll('.domino')];
-    dominos.forEach(domino => {
-        const [left, right] = domino.innerHTML.split(' | ').map(Number);
-        dominos.forEach(otherDomino => {
-            if (domino !== otherDomino) {
-                const [otherLeft, otherRight] = otherDomino.innerHTML.split(' | ').map(Number);
-                if (left === otherRight || right === otherLeft) {
-                    const rect1 = domino.getBoundingClientRect();
-                    const rect2 = otherDomino.getBoundingClientRect();
-                    const distance = Math.hypot(rect1.x - rect2.x, rect1.y - rect2.y);
-                    if (distance < 20) {
-                        const angle = Math.atan2(rect2.y - rect1.y, rect2.x - rect1.x);
-                        domino.style.left = `${rect2.x - Math.cos(angle) * 20}px`;
-                        domino.style.top = `${rect2.y - Math.sin(angle) * 20}px`;
-                    }
-                }
-            }
-        });
+function updateHandDisplay() {
+    const handList = document.getElementById('hand-list');
+    handList.innerHTML = '';
+
+    manoJ1.forEach(ficha => {
+        const fichaElement = document.createElement('div');
+        fichaElement.classList.add('ficha');
+        fichaElement.textContent = ficha;
+        handList.appendChild(fichaElement);
     });
+
+    if (manoJ1.length === 7) {
+        showPlayerSelection();
+    }
 }
 
-// Inicializar juego
-shuffleAndDeal();
-renderDominos();
+function showPlayerSelection() {
+    document.getElementById('initial-selection').style.display = 'none';
+    document.getElementById('player-selection').style.display = 'block';
+}
+
+function setStartingPlayer(player) {
+    jugadorActual = jugadores[player - 1];
+    document.getElementById('player-selection').style.display = 'none';
+    document.getElementById('gameplay').style.display = 'block';
+    updateTurn();
+}
+
+function updateTurn() {
+    const currentTurnElement = document.getElementById('current-turn');
+    currentTurnElement.textContent = `Turno de ${jugadorActual}`;
+    updateBestPlay();
+}
+
+function play() {
+    // Implement play logic
+    if (jugadorActual === 'J1') {
+        // J1 juega
+        alert('Elige una ficha para jugar');
+        // Implement logic to play the selected ficha
+        // For example, remove ficha from manoJ1 and add to fichasMesa
+        // Update extremos
+        // Check game status
+        siguienteTurno();
+    } else {
+        // Other players' turns to play
+        // Example placeholder implementation
+        alert('El jugador actual juega');
+        siguienteTurno();
+    }
+}
+
+function pass() {
+    // Implement pass logic
+    alert(`${jugadorActual} pasa su turno`);
+    siguienteTurno();
+}
+
+function restart() {
+    // Implement restart logic
+    manoJ1 = [];
+    manoJ2 = [];
+    manoJ3 = [];
+    manoJ4 = [];
+    fichasMesa = [];
+    extremos = [];
+    turno = 0;
+    puntosEquipo1 = 0;
+    puntosEquipo2 = 0;
+    initializeFichas();
+    showPlayerSelection();
+}
+
+function siguienteTurno() {
+    turno = (turno + 1) % 4;
+    jugadorActual = jugadores[turno];
+    updateTurn();
+}
+
+function updateBestPlay() {
+    // Implement logic to update the best ficha to play
+    const bestPlayElement = document.getElementById('best-play');
+    bestPlayElement.innerHTML = 'Mejor ficha para jugar: <br> Actualizar con lógica basada en las fichas de mano y los extremos';
+}
+
+function updateGameStatus() {
+    // Implement logic to update the game status
+    const fichasPasadasElement = document.getElementById('fichas-pasadas');
+    fichasPasadasElement.innerHTML = 'Fichas pasadas: <br> Actualizar con las fichas pasadas por cada jugador';
+
+    const fichasJugadasElement = document.getElementById('fichas-jugadas');
+    fichasJugadasElement.innerHTML = 'Fichas jugadas: <br> Actualizar con las fichas jugadas en la mesa';
+
+    const turnHistoryElement = document.getElementById('turn-history');
+    turnHistoryElement.innerHTML = 'Historial de turnos: <br> Actualizar con el historial de jugadas y pases';
+}
+
+function checkGameEnd() {
+    // Implement game end logic
+    // Check if any player has won or if the game is blocked
+    const winner = determineWinner();
+    if (winner) {
+        alert(`Juego terminado. Ganador: ${winner}`);
+        restart();
+    }
+}
+
+function determineWinner() {
+    // Implement logic to determine the winner
+    // Check if a player has no fichas or if a team reaches 100 points
+    // Example placeholder implementation
+    if (puntosEquipo1 >= puntosGanador) {
+        return 'Equipo 1';
+    } else if (puntosEquipo2 >= puntosGanador) {
+        return 'Equipo 2';
+    }
+    return null;
+}
+
+// Inicializa las fichas al principio
+initializeFichas();

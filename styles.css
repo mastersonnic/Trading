@@ -1,19 +1,19 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #e8f5e9; /* Color de fondo claro en tonos verde limón */
-    color: #388e3c; /* Texto en verde oscuro para buena visibilidad */
+    background-color: #f4f4f4; /* Color de fondo claro */
+    color: #3e3e3e; /* Texto en gris oscuro */
     text-align: center;
 }
 
-h1, h2 {
-    color: #2c6b2f; /* Verde más intenso para los encabezados */
+h1, h2, h3 {
+    color: #4d3f2f; /* Verde aceituna para los encabezados */
 }
 
 #setup, #choose-start, #game {
     margin: 20px auto;
     padding: 20px;
     border-radius: 8px;
-    background-color: #c8e6c9; /* Fondo de las secciones en verde claro */
+    background-color: #d2c7b2; /* Fondo de las secciones en verde aceituna claro */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 600px;
 }
@@ -23,34 +23,34 @@ button {
     padding: 10px 20px;
     font-size: 16px;
     color: #ffffff;
-    background-color: #66bb6a; /* Verde claro para los botones */
+    background-color: #6d8c4f; /* Verde aceituna para los botones */
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #4caf50; /* Verde más oscuro al pasar el ratón */
+    background-color: #5a6d3a; /* Verde aceituna más oscuro al pasar el ratón */
 }
 
-#ficha-list button {
+#ficha-list button, #fichas-seleccionadas button {
     margin: 5px;
     padding: 10px;
     font-size: 14px;
     color: #ffffff;
-    background-color: #81c784; /* Verde claro para las fichas */
+    background-color: #8a9a5b; /* Verde aceituna para las fichas */
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
-#ficha-list button:hover {
-    background-color: #66bb6a; /* Verde más intenso al pasar el ratón */
+#ficha-list button:hover, #fichas-seleccionadas button:hover {
+    background-color: #6d8c4f; /* Verde aceituna más intenso al pasar el ratón */
 }
 
-#extremos-mesa, #fichas-disponibles, #fichas-mano, #mejor-salida, #mejor-jugar {
+#extremos-mesa, #fichas-disponibles, #mejor-salida, #mejor-jugar {
     padding: 10px;
-    border: 1px solid #81c784; /* Borde en verde claro */
+    border: 1px solid #8a9a5b; /* Borde en verde aceituna claro */
     border-radius: 4px;
     background-color: #ffffff; /* Fondo blanco para buen contraste */
     margin: 10px 0;

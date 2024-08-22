@@ -15,6 +15,14 @@
         <button onclick="startGame()">Iniciar Juego</button>
     </div>
     
+    <div id="choose-start" style="display: none;">
+        <h2>2. Elige quién sale</h2>
+        <button onclick="setStarter('J1')">J1</button>
+        <button onclick="setStarter('J2')">J2</button>
+        <button onclick="setStarter('J3')">J3</button>
+        <button onclick="setStarter('J4')">J4</button>
+    </div>
+
     <div id="game" style="display: none;">
         <h2 id="player-turn">Turno de:</h2>
         <div id="fichas-jugador"></div>

@@ -1,80 +1,41 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-#game {
-    width: 80%;
-    max-width: 1000px;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-}
-
-h1, h2 {
-    text-align: center;
+    background-color: #f0f0f0;
     color: #333;
+    text-align: center;
 }
 
-#fichas-disponibles, #fichas-seleccionadas, #tablero, #extremos, #mejor-jugada {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 20px;
+h1 {
+    font-size: 2.5rem;
+    color: #444;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
 }
 
 .ficha {
-    width: 60px;
-    height: 120px;
-    background-color: #e0e0e0;
+    display: inline-block;
     margin: 5px;
-    border: 2px solid #333;
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 18px;
-    cursor: pointer;
-}
-
-.ficha.seleccionada {
-    background-color: #ffeb3b;
-}
-
-.jugador {
-    margin: 10px;
-    padding: 10px 20px;
-    background-color: #03a9f4;
-    color: #fff;
-    border: none;
+    padding: 20px;
+    background-color: #eee;
+    border: 1px solid #333;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 2rem;  /* Números más grandes */
+    font-weight: bold; /* Texto en negrita */
 }
 
-.jugador:hover {
-    background-color: #0288d1;
-}
-
-#confirmar-fichas, #reiniciar {
-    margin: 10px auto;
+.ficha span {
     display: block;
-    padding: 10px 20px;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
-#confirmar-fichas:hover, #reiniciar:hover {
-    background-color: #388e3c;
+#menu-juego button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 1.5rem;
+    font-weight: bold; /* Botones en negrita */
 }
 
 .oculto {

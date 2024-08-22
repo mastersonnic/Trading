@@ -10,13 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     let selectedTiles = [];
-    let turn = 0;
     let currentPlayer = 1;
     let playedTiles = [];
     let tableEnds = [];
     let team1Points = 0;
     let team2Points = 0;
     const players = { J1: [], J2: [], J3: [], J4: [] };
+    const passedTiles = { J1: [], J2: [], J3: [], J4: [] };
+    const opponentRepeatedEnds = [];
     const maxPoints = 100;
 
     const selectTilesContainer = document.querySelector('.select-tiles');
@@ -24,8 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const playButton = document.getElementById('play');
     const passButton = document.getElementById('pass');
     const restartButton = document.getElementById('restart');
+    const tableEndsContainer = document.querySelector('.table-ends');
+    const opponentEndsContainer = document.querySelector('.opponent-ends');
+    const handContainer = document.querySelector('.player-hand');
+    const passedTilesContainer = document.querySelector('.passed-tiles');
 
-    // Create tiles for selection
+    // Crear fichas para seleccionar
     dominoes.forEach((tile, index) => {
         const tileDiv = document.createElement('div');
         tileDiv.classList.add('domino-tile');
@@ -48,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updatePlayerHand() {
-        const handContainer = document.querySelector('.player-hand');
         handContainer.innerHTML = '';
         players.J1.forEach(tile => {
             const tileDiv = document.createElement('div');
@@ -60,10 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startGame() {
         if (players.J1.length !== 7) {
-            alert("You must select exactly 7 tiles to start.");
+            alert("Debes seleccionar exactamente 7 fichas para comenzar.");
             return;
         }
-        gameMessage.textContent = "Choose who starts.";
+        gameMessage.textContent = "Elige quién empieza.";
         selectTilesContainer.innerHTML = '';
     }
 
@@ -79,10 +83,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             playedTiles.push(tile);
             players[`J${currentPlayer}`].splice(tileIndex, 1);
+            trackOpponentEnds(tile);
         } else {
-            alert("Invalid move. Tile does not match either end.");
+            alert("Movimiento no válido. La ficha no coincide con ninguno de los extremos.");
             return;
         }
+        updateTableEnds();
         updatePlayerHand();
         nextTurn();
     }
@@ -93,10 +99,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         currentPlayer = currentPlayer < 4 ? currentPlayer + 1 : 1;
-        gameMessage.textContent = `Turn of J${currentPlayer}`;
+        gameMessage.textContent = `Turno de J${currentPlayer}`;
     }
 
     function passTurn() {
+        passedTiles[`J${currentPlayer}`].push([...tableEnds]);
+        updatePassedTiles();
         nextTurn();
     }
 
@@ -109,8 +117,10 @@ document.addEventListener('DOMContentLoaded', () => {
         playedTiles = [];
         tableEnds = [];
         currentPlayer = 1;
-        gameMessage.textContent = "Select your 7 tiles.";
+        opponentRepeatedEnds.length = 0;
+        gameMessage.textContent = "Selecciona tus 7 fichas.";
         selectTilesContainer.innerHTML = '';
+        updateOpponentEnds();
         dominoes.forEach((tile, index) => {
             const tileDiv = document.createElement('div');
             tileDiv.classList.add('domino-tile');
@@ -125,13 +135,45 @@ document.addEventListener('DOMContentLoaded', () => {
         const team1Remaining = players.J1.length + players.J3.length;
         const team2Remaining = players.J2.length + players.J4.length;
         if (team1Remaining === 0 || team1Points >= maxPoints) {
-            alert("Team 1 wins!");
+            alert("¡El Equipo 1 gana!");
         } else if (team2Remaining === 0 || team2Points >= maxPoints) {
-            alert("Team 2 wins!");
+            alert("¡El Equipo 2 gana!");
         } else {
-            alert(`Team ${team1Remaining < team2Remaining ? 1 : 2} wins by fewest points.`);
+            alert(`El equipo ${team1Remaining < team2Remaining ? 1 : 2} gana por tener menos puntos.`);
         }
         restartGame();
+    }
+
+    function updateTableEnds() {
+        tableEndsContainer.textContent = `Extremos de la mesa: ${tableEnds.join(' | ')}`;
+    }
+
+    function updatePassedTiles() {
+        passedTilesContainer.innerHTML = '';
+        Object.keys(passedTiles).forEach(player => {
+            const playerDiv = document.createElement('div');
+            playerDiv.textContent = `${player}: ${passedTiles[player].map(e => e.join('|')).join(', ')}`;
+            passedTilesContainer.appendChild(playerDiv);
+        });
+    }
+
+    function trackOpponentEnds(tile) {
+        const opponent = currentPlayer === 2 || currentPlayer === 4;
+        if (opponent) {
+            const tileEnds = [...tile];
+            tileEnds.forEach(end => {
+                const count = opponentRepeatedEnds.filter(e => e === end).length;
+                if (count === 1) {
+                    opponentRepeatedEnds.push(end);
+                } else if (count > 1) {
+                    opponentEndsContainer.textContent = `Extremos repetidos por el oponente: ${opponentRepeatedEnds.join(' | ')}`;
+                }
+            });
+        }
+    }
+
+    function updateOpponentEnds() {
+        opponentEndsContainer.textContent = `Extremos repetidos por el oponente: ${opponentRepeatedEnds.join(' | ')}`;
     }
 
     playButton.addEventListener('click', () => {
@@ -139,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tableEnds.length === 0 || tile.includes(tableEnds[0]) || tile.includes(tableEnds[1])
         );
         if (playableTiles.length === 0) {
-            alert("No playable tiles. Pass your turn.");
+            alert("No tienes fichas jugables. Pasa tu turno.");
             return;
         }
         const tileIndex = players[`J${currentPlayer}`].indexOf(playableTiles[0]);

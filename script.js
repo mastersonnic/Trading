@@ -1,121 +1,228 @@
-const fichas = [
-    "0-0", "0-1", "0-2", "0-3", "0-4", "0-5", "0-6",
-    "1-1", "1-2", "1-3", "1-4", "1-5", "1-6",
-    "2-2", "2-3", "2-4", "2-5", "2-6",
-    "3-3", "3-4", "3-5", "3-6",
-    "4-4", "4-5", "4-6",
-    "5-5", "5-6",
-    "6-6"
-];
+// Variables globales
+let dominoTiles = [];
+let playerHands = [[], [], [], []];
+let selectedTiles = [];
+let tilesOnTable = [];
+let currentPlayer = 0;
 
-let fichasMano = [];
-let fichasDisponibles = [];
-let extremosMesa = [];
-let fichasJugadas = [];
-let mejorSalida = [];
-let mejorJugar = [];
-let jugadores = ['J1', 'J2', 'J3', 'J4'];
-let jugadorActual = null;
-let turnoIndex = 0;
-let fichasJugadasEnMesa = [];
-
-function setupGame() {
-    const fichaList = document.getElementById('ficha-list');
-    fichaList.innerHTML = fichas.map(ficha => `<button onclick="selectFicha('${ficha}')">${ficha}</button>`).join('');
+// Función para inicializar el juego
+function initializeGame() {
+    dominoTiles = generateDominoTiles();
+    shuffleTiles(dominoTiles);
+    dealTiles();
+    updateBoard();
+    displayMessage('Elige quién sale:');
+    setupPlayerSelection();
 }
 
-function startGame() {
-    if (fichasMano.length !== 7) {
-        alert('Debes seleccionar 7 fichas para comenzar.');
-        return;
+// Función para generar las 28 fichas de dominó
+function generateDominoTiles() {
+    let tiles = [];
+    for (let i = 0; i <= 6; i++) {
+        for (let j = i; j <= 6; j++) {
+            tiles.push([i, j]);
+        }
     }
-    fichasDisponibles = fichas.filter(ficha => !fichasMano.includes(ficha));
-    document.getElementById('setup').style.display = 'none';
-    document.getElementById('choose-start').style.display = 'block';
+    return tiles;
 }
 
-function setStarter(jugador) {
-    jugadorActual = jugador;
-    document.getElementById('choose-start').style.display = 'none';
-    document.getElementById('game').style.display = 'block';
-    updateUI();
-}
-
-function updateUI() {
-    document.getElementById('player-turn').textContent = `Turno de: ${jugadorActual}`;
-    document.getElementById('fichas-seleccionadas').innerHTML = fichasMano.join(', ');
-    document.getElementById('fichas-disponibles').innerHTML = fichasDisponibles.join(', ');
-    document.getElementById('extremos-mesa').innerHTML = extremosMesa.join(', ');
-    document.getElementById('mejor-salida').innerHTML = mejorSalida.join(', ');
-    document.getElementById('mejor-jugar').innerHTML = mejorJugar.join(', ');
-}
-
-function selectFicha(ficha) {
-    if (fichasMano.length < 7 && !fichasMano.includes(ficha)) {
-        fichasMano.push(ficha);
-        fichasDisponibles = fichas.filter(fichaDisponible => !fichasMano.includes(fichaDisponible));
-        updateUI();
+// Función para mezclar las fichas de dominó
+function shuffleTiles(tiles) {
+    for (let i = tiles.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [tiles[i], tiles[j]] = [tiles[j], tiles[i]];
     }
 }
 
-function play() {
-    if (fichasMano.length === 0) return;
-    
-    const fichaList = fichasDisponibles.filter(ficha => isPlayable(ficha));
-    if (fichaList.length === 0) {
-        alert('No tienes fichas jugables.');
-        return;
+// Función para repartir las fichas entre los jugadores
+function dealTiles() {
+    for (let i = 0; i < 7; i++) {
+        for (let j = 0; j < 4; j++) {
+            playerHands[j].push(dominoTiles.pop());
+        }
     }
+}
 
-    const ficha = prompt("Selecciona una ficha para jugar (ej. '0-1'):", fichaList.join(', '));
-    if (ficha && fichaList.includes(ficha)) {
-        fichasJugadas.push(ficha);
-        extremosMesa = updateExtremosMesa(ficha);
-        fichasMano = fichasMano.filter(fichaMano => fichaMano !== ficha);
-        fichasDisponibles = fichas.filter(fichaDisponible => !fichasMano.includes(fichaDisponible));
-        updateUI();
-        siguienteJugador();
+// Función para configurar la selección del jugador que sale
+function setupPlayerSelection() {
+    const playerSelectionContainer = document.getElementById('player-selection');
+    playerSelectionContainer.innerHTML = '';
+    for (let i = 1; i <= 4; i++) {
+        const button = document.createElement('button');
+        button.textContent = `Jugador ${i}`;
+        button.value = i;
+        button.addEventListener('click', handlePlayerSelection);
+        playerSelectionContainer.appendChild(button);
+    }
+}
+
+// Función para manejar los clics en las fichas de la mano
+function handleTileClick(event) {
+    const tileIndex = parseInt(event.target.getAttribute('data-index'));
+    if (selectedTiles.includes(tileIndex)) {
+        selectedTiles = selectedTiles.filter(index => index !== tileIndex);
+    } else if (selectedTiles.length < 7) {
+        selectedTiles.push(tileIndex);
+    }
+    updateSelectedTiles();
+}
+
+// Función para actualizar la visualización de las fichas seleccionadas
+function updateSelectedTiles() {
+    const selectedTilesContainer = document.getElementById('selected-tiles');
+    selectedTilesContainer.innerHTML = '';
+    selectedTiles.forEach(index => {
+        const tileElement = document.createElement('div');
+        tileElement.classList.add('domino-tile');
+        tileElement.textContent = `${dominoTiles[index][0]}|${dominoTiles[index][1]}`;
+        selectedTilesContainer.appendChild(tileElement);
+    });
+}
+
+// Función para manejar la selección de quién sale
+function handlePlayerSelection(event) {
+    const selectedPlayer = event.target.value;
+    currentPlayer = selectedPlayer - 1;
+
+    if (currentPlayer === 0) {
+        displayMessage('Selecciona una ficha para salir');
+        const playableTiles = getPlayableTiles();
+        displayTileOptions(playableTiles, handleTileSelectionForPlay);
     } else {
-        alert('Ficha no válida o no seleccionada.');
+        displayMessage(`Jugador ${selectedPlayer} sale con ficha:`);
+        const availableTiles = getAvailableTiles();
+        displayTileOptions(availableTiles, handleTileSelectionForPlay);
     }
 }
 
-function pass() {
-    if (fichasMano.length === 0) return;
-
-    // Implementar lógica para pasar turno
-    siguienteJugador();
+// Función para obtener las fichas disponibles
+function getAvailableTiles() {
+    const availableTiles = [];
+    for (let i = 0; i < dominoTiles.length; i++) {
+        if (!tilesOnTable.includes(i) && !selectedTiles.includes(i)) {
+            availableTiles.push(i);
+        }
+    }
+    return availableTiles;
 }
 
-function reset() {
-    document.getElementById('setup').style.display = 'block';
-    document.getElementById('choose-start').style.display = 'none';
-    document.getElementById('game').style.display = 'none';
-    fichasMano = [];
-    fichasDisponibles = fichas.slice();
-    extremosMesa = [];
-    fichasJugadas = [];
-    mejorSalida = [];
-    mejorJugar = [];
-    turnoIndex = 0;
-    setupGame();
+// Función para manejar la selección de fichas para jugar
+function handleTileSelectionForPlay(tileIndex) {
+    tilesOnTable.push(tileIndex);
+    updateBoard();
+    currentPlayer = (currentPlayer + 1) % 4;
+
+    if (currentPlayer === 0) {
+        const playableTiles = getPlayableTiles();
+        if (playableTiles.length > 0) {
+            displayTileOptions(playableTiles, handleTileSelectionForPlay);
+        } else {
+            passTurn();
+        }
+    } else {
+        const availableTiles = getAvailableTiles();
+        displayTileOptions(availableTiles, handleTileSelectionForPlay);
+    }
 }
 
-function siguienteJugador() {
-    turnoIndex = (turnoIndex + 1) % jugadores.length;
-    jugadorActual = jugadores[turnoIndex];
-    updateUI();
+// Función para obtener las fichas jugables
+function getPlayableTiles() {
+    if (tilesOnTable.length === 0) {
+        return selectedTiles;
+    } else {
+        const leftEnd = dominoTiles[tilesOnTable[0]][0];
+        const rightEnd = dominoTiles[tilesOnTable[tilesOnTable.length - 1]][1];
+        return selectedTiles.filter(index => 
+            dominoTiles[index][0] === leftEnd || dominoTiles[index][1] === leftEnd ||
+            dominoTiles[index][0] === rightEnd || dominoTiles[index][1] === rightEnd
+        );
+    }
 }
 
-function isPlayable(ficha) {
-    // Implementar lógica para determinar si la ficha es jugable según los extremos en la mesa
-    return true; // Placeholder
+// Función para mostrar opciones de fichas
+function displayTileOptions(tiles, callback) {
+    const tileOptionsContainer = document.getElementById('tile-options');
+    tileOptionsContainer.innerHTML = '';
+    tiles.forEach(index => {
+        const tileElement = document.createElement('button');
+        tileElement.classList.add('domino-tile');
+        tileElement.textContent = `${dominoTiles[index][0]}|${dominoTiles[index][1]}`;
+        tileElement.addEventListener('click', () => callback(index));
+        tileOptionsContainer.appendChild(tileElement);
+    });
 }
 
-function updateExtremosMesa(ficha) {
-    // Implementar lógica para actualizar extremos de la mesa
-    return extremosMesa; // Placeholder
+// Función para pasar el turno
+function passTurn() {
+    currentPlayer = (currentPlayer + 1) % 4;
+    if (currentPlayer === 0) {
+        const playableTiles = getPlayableTiles();
+        if (playableTiles.length > 0) {
+            displayTileOptions(playableTiles, handleTileSelectionForPlay);
+        } else {
+            passTurn();
+        }
+    } else {
+        const availableTiles = getAvailableTiles();
+        displayTileOptions(availableTiles, handleTileSelectionForPlay);
+    }
 }
 
-// Inicializar el juego
-setupGame();
+// Función para actualizar la visualización del tablero
+function updateBoard() {
+    const boardContainer = document.getElementById('board');
+    boardContainer.innerHTML = '';
+    tilesOnTable.forEach(index => {
+        const tileElement = document.createElement('div');
+        tileElement.classList.add('domino-tile');
+        tileElement.textContent = `${dominoTiles[index][0]}|${dominoTiles[index][1]}`;
+        boardContainer.appendChild(tileElement);
+    });
+
+    updateScore();
+    updatePlayableTiles();
+}
+
+// Función para actualizar la visualización de los extremos jugables
+function updatePlayableTiles() {
+    if (tilesOnTable.length > 0) {
+        const leftEnd = dominoTiles[tilesOnTable[0]][0];
+        const rightEnd = dominoTiles[tilesOnTable[tilesOnTable.length - 1]][1];
+        document.getElementById('playable-ends').textContent = `Extremos jugables: ${leftEnd}, ${rightEnd}`;
+    } else {
+        document.getElementById('playable-ends').textContent = '';
+    }
+}
+
+// Función para actualizar el puntaje de los equipos
+function updateScore() {
+    const team1Score = calculateTeamScore([0, 2]); // J1 y J3
+    const team2Score = calculateTeamScore([1, 3]); // J2 y J4
+
+    document.getElementById('team1-score').textContent = `Equipo 1: ${team1Score} puntos`;
+    document.getElementById('team2-score').textContent = `Equipo 2: ${team2Score} puntos`;
+
+    if (team1Score >= 100 || team2Score >= 100) {
+        displayMessage(`¡El equipo ${team1Score >= 100 ? 1 : 2} ha ganado el juego!`);
+        document.getElementById('menu-restart').style.display = 'block';
+    }
+}
+
+// Función para calcular el puntaje de un equipo
+function calculateTeamScore(players) {
+    let score = 0;
+    players.forEach(player => {
+        score += playerHands[player].reduce((sum, index) => sum + dominoTiles[index][0] + dominoTiles[index][1], 0);
+    });
+    return score;
+}
+
+// Función para mostrar un mensaje en la interfaz
+function displayMessage(message) {
+    document.getElementById('message').textContent = message;
+}
+
+// Inicialización del juego al cargar la página
+window.onload = () => {
+    initializeGame();
+};

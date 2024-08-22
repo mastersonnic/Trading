@@ -18,8 +18,6 @@ let mejorJugar = [];
 let jugadores = ['J1', 'J2', 'J3', 'J4'];
 let jugadorActual = null;
 let turnoIndex = 0;
-let puntosEquipo1 = 0;
-let puntosEquipo2 = 0;
 
 function setupGame() {
     const fichaList = document.getElementById('ficha-list');
@@ -91,16 +89,6 @@ function siguienteJugador() {
     turnoIndex = (turnoIndex + 1) % jugadores.length;
     jugadorActual = jugadores[turnoIndex];
     updateUI();
-}
-
-function calcularMejorSalida() {
-    // Implementar lógica para calcular la mejor ficha para salir
-    // Actualizar lista de mejorSalida
-}
-
-function calcularMejorJugar() {
-    // Implementar lógica para calcular la mejor ficha para jugar
-    // Actualizar lista de mejorJugar
 }
 
 // Inicializar el juego

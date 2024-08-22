@@ -2,42 +2,102 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     color: #333;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
-h1 {
-    font-size: 2.5rem;
-    color: #444;
+h2, h3 {
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
-.container {
-    width: 80%;
-    margin: auto;
+.game-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
 
-.ficha {
-    display: inline-block;
-    margin: 5px;
+#game-board {
+    display: flex;
+    gap: 20px;
+}
+
+.hand, #domino-board {
+    background-color: #fff;
+    border: 2px solid #ccc;
     padding: 20px;
-    background-color: #eee;
-    border: 1px solid #333;
-    border-radius: 5px;
+    border-radius: 8px;
+}
+
+.tiles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tile {
+    width: 60px;
+    height: 120px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8em;
+    font-weight: bold;
+    background-color: #fff;
     cursor: pointer;
-    font-size: 2rem;  /* Números más grandes */
-    font-weight: bold; /* Texto en negrita */
 }
 
-.ficha span {
-    display: block;
+.tile.selected {
+    background-color: #cfe2f3;
+    border-color: #0056b3;
 }
 
-#menu-juego button {
+#menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#menu-options {
+    display: flex;
+    gap: 10px;
+}
+
+button {
     padding: 10px 20px;
-    margin: 10px;
-    font-size: 1.5rem;
-    font-weight: bold; /* Botones en negrita */
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    background-color: #0056b3;
+    color: #fff;
 }
 
-.oculto {
-    display: none;
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#log {
+    width: 300px;
+    height: 150px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+#log-content {
+    font-size: 1.2em;
+    line-height: 1.5;
 }

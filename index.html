@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,46 +7,48 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Juego de Dominó</h1>
-    
-    <div id="setup">
-        <h2>1. Selecciona tus 7 fichas</h2>
-        <div id="ficha-list"></div>
-        <h3>Fichas Seleccionadas (B)</h3>
-        <div id="fichas-seleccionadas"></div>
-        <button onclick="startGame()">Iniciar Juego</button>
-    </div>
-    
-    <div id="choose-start" style="display: none;">
-        <h2>2. Elige quién sale</h2>
-        <button onclick="setStarter('J1')">J1</button>
-        <button onclick="setStarter('J2')">J2</button>
-        <button onclick="setStarter('J3')">J3</button>
-        <button onclick="setStarter('J4')">J4</button>
-    </div>
+    <div class="container">
+        <h1>Juego de Dominó</h1>
+        
+        <!-- Selección de fichas iniciales -->
+        <div id="seleccion-inicial" class="seccion">
+            <h2>Selecciona tus 7 fichas</h2>
+            <div id="fichas-disponibles" class="fichas"></div>
+            <div id="fichas-seleccionadas" class="fichas">
+                <h3>Fichas seleccionadas:</h3>
+                <div id="fichas-en-mano"></div>
+            </div>
+            <button id="confirmar-seleccion" class="boton">Confirmar Selección</button>
+        </div>
 
-    <div id="game" style="display: none;">
-        <h2 id="player-turn">Turno de:</h2>
-        <div id="fichas-jugador"></div>
-        <div id="acciones">
-            <button onclick="play()">Jugar</button>
-            <button onclick="pass()">Pasar</button>
-            <button onclick="reset()">Reiniciar</button>
+        <!-- Selección de jugador que sale -->
+        <div id="seleccion-salida" class="seccion oculto">
+            <h2>Elige quién sale</h2>
+            <button class="boton-salida" data-jugador="1">J1 (Tú)</button>
+            <button class="boton-salida" data-jugador="2">J2</button>
+            <button class="boton-salida" data-jugador="3">J3 (Tu frente)</button>
+            <button class="boton-salida" data-jugador="4">J4</button>
         </div>
-        <div id="mesa">
-            <h2>Extremos en la Mesa (G)</h2>
-            <div id="extremos-mesa"></div>
-        </div>
-        <div id="listas">
-            <h2>Lista de Fichas Disponibles (A)</h2>
-            <div id="fichas-disponibles"></div>
-            <h2>Mejor Ficha para Salir (F)</h2>
-            <div id="mejor-salida"></div>
-            <h2>Mejor Ficha para Jugar (H)</h2>
-            <div id="mejor-jugar"></div>
+
+        <!-- Área de juego -->
+        <div id="area-de-juego" class="seccion oculto">
+            <h2 id="turno-jugador"></h2>
+            <div id="mesa">
+                <h3>Fichas en la mesa:</h3>
+                <div id="fichas-mesa"></div>
+            </div>
+            <div id="acciones">
+                <button id="jugar-ficha" class="boton">Jugar</button>
+                <button id="pasar-turno" class="boton">Pasar</button>
+                <button id="reiniciar-juego" class="boton">Reiniciar</button>
+            </div>
+            <div id="mejor-jugada">
+                <h3>Mejor ficha para jugar:</h3>
+                <div id="mejor-ficha"></div>
+                <div id="comentario-ficha"></div>
+            </div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>

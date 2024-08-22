@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const dominoes = [
+    const fichasDisponibles = [
         [0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6],
         [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6],
         [2, 2], [2, 3], [2, 4], [2, 5], [2, 6],
@@ -9,185 +9,167 @@ document.addEventListener('DOMContentLoaded', () => {
         [6, 6]
     ];
 
-    let selectedTiles = [];
-    let currentPlayer = 1;
-    let playedTiles = [];
-    let tableEnds = [];
-    let team1Points = 0;
-    let team2Points = 0;
-    const players = { J1: [], J2: [], J3: [], J4: [] };
-    const passedTiles = { J1: [], J2: [], J3: [], J4: [] };
-    const opponentRepeatedEnds = [];
-    const maxPoints = 100;
+    let fichasSeleccionadas = [];
+    let jugadorActual = 1;
+    let fichasJugadas = [];
+    let extremosMesa = [];
+    let puntosEquipo1 = 0;
+    let puntosEquipo2 = 0;
+    const jugadores = { J1: [], J2: [], J3: [], J4: [] };
+    const fichasPasadas = { J1: [], J2: [], J3: [], J4: [] };
+    const extremosRepetidosOponentes = [];
 
-    const selectTilesContainer = document.querySelector('.select-tiles');
-    const gameMessage = document.querySelector('.game-message');
-    const playButton = document.getElementById('play');
-    const passButton = document.getElementById('pass');
-    const restartButton = document.getElementById('restart');
-    const tableEndsContainer = document.querySelector('.table-ends');
-    const opponentEndsContainer = document.querySelector('.opponent-ends');
-    const handContainer = document.querySelector('.player-hand');
-    const passedTilesContainer = document.querySelector('.passed-tiles');
+    const contenedorSeleccionarFichas = document.querySelector('.select-tiles');
+    const contenedorFichasJugador = document.querySelector('.player-hand');
+    const contenedorMejorFichaJugar = document.getElementById('mejor-ficha-jugar');
+    const contenedorMejorFichaSalir = document.getElementById('mejor-ficha-salir');
+    const contenedorExtremosActuales = document.getElementById('extremos-actuales');
+    const contenedorPuntosEquipo1 = document.getElementById('puntos-equipo-1');
+    const contenedorPuntosEquipo2 = document.getElementById('puntos-equipo-2');
+    const botonPasarTurno = document.getElementById('pasar-turno');
+    const botonReiniciarJuego = document.getElementById('reiniciar-juego');
+    const contenedorFichasPasadas = document.getElementById('fichas-pasadas');
+    const contenedorExtremosRepetidos = document.getElementById('extremos-repetidos');
 
     // Crear fichas para seleccionar
-    dominoes.forEach((tile, index) => {
-        const tileDiv = document.createElement('div');
-        tileDiv.classList.add('domino-tile');
-        tileDiv.textContent = `${tile[0]}|${tile[1]}`;
-        tileDiv.dataset.index = index;
-        tileDiv.addEventListener('click', () => selectTile(index, tileDiv));
-        selectTilesContainer.appendChild(tileDiv);
+    fichasDisponibles.forEach((ficha, index) => {
+        const fichaDiv = document.createElement('div');
+        fichaDiv.classList.add('domino-tile');
+        fichaDiv.textContent = `${ficha[0]}|${ficha[1]}`;
+        fichaDiv.dataset.index = index;
+        fichaDiv.addEventListener('click', () => seleccionarFicha(index, fichaDiv));
+        contenedorSeleccionarFichas.appendChild(fichaDiv);
     });
 
-    function selectTile(index, tileDiv) {
-        if (selectedTiles.length < 7 && !selectedTiles.includes(index)) {
-            selectedTiles.push(index);
-            tileDiv.classList.add('selected');
-        } else if (selectedTiles.includes(index)) {
-            selectedTiles = selectedTiles.filter(i => i !== index);
-            tileDiv.classList.remove('selected');
+    function seleccionarFicha(index, fichaDiv) {
+        if (fichasSeleccionadas.length < 7 && !fichasSeleccionadas.includes(index)) {
+            fichasSeleccionadas.push(index);
+            fichaDiv.classList.add('selected');
+        } else if (fichasSeleccionadas.includes(index)) {
+            fichasSeleccionadas = fichasSeleccionadas.filter(i => i !== index);
+            fichaDiv.classList.remove('selected');
         }
-        players.J1 = selectedTiles.map(i => dominoes[i]);
-        updatePlayerHand();
+        jugadores.J1 = fichasSeleccionadas.map(i => fichasDisponibles[i]);
+        actualizarFichasJugador();
+        actualizarMejorFichaSalir();
     }
 
-    function updatePlayerHand() {
-        handContainer.innerHTML = '';
-        players.J1.forEach(tile => {
-            const tileDiv = document.createElement('div');
-            tileDiv.classList.add('domino-tile');
-            tileDiv.textContent = `${tile[0]}|${tile[1]}`;
-            handContainer.appendChild(tileDiv);
+    function actualizarFichasJugador() {
+        contenedorFichasJugador.innerHTML = '';
+        jugadores.J1.forEach(ficha => {
+            const fichaDiv = document.createElement('div');
+            fichaDiv.classList.add('domino-tile');
+            fichaDiv.textContent = `${ficha[0]}|${ficha[1]}`;
+            contenedorFichasJugador.appendChild(fichaDiv);
         });
+        actualizarMejorFichaJugar();
     }
 
-    function startGame() {
-        if (players.J1.length !== 7) {
-            alert("Debes seleccionar exactamente 7 fichas para comenzar.");
-            return;
-        }
-        gameMessage.textContent = "Elige quién empieza.";
-        selectTilesContainer.innerHTML = '';
+    function actualizarMejorFichaJugar() {
+        // Lógica para determinar la mejor ficha para jugar (basado en reglas específicas)
+        const mejorFicha = jugadores.J1[0]; // Este es solo un ejemplo simplificado
+        contenedorMejorFichaJugar.textContent = mejorFicha ? `${mejorFicha[0]}|${mejorFicha[1]}` : 'N/A';
     }
 
-    function playTile(tileIndex) {
-        const tile = players[`J${currentPlayer}`][tileIndex];
-        if (tableEnds.length === 0) {
-            tableEnds = [...tile];
-        } else if (tile.includes(tableEnds[0]) || tile.includes(tableEnds[1])) {
-            if (tile.includes(tableEnds[0])) {
-                tableEnds[0] = tile[0] === tableEnds[0] ? tile[1] : tile[0];
+    function actualizarMejorFichaSalir() {
+        // Lógica para determinar la mejor ficha para salir (basado en reglas específicas)
+        const mejorFicha = jugadores.J1[0]; // Este es solo un ejemplo simplificado
+        contenedorMejorFichaSalir.textContent = mejorFicha ? `${mejorFicha[0]}|${mejorFicha[1]}` : 'N/A';
+    }
+
+    function actualizarExtremosMesa() {
+        contenedorExtremosActuales.textContent = extremosMesa.length ? extremosMesa.join(' | ') : 'N/A';
+    }
+
+    function actualizarFichasPasadas() {
+        const fichasPasadasTexto = Object.keys(fichasPasadas)
+            .map(jugador => `${jugador}: ${fichasPasadas[jugador].map(e => e.join('|')).join(', ')}`)
+            .join('; ');
+        contenedorFichasPasadas.textContent = fichasPasadasTexto || 'N/A';
+    }
+
+    function actualizarExtremosRepetidos() {
+        contenedorExtremosRepetidos.textContent = extremosRepetidosOponentes.length 
+            ? extremosRepetidosOponentes.join(', ') 
+            : 'N/A';
+    }
+
+    function jugarFicha(fichaIndex) {
+        const ficha = jugadores[`J${jugadorActual}`][fichaIndex];
+        if (extremosMesa.length === 0) {
+            extremosMesa = [...ficha];
+        } else if (ficha.includes(extremosMesa[0]) || ficha.includes(extremosMesa[1])) {
+            if (ficha.includes(extremosMesa[0])) {
+                extremosMesa[0] = ficha[0] === extremosMesa[0] ? ficha[1] : ficha[0];
             } else {
-                tableEnds[1] = tile[0] === tableEnds[1] ? tile[1] : tile[0];
+                extremosMesa[1] = ficha[0] === extremosMesa[1] ? ficha[1] : ficha[0];
             }
-            playedTiles.push(tile);
-            players[`J${currentPlayer}`].splice(tileIndex, 1);
-            trackOpponentEnds(tile);
+            fichasJugadas.push(ficha);
+            jugadores[`J${jugadorActual}`].splice(fichaIndex, 1);
+            rastrearExtremosOponentes(ficha);
         } else {
             alert("Movimiento no válido. La ficha no coincide con ninguno de los extremos.");
             return;
         }
-        updateTableEnds();
-        updatePlayerHand();
-        nextTurn();
+        actualizarExtremosMesa();
+        actualizarFichasJugador();
+        siguienteTurno();
     }
 
-    function nextTurn() {
-        if (players.J1.length === 0 || players.J2.length === 0 || players.J3.length === 0 || players.J4.length === 0) {
-            checkForWinner();
-            return;
-        }
-        currentPlayer = currentPlayer < 4 ? currentPlayer + 1 : 1;
-        gameMessage.textContent = `Turno de J${currentPlayer}`;
+    function pasarTurno() {
+        fichasPasadas[`J${jugadorActual}`].push([...extremosMesa]);
+        actualizarFichasPasadas();
+        siguienteTurno();
     }
 
-    function passTurn() {
-        passedTiles[`J${currentPlayer}`].push([...tableEnds]);
-        updatePassedTiles();
-        nextTurn();
-    }
+    function reiniciarJuego() {
+        fichasSeleccionadas = [];
+        jugadores.J1 = [];
+        jugadores.J2 = [];
+        jugadores.J3 = [];
+        jugadores.J4 = [];
+        fichasJugadas = [];
+        extremosMesa = [];
+        fichasPasadas.J1 = [];
+        fichasPasadas.J2 = [];
+        fichasPasadas.J3 = [];
+        fichasPasadas.J4 = [];
+        extremosRepetidosOponentes.length = 0;
+        puntosEquipo1 = 0;
+        puntosEquipo2 = 0;
+        contenedorFichasJugador.innerHTML = '';
+        actualizarMejorFichaJugar();
+        actualizarMejorFichaSalir();
+        actualizarExtremosMesa();
+        actualizarFichasPasadas();
+        actualizarExtremosRepetidos();
+        contenedorPuntosEquipo1.textContent = puntosEquipo1;
+        contenedorPuntosEquipo2.textContent = puntosEquipo2;
 
-    function restartGame() {
-        selectedTiles = [];
-        players.J1 = [];
-        players.J2 = [];
-        players.J3 = [];
-        players.J4 = [];
-        playedTiles = [];
-        tableEnds = [];
-        currentPlayer = 1;
-        opponentRepeatedEnds.length = 0;
-        gameMessage.textContent = "Selecciona tus 7 fichas.";
-        selectTilesContainer.innerHTML = '';
-        updateOpponentEnds();
-        dominoes.forEach((tile, index) => {
-            const tileDiv = document.createElement('div');
-            tileDiv.classList.add('domino-tile');
-            tileDiv.textContent = `${tile[0]}|${tile[1]}`;
-            tileDiv.dataset.index = index;
-            tileDiv.addEventListener('click', () => selectTile(index, tileDiv));
-            selectTilesContainer.appendChild(tileDiv);
+        // Volver a habilitar la selección de fichas
+        document.querySelectorAll('.domino-tile').forEach(tile => {
+            tile.classList.remove('selected');
         });
     }
 
-    function checkForWinner() {
-        const team1Remaining = players.J1.length + players.J3.length;
-        const team2Remaining = players.J2.length + players.J4.length;
-        if (team1Remaining === 0 || team1Points >= maxPoints) {
-            alert("¡El Equipo 1 gana!");
-        } else if (team2Remaining === 0 || team2Points >= maxPoints) {
-            alert("¡El Equipo 2 gana!");
-        } else {
-            alert(`El equipo ${team1Remaining < team2Remaining ? 1 : 2} gana por tener menos puntos.`);
+    function siguienteTurno() {
+        jugadorActual = (jugadorActual % 4) + 1;
+        if (jugadorActual === 1) {
+            actualizarMejorFichaJugar();
         }
-        restartGame();
     }
 
-    function updateTableEnds() {
-        tableEndsContainer.textContent = `Extremos de la mesa: ${tableEnds.join(' | ')}`;
-    }
-
-    function updatePassedTiles() {
-        passedTilesContainer.innerHTML = '';
-        Object.keys(passedTiles).forEach(player => {
-            const playerDiv = document.createElement('div');
-            playerDiv.textContent = `${player}: ${passedTiles[player].map(e => e.join('|')).join(', ')}`;
-            passedTilesContainer.appendChild(playerDiv);
+    function rastrearExtremosOponentes(ficha) {
+        // Rastrear si un extremo se ha jugado 2 o más veces por los oponentes
+        const oponentes = jugadorActual === 2 || jugadorActual === 4;
+        ficha.forEach(numero => {
+            if (oponentes && extremosRepetidosOponentes.filter(n => n === numero).length >= 1) {
+                extremosRepetidosOponentes.push(numero);
+            }
         });
+        actualizarExtremosRepetidos();
     }
 
-    function trackOpponentEnds(tile) {
-        const opponent = currentPlayer === 2 || currentPlayer === 4;
-        if (opponent) {
-            const tileEnds = [...tile];
-            tileEnds.forEach(end => {
-                const count = opponentRepeatedEnds.filter(e => e === end).length;
-                if (count === 1) {
-                    opponentRepeatedEnds.push(end);
-                } else if (count > 1) {
-                    opponentEndsContainer.textContent = `Extremos repetidos por el oponente: ${opponentRepeatedEnds.join(' | ')}`;
-                }
-            });
-        }
-    }
-
-    function updateOpponentEnds() {
-        opponentEndsContainer.textContent = `Extremos repetidos por el oponente: ${opponentRepeatedEnds.join(' | ')}`;
-    }
-
-    playButton.addEventListener('click', () => {
-        const playableTiles = players[`J${currentPlayer}`].filter(tile => 
-            tableEnds.length === 0 || tile.includes(tableEnds[0]) || tile.includes(tableEnds[1])
-        );
-        if (playableTiles.length === 0) {
-            alert("No tienes fichas jugables. Pasa tu turno.");
-            return;
-        }
-        const tileIndex = players[`J${currentPlayer}`].indexOf(playableTiles[0]);
-        playTile(tileIndex);
-    });
-
-    passButton.addEventListener('click', passTurn);
-    restartButton.addEventListener('click', restartGame);
+    botonPasarTurno.addEventListener('click', pasarTurno);
+    botonReiniciarJuego.addEventListener('click', reiniciarJuego);
 });

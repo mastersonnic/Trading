@@ -3,43 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dominó</title>
+    <title>Domino Game</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="game">
-        <h1>Juego de Dominó</h1>
-        
-        <!-- Selección de Fichas -->
-        <div id="seleccion-fichas">
-            <h2>Selecciona tus 7 fichas</h2>
-            <div id="fichas-disponibles"></div>
-            <div id="fichas-seleccionadas"></div>
-            <button id="confirmar-fichas">Confirmar Selección</button>
+    <div class="game-container">
+        <div id="game-board">
+            <div id="player-hand" class="hand">
+                <h2>J1's Hand</h2>
+                <div id="player-tiles" class="tiles"></div>
+            </div>
+            <div id="domino-board">
+                <h2>Domino Board</h2>
+                <div id="board-tiles" class="tiles"></div>
+                <div id="board-ends">
+                    <p>Left End: <span id="left-end"></span></p>
+                    <p>Right End: <span id="right-end"></span></p>
+                </div>
+            </div>
         </div>
-
-        <!-- Selección de Quién Sale -->
-        <div id="seleccion-salida" class="oculto">
-            <h2>Elige quién sale</h2>
-            <button class="jugador" data-jugador="J1">J1 (Yo)</button>
-            <button class="jugador" data-jugador="J2">J2</button>
-            <button class="jugador" data-jugador="J3">J3 (Mi frente)</button>
-            <button class="jugador" data-jugador="J4">J4</button>
+        <div id="menu">
+            <h2>Game Menu</h2>
+            <div id="menu-options">
+                <button id="btn-start">Start Game</button>
+                <button id="btn-play" disabled>Play</button>
+                <button id="btn-pass" disabled>Pass</button>
+                <button id="btn-restart">Restart</button>
+            </div>
+            <div id="log">
+                <h3>Game Log</h3>
+                <div id="log-content"></div>
+            </div>
         </div>
-
-        <!-- Juego en Progreso -->
-        <div id="juego-en-progreso" class="oculto">
-            <div id="tablero"></div>
-            <div id="extremos"></div>
-            <div id="mejor-jugada"></div>
-            <div id="turno-actual"></div>
-            <div id="menu-juego"></div>
-        </div>
-
-        <!-- Reiniciar Juego -->
-        <button id="reiniciar" class="oculto">Reiniciar Juego</button>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>

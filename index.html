@@ -1,41 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domino Game</title>
+    <title>Juego de Dominó</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="game-container">
-        <div id="game-board">
-            <div id="player-hand" class="hand">
-                <h2>J1's Hand</h2>
-                <div id="player-tiles" class="tiles"></div>
-            </div>
-            <div id="domino-board">
-                <h2>Domino Board</h2>
-                <div id="board-tiles" class="tiles"></div>
-                <div id="board-ends">
-                    <p>Left End: <span id="left-end"></span></p>
-                    <p>Right End: <span id="right-end"></span></p>
-                </div>
-            </div>
+    <h1>Juego de Dominó</h1>
+    
+    <div id="setup">
+        <h2>1. Selecciona tus 7 fichas</h2>
+        <div id="ficha-list"></div>
+        <button onclick="startGame()">Iniciar Juego</button>
+    </div>
+    
+    <div id="game" style="display: none;">
+        <h2 id="player-turn">Turno de:</h2>
+        <div id="fichas-jugador"></div>
+        <div id="acciones">
+            <button onclick="play()">Jugar</button>
+            <button onclick="pass()">Pasar</button>
+            <button onclick="reset()">Reiniciar</button>
         </div>
-        <div id="menu">
-            <h2>Game Menu</h2>
-            <div id="menu-options">
-                <button id="btn-start">Start Game</button>
-                <button id="btn-play" disabled>Play</button>
-                <button id="btn-pass" disabled>Pass</button>
-                <button id="btn-restart">Restart</button>
-            </div>
-            <div id="log">
-                <h3>Game Log</h3>
-                <div id="log-content"></div>
-            </div>
+        <div id="mesa">
+            <h2>Extremos en la Mesa (G)</h2>
+            <div id="extremos-mesa"></div>
+        </div>
+        <div id="listas">
+            <h2>Lista de Fichas Disponibles (A)</h2>
+            <div id="fichas-disponibles"></div>
+            <h2>Lista de Fichas en Mano (B)</h2>
+            <div id="fichas-mano"></div>
+            <h2>Mejor Ficha para Salir (F)</h2>
+            <div id="mejor-salida"></div>
+            <h2>Mejor Ficha para Jugar (H)</h2>
+            <div id="mejor-jugar"></div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>

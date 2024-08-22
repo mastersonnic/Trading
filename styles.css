@@ -1,57 +1,117 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Color de fondo claro */
-    color: #3e3e3e; /* Texto en gris oscuro */
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 80%;
+    max-width: 1200px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-h1, h2, h3 {
-    color: #4d3f2f; /* Verde aceituna para los encabezados */
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
 }
 
-#setup, #choose-start, #game {
-    margin: 20px auto;
-    padding: 20px;
-    border-radius: 8px;
-    background-color: #d2c7b2; /* Fondo de las secciones en verde aceituna claro */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
+.fichas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
 }
 
-button {
+.ficha {
+    width: 60px;
+    height: 120px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
     margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.ficha:hover {
+    transform: scale(1.1);
+}
+
+.boton {
     padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     font-size: 16px;
-    color: #ffffff;
-    background-color: #6d8c4f; /* Verde aceituna para los botones */
+}
+
+.boton:hover {
+    background-color: #45a049;
+}
+
+.boton-salida {
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: #2196F3;
+    color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
 }
 
-button:hover {
-    background-color: #5a6d3a; /* Verde aceituna más oscuro al pasar el ratón */
+.boton-salida:hover {
+    background-color: #1E88E5;
 }
 
-#ficha-list button, #fichas-seleccionadas button {
-    margin: 5px;
-    padding: 10px;
-    font-size: 14px;
-    color: #ffffff;
-    background-color: #8a9a5b; /* Verde aceituna para las fichas */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.seccion {
+    display: none;
 }
 
-#ficha-list button:hover, #fichas-seleccionadas button:hover {
-    background-color: #6d8c4f; /* Verde aceituna más intenso al pasar el ratón */
+.seccion.visible {
+    display: block;
 }
 
-#extremos-mesa, #fichas-disponibles, #mejor-salida, #mejor-jugar {
-    padding: 10px;
-    border: 1px solid #8a9a5b; /* Borde en verde aceituna claro */
-    border-radius: 4px;
-    background-color: #ffffff; /* Fondo blanco para buen contraste */
-    margin: 10px 0;
+.oculto {
+    display: none;
+}
+
+#mesa, #mejor-jugada {
+    margin-top: 20px;
+}
+
+#fichas-en-mano {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#fichas-en-mano .ficha {
+    background-color: #d4edda;
+}
+
+#fichas-mesa .ficha {
+    background-color: #f8d7da;
+}
+
+#mejor-ficha {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #28a745;
 }

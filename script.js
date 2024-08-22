@@ -33,8 +33,13 @@ function startGame() {
     }
     fichasDisponibles = fichas.filter(ficha => !fichasMano.includes(ficha));
     document.getElementById('setup').style.display = 'none';
+    document.getElementById('choose-start').style.display = 'block';
+}
+
+function setStarter(jugador) {
+    jugadorActual = jugador;
+    document.getElementById('choose-start').style.display = 'none';
     document.getElementById('game').style.display = 'block';
-    jugadorActual = jugadores[turnoIndex];
     updateUI();
 }
 
@@ -59,7 +64,6 @@ function play() {
     if (!fichasMano.length) return;
     // Implementar lógica para jugar una ficha
     // Actualizar extremosMesa y fichasJugadas
-    updateUI();
     siguienteJugador();
 }
 
@@ -71,6 +75,7 @@ function pass() {
 
 function reset() {
     document.getElementById('setup').style.display = 'block';
+    document.getElementById('choose-start').style.display = 'none';
     document.getElementById('game').style.display = 'none';
     fichasMano = [];
     fichasDisponibles = fichas.slice();

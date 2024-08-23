@@ -1,60 +1,37 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Dominó</title>
+    <title>Domino Game</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Juego de Dominó</h1>
-
-        <div class="select-tiles">
-            <h2>Selecciona tus 7 fichas:</h2>
+    <div id="game-container">
+        <div id="info-panel">
+            <h1>Domino Game</h1>
+            <p id="player-turn">Turno de: <span id="current-player">J1</span></p>
+            <p>Extremos actuales: <span id="current-ends">[0, 0]</span></p>
+            <p>Mejor ficha para salir: <span id="best-start-tile"></span></p>
+            <p>Mejor ficha para jugar: <span id="best-move-tile"></span></p>
+            <p>Fichas en mis manos:</p>
+            <div id="hand-tiles"></div>
+            <p>Puntaje Equipo 1: <span id="team1-score">0</span></p>
+            <p>Puntaje Equipo 2: <span id="team2-score">0</span></p>
         </div>
-
-        <div class="player-hand">
-            <h2>Mis fichas:</h2>
+        <div id="game-board">
+            <div id="domino-tiles">
+                <p>Selecciona tus fichas iniciales:</p>
+                <div id="select-tiles"></div>
+                <button id="confirm-selection">Confirmar Selección</button>
+            </div>
         </div>
-
-        <div class="best-tile">
-            <h2>Mejor ficha para jugar:</h2>
-            <p id="mejor-ficha-jugar">N/A</p>
-        </div>
-
-        <div class="best-start-tile">
-            <h2>Mejor ficha para salir:</h2>
-            <p id="mejor-ficha-salir">N/A</p>
-        </div>
-
-        <div class="table-ends">
-            <h2>Extremos actuales de la mesa:</h2>
-            <p id="extremos-actuales">N/A</p>
-        </div>
-
-        <div class="team-points">
-            <h2>Puntajes</h2>
-            <p>Equipo 1: <span id="puntos-equipo-1">0</span></p>
-            <p>Equipo 2: <span id="puntos-equipo-2">0</span></p>
-        </div>
-
-        <div class="control-buttons">
-            <button id="pasar-turno">Pasar</button>
-            <button id="reiniciar-juego">Reiniciar</button>
-        </div>
-
-        <div class="passed-tiles">
-            <h2>Fichas a las que ha pasado cada jugador:</h2>
-            <p id="fichas-pasadas">N/A</p>
-        </div>
-
-        <div class="opponent-ends">
-            <h2>Extremos repetidos por el equipo contrario:</h2>
-            <p id="extremos-repetidos">N/A</p>
+        <div id="action-panel">
+            <button id="play-tile">Jugar</button>
+            <button id="pass-turn">Pasar</button>
+            <button id="reset-game">Reiniciar</button>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>

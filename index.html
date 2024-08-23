@@ -3,35 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Dominó</title>
+    <title>Domino Game</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="game-container">
-        <div id="selection-area">
-            <h1>Elige tus 7 fichas</h1>
-            <div id="available-tiles" class="tiles-container"></div>
-            <h2>Fichas seleccionadas</h2>
-            <div id="selected-tiles" class="tiles-container"></div>
+    <div class="container">
+        <h1>Domino Game</h1>
+        
+        <div class="section">
+            <h2>1. Select Your 7 Tiles</h2>
+            <div id="tiles-selection" class="tiles"></div>
+            <button id="clear-selection">Clear Selection</button>
         </div>
-
-        <div id="info-area">
-            <h1>Información del Juego</h1>
-            <div id="player-info">
-                <p id="current-tiles">Fichas en mano: </p>
-                <p id="best-start-tile">Mejor ficha para salir: </p>
-                <p id="best-move-tile">Mejor ficha para jugar: </p>
-                <p id="current-ends">Extremos actuales de la mesa: </p>
-                <p id="score-team-1">Puntaje Equipo 1: 0</p>
-                <p id="score-team-2">Puntaje Equipo 2: 0</p>
+        
+        <div class="section">
+            <h2>2. Who Starts?</h2>
+            <div id="starting-player-selection">
+                <button class="player-btn" data-player="J1">J1 (You)</button>
+                <button class="player-btn" data-player="J2">J2</button>
+                <button class="player-btn" data-player="J3">J3 (Front)</button>
+                <button class="player-btn" data-player="J4">J4</button>
             </div>
-            <div id="control-panel">
-                <h2>Elige quién empieza</h2>
-                <button id="player1-start">J1</button>
-                <button id="player2-start">J2</button>
-                <button id="player3-start">J3</button>
-                <button id="player4-start">J4</button>
-                <button id="reset-game">Reiniciar</button>
+        </div>
+        
+        <div class="section">
+            <h2>3. Game Status</h2>
+            <div id="game-status">
+                <div id="player-turn">Turn: Waiting...</div>
+                <div id="player-move-options">
+                    <button id="play-move">Play</button>
+                    <button id="pass-move">Pass</button>
+                    <button id="reset-game">Reset</button>
+                </div>
+                <div id="current-hand">
+                    <h3>Your Hand:</h3>
+                    <div id="hand-tiles" class="tiles"></div>
+                </div>
+                <div id="current-ends">
+                    <h3>Current Ends:</h3>
+                    <p id="ends-display">None</p>
+                </div>
+                <div id="best-move">
+                    <h3>Best Move:</h3>
+                    <p id="best-move-display">None</p>
+                </div>
+                <div id="points-display">
+                    <h3>Points:</h3>
+                    <p id="team1-points">Team 1: 0</p>
+                    <p id="team2-points">Team 2: 0</p>
+                </div>
             </div>
         </div>
     </div>

@@ -1,111 +1,85 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const allTiles = createAllTiles();
-    const handTiles = [];
-    let currentEnds = [null, null];
-    let currentPlayer = 1;
-    let team1Score = 0;
-    let team2Score = 0;
-    let selectedTiles = [];
+document.addEventListener('DOMContentLoaded', function () {
+    const availableTilesContainer = document.getElementById('available-tiles');
+    const selectedTilesContainer = document.getElementById('selected-tiles');
+    const playerTiles = [];
+    const maxTiles = 7;
 
-    // Crea las 28 fichas de dominó
-    function createAllTiles() {
-        const tiles = [];
-        for (let i = 0; i <= 6; i++) {
-            for (let j = i; j <= 6; j++) {
-                tiles.push([i, j]);
-            }
-        }
-        return tiles;
-    }
+    const tiles = [
+        "0|0", "0|1", "0|2", "0|3", "0|4", "0|5", "0|6",
+        "1|1", "1|2", "1|3", "1|4", "1|5", "1|6",
+        "2|2", "2|3", "2|4", "2|5", "2|6",
+        "3|3", "3|4", "3|5", "3|6",
+        "4|4", "4|5", "4|6",
+        "5|5", "5|6",
+        "6|6"
+    ];
 
-    function updateHandTiles() {
-        const handContainer = document.getElementById("hand-tiles");
-        handContainer.innerHTML = "";
-        handTiles.forEach((tile, index) => {
-            const tileElement = createTileElement(tile, index);
-            handContainer.appendChild(tileElement);
+    // Inicializar las fichas disponibles
+    function initializeTiles() {
+        availableTilesContainer.innerHTML = '';
+        tiles.forEach(tile => {
+            const tileElement = document.createElement('div');
+            tileElement.classList.add('tile');
+            tileElement.textContent = tile;
+            tileElement.onclick = () => selectTile(tile, tileElement);
+            availableTilesContainer.appendChild(tileElement);
         });
     }
 
-    function createTileElement(tile, index) {
-        const tileElement = document.createElement("div");
-        tileElement.className = "tile";
-        tileElement.textContent = `${tile[0]}|${tile[1]}`;
-        tileElement.onclick = () => selectTile(index);
-        return tileElement;
-    }
-
-    function selectTile(index) {
-        const selectedTile = handTiles[index];
-        if (selectedTile) {
-            selectedTiles.push(selectedTile);
-            handTiles.splice(index, 1);
-            updateHandTiles();
-            updateBestMove();
-        }
-    }
-
-    function updateBestMove() {
-        const bestMoveTile = determineBestMove();
-        document.getElementById("best-move-tile").textContent = bestMoveTile ? `${bestMoveTile[0]}|${bestMoveTile[1]}` : "Ninguna";
-    }
-
-    function determineBestMove() {
-        // Aquí aplicas tu lógica para determinar la mejor ficha para jugar
-        return handTiles[0]; // Ejemplo: devolver la primera ficha en mano
-    }
-
-    function updateCurrentPlayer() {
-        currentPlayer = currentPlayer === 4 ? 1 : currentPlayer + 1;
-        document.getElementById("current-player").textContent = `J${currentPlayer}`;
-    }
-
-    function updateEnds(newEnds) {
-        currentEnds = newEnds;
-        document.getElementById("current-ends").textContent = `[${newEnds[0]}, ${newEnds[1]}]`;
-    }
-
-    function resetGame() {
-        handTiles.length = 0;
-        selectedTiles.length = 0;
-        currentEnds = [null, null];
-        team1Score = 0;
-        team2Score = 0;
-        updateHandTiles();
-        updateBestMove();
-        updateCurrentPlayer();
-        updateEnds([null, null]);
-        document.getElementById("team1-score").textContent = team1Score;
-        document.getElementById("team2-score").textContent = team2Score;
-    }
-
-    document.getElementById("confirm-selection").onclick = function () {
-        if (selectedTiles.length === 7) {
-            // Pasar al siguiente paso del juego
-            console.log("Fichas seleccionadas:", selectedTiles);
+    // Seleccionar o deseleccionar fichas
+    function selectTile(tile, tileElement) {
+        const tileIndex = playerTiles.indexOf(tile);
+        if (tileIndex === -1) {
+            if (playerTiles.length < maxTiles) {
+                playerTiles.push(tile);
+                tileElement.classList.add('selected');
+            } else {
+                alert("¡No puedes seleccionar más de 7 fichas!");
+            }
         } else {
-            alert("Debes seleccionar exactamente 7 fichas.");
+            playerTiles.splice(tileIndex, 1);
+            tileElement.classList.remove('selected');
         }
+        updateSelectedTiles();
+    }
+
+    // Actualizar la visualización de las fichas seleccionadas
+    function updateSelectedTiles() {
+        selectedTilesContainer.innerHTML = '';
+        playerTiles.forEach(tile => {
+            const tileElement = document.createElement('div');
+            tileElement.classList.add('tile');
+            tileElement.textContent = tile;
+            selectedTilesContainer.appendChild(tileElement);
+        });
+        document.getElementById('current-tiles').textContent = `Fichas en mano: ${playerTiles.join(', ')}`;
+        // Aquí puedes agregar la lógica para calcular la "mejor ficha para salir" y la "mejor ficha para jugar"
+    }
+
+    initializeTiles();
+
+    // Ejemplo de manejo del inicio del juego
+    document.getElementById('player1-start').onclick = () => {
+        alert("J1 empieza");
+        // Lógica para comenzar el turno de J1
     };
 
-    document.getElementById("play-tile").onclick = function () {
-        // Lógica para jugar una ficha
-        updateCurrentPlayer();
+    document.getElementById('player2-start').onclick = () => {
+        alert("J2 empieza");
+        // Lógica para comenzar el turno de J2
     };
 
-    document.getElementById("pass-turn").onclick = function () {
-        // Lógica para pasar el turno
-        updateCurrentPlayer();
+    document.getElementById('player3-start').onclick = () => {
+        alert("J3 empieza");
+        // Lógica para comenzar el turno de J3
     };
 
-    document.getElementById("reset-game").onclick = function () {
-        resetGame();
+    document.getElementById('player4-start').onclick = () => {
+        alert("J4 empieza");
+        // Lógica para comenzar el turno de J4
     };
 
-    // Inicializar juego
-    resetGame();
-    allTiles.forEach(tile => {
-        const tileElement = createTileElement(tile);
-        document.getElementById("select-tiles").appendChild(tileElement);
-    });
+    document.getElementById('reset-game').onclick = () => {
+        location.reload();  // Reiniciar el juego
+    };
 });

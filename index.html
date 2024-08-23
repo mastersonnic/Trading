@@ -3,59 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domino Game</title>
+    <title>Dominó - Juego</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Domino Game</h1>
-        
-        <div class="section">
-            <h2>1. Select Your 7 Tiles</h2>
-            <div id="tiles-selection" class="tiles"></div>
-            <button id="clear-selection">Clear Selection</button>
+        <h1>Juego de Dominó</h1>
+        <div id="scoreboard">
+            <span>Puntaje Equipo 1: <span id="score1">0</span></span>
+            <span>Puntaje Equipo 2: <span id="score2">0</span></span>
         </div>
-        
-        <div class="section">
-            <h2>2. Who Starts?</h2>
-            <div id="starting-player-selection">
-                <button class="player-btn" data-player="J1">J1 (You)</button>
-                <button class="player-btn" data-player="J2">J2</button>
-                <button class="player-btn" data-player="J3">J3 (Front)</button>
-                <button class="player-btn" data-player="J4">J4</button>
+        <div id="game-area">
+            <div id="player-area">
+                <h2>Mis Fichas (J1)</h2>
+                <div id="player-tiles"></div>
+                <div id="best-tile-to-start">
+                    Mejor Ficha para Salir: <span id="bestStartTile"></span>
+                </div>
+                <div id="best-tile-to-play">
+                    Mejor Ficha para Jugar: <span id="bestPlayTile"></span>
+                </div>
             </div>
-        </div>
-        
-        <div class="section">
-            <h2>3. Game Status</h2>
-            <div id="game-status">
-                <div id="player-turn">Turn: Waiting...</div>
-                <div id="player-move-options">
-                    <button id="play-move">Play</button>
-                    <button id="pass-move">Pass</button>
-                    <button id="reset-game">Reset</button>
-                </div>
-                <div id="current-hand">
-                    <h3>Your Hand:</h3>
-                    <div id="hand-tiles" class="tiles"></div>
-                </div>
+            <div id="game-info">
                 <div id="current-ends">
-                    <h3>Current Ends:</h3>
-                    <p id="ends-display">None</p>
+                    Extremos Actuales: <span id="currentEnds"></span>
                 </div>
-                <div id="best-move">
-                    <h3>Best Move:</h3>
-                    <p id="best-move-display">None</p>
+                <div id="passed-tiles">
+                    Fichas a las que han pasado: <span id="passedTiles"></span>
                 </div>
-                <div id="points-display">
-                    <h3>Points:</h3>
-                    <p id="team1-points">Team 1: 0</p>
-                    <p id="team2-points">Team 2: 0</p>
+                <div id="repeated-ends">
+                    Extremos Repetidos: <span id="repeatedEnds"></span>
+                </div>
+                <div id="menu-actions">
+                    <button onclick="choosePlayer()">Elige quién sale</button>
+                    <button onclick="restartGame()">Reiniciar</button>
                 </div>
             </div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>

@@ -1,175 +1,111 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const fichasDisponibles = [
-        [0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6],
-        [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6],
-        [2, 2], [2, 3], [2, 4], [2, 5], [2, 6],
-        [3, 3], [3, 4], [3, 5], [3, 6],
-        [4, 4], [4, 5], [4, 6],
-        [5, 5], [5, 6],
-        [6, 6]
-    ];
+document.addEventListener("DOMContentLoaded", function () {
+    const allTiles = createAllTiles();
+    const handTiles = [];
+    let currentEnds = [null, null];
+    let currentPlayer = 1;
+    let team1Score = 0;
+    let team2Score = 0;
+    let selectedTiles = [];
 
-    let fichasSeleccionadas = [];
-    let jugadorActual = 1;
-    let fichasJugadas = [];
-    let extremosMesa = [];
-    let puntosEquipo1 = 0;
-    let puntosEquipo2 = 0;
-    const jugadores = { J1: [], J2: [], J3: [], J4: [] };
-    const fichasPasadas = { J1: [], J2: [], J3: [], J4: [] };
-    const extremosRepetidosOponentes = [];
-
-    const contenedorSeleccionarFichas = document.querySelector('.select-tiles');
-    const contenedorFichasJugador = document.querySelector('.player-hand');
-    const contenedorMejorFichaJugar = document.getElementById('mejor-ficha-jugar');
-    const contenedorMejorFichaSalir = document.getElementById('mejor-ficha-salir');
-    const contenedorExtremosActuales = document.getElementById('extremos-actuales');
-    const contenedorPuntosEquipo1 = document.getElementById('puntos-equipo-1');
-    const contenedorPuntosEquipo2 = document.getElementById('puntos-equipo-2');
-    const botonPasarTurno = document.getElementById('pasar-turno');
-    const botonReiniciarJuego = document.getElementById('reiniciar-juego');
-    const contenedorFichasPasadas = document.getElementById('fichas-pasadas');
-    const contenedorExtremosRepetidos = document.getElementById('extremos-repetidos');
-
-    // Crear fichas para seleccionar
-    fichasDisponibles.forEach((ficha, index) => {
-        const fichaDiv = document.createElement('div');
-        fichaDiv.classList.add('domino-tile');
-        fichaDiv.textContent = `${ficha[0]}|${ficha[1]}`;
-        fichaDiv.dataset.index = index;
-        fichaDiv.addEventListener('click', () => seleccionarFicha(index, fichaDiv));
-        contenedorSeleccionarFichas.appendChild(fichaDiv);
-    });
-
-    function seleccionarFicha(index, fichaDiv) {
-        if (fichasSeleccionadas.length < 7 && !fichasSeleccionadas.includes(index)) {
-            fichasSeleccionadas.push(index);
-            fichaDiv.classList.add('selected');
-        } else if (fichasSeleccionadas.includes(index)) {
-            fichasSeleccionadas = fichasSeleccionadas.filter(i => i !== index);
-            fichaDiv.classList.remove('selected');
-        }
-        jugadores.J1 = fichasSeleccionadas.map(i => fichasDisponibles[i]);
-        actualizarFichasJugador();
-        actualizarMejorFichaSalir();
-    }
-
-    function actualizarFichasJugador() {
-        contenedorFichasJugador.innerHTML = '';
-        jugadores.J1.forEach(ficha => {
-            const fichaDiv = document.createElement('div');
-            fichaDiv.classList.add('domino-tile');
-            fichaDiv.textContent = `${ficha[0]}|${ficha[1]}`;
-            contenedorFichasJugador.appendChild(fichaDiv);
-        });
-        actualizarMejorFichaJugar();
-    }
-
-    function actualizarMejorFichaJugar() {
-        // Lógica para determinar la mejor ficha para jugar (basado en reglas específicas)
-        const mejorFicha = jugadores.J1[0]; // Este es solo un ejemplo simplificado
-        contenedorMejorFichaJugar.textContent = mejorFicha ? `${mejorFicha[0]}|${mejorFicha[1]}` : 'N/A';
-    }
-
-    function actualizarMejorFichaSalir() {
-        // Lógica para determinar la mejor ficha para salir (basado en reglas específicas)
-        const mejorFicha = jugadores.J1[0]; // Este es solo un ejemplo simplificado
-        contenedorMejorFichaSalir.textContent = mejorFicha ? `${mejorFicha[0]}|${mejorFicha[1]}` : 'N/A';
-    }
-
-    function actualizarExtremosMesa() {
-        contenedorExtremosActuales.textContent = extremosMesa.length ? extremosMesa.join(' | ') : 'N/A';
-    }
-
-    function actualizarFichasPasadas() {
-        const fichasPasadasTexto = Object.keys(fichasPasadas)
-            .map(jugador => `${jugador}: ${fichasPasadas[jugador].map(e => e.join('|')).join(', ')}`)
-            .join('; ');
-        contenedorFichasPasadas.textContent = fichasPasadasTexto || 'N/A';
-    }
-
-    function actualizarExtremosRepetidos() {
-        contenedorExtremosRepetidos.textContent = extremosRepetidosOponentes.length 
-            ? extremosRepetidosOponentes.join(', ') 
-            : 'N/A';
-    }
-
-    function jugarFicha(fichaIndex) {
-        const ficha = jugadores[`J${jugadorActual}`][fichaIndex];
-        if (extremosMesa.length === 0) {
-            extremosMesa = [...ficha];
-        } else if (ficha.includes(extremosMesa[0]) || ficha.includes(extremosMesa[1])) {
-            if (ficha.includes(extremosMesa[0])) {
-                extremosMesa[0] = ficha[0] === extremosMesa[0] ? ficha[1] : ficha[0];
-            } else {
-                extremosMesa[1] = ficha[0] === extremosMesa[1] ? ficha[1] : ficha[0];
+    // Crea las 28 fichas de dominó
+    function createAllTiles() {
+        const tiles = [];
+        for (let i = 0; i <= 6; i++) {
+            for (let j = i; j <= 6; j++) {
+                tiles.push([i, j]);
             }
-            fichasJugadas.push(ficha);
-            jugadores[`J${jugadorActual}`].splice(fichaIndex, 1);
-            rastrearExtremosOponentes(ficha);
+        }
+        return tiles;
+    }
+
+    function updateHandTiles() {
+        const handContainer = document.getElementById("hand-tiles");
+        handContainer.innerHTML = "";
+        handTiles.forEach((tile, index) => {
+            const tileElement = createTileElement(tile, index);
+            handContainer.appendChild(tileElement);
+        });
+    }
+
+    function createTileElement(tile, index) {
+        const tileElement = document.createElement("div");
+        tileElement.className = "tile";
+        tileElement.textContent = `${tile[0]}|${tile[1]}`;
+        tileElement.onclick = () => selectTile(index);
+        return tileElement;
+    }
+
+    function selectTile(index) {
+        const selectedTile = handTiles[index];
+        if (selectedTile) {
+            selectedTiles.push(selectedTile);
+            handTiles.splice(index, 1);
+            updateHandTiles();
+            updateBestMove();
+        }
+    }
+
+    function updateBestMove() {
+        const bestMoveTile = determineBestMove();
+        document.getElementById("best-move-tile").textContent = bestMoveTile ? `${bestMoveTile[0]}|${bestMoveTile[1]}` : "Ninguna";
+    }
+
+    function determineBestMove() {
+        // Aquí aplicas tu lógica para determinar la mejor ficha para jugar
+        return handTiles[0]; // Ejemplo: devolver la primera ficha en mano
+    }
+
+    function updateCurrentPlayer() {
+        currentPlayer = currentPlayer === 4 ? 1 : currentPlayer + 1;
+        document.getElementById("current-player").textContent = `J${currentPlayer}`;
+    }
+
+    function updateEnds(newEnds) {
+        currentEnds = newEnds;
+        document.getElementById("current-ends").textContent = `[${newEnds[0]}, ${newEnds[1]}]`;
+    }
+
+    function resetGame() {
+        handTiles.length = 0;
+        selectedTiles.length = 0;
+        currentEnds = [null, null];
+        team1Score = 0;
+        team2Score = 0;
+        updateHandTiles();
+        updateBestMove();
+        updateCurrentPlayer();
+        updateEnds([null, null]);
+        document.getElementById("team1-score").textContent = team1Score;
+        document.getElementById("team2-score").textContent = team2Score;
+    }
+
+    document.getElementById("confirm-selection").onclick = function () {
+        if (selectedTiles.length === 7) {
+            // Pasar al siguiente paso del juego
+            console.log("Fichas seleccionadas:", selectedTiles);
         } else {
-            alert("Movimiento no válido. La ficha no coincide con ninguno de los extremos.");
-            return;
+            alert("Debes seleccionar exactamente 7 fichas.");
         }
-        actualizarExtremosMesa();
-        actualizarFichasJugador();
-        siguienteTurno();
-    }
+    };
 
-    function pasarTurno() {
-        fichasPasadas[`J${jugadorActual}`].push([...extremosMesa]);
-        actualizarFichasPasadas();
-        siguienteTurno();
-    }
+    document.getElementById("play-tile").onclick = function () {
+        // Lógica para jugar una ficha
+        updateCurrentPlayer();
+    };
 
-    function reiniciarJuego() {
-        fichasSeleccionadas = [];
-        jugadores.J1 = [];
-        jugadores.J2 = [];
-        jugadores.J3 = [];
-        jugadores.J4 = [];
-        fichasJugadas = [];
-        extremosMesa = [];
-        fichasPasadas.J1 = [];
-        fichasPasadas.J2 = [];
-        fichasPasadas.J3 = [];
-        fichasPasadas.J4 = [];
-        extremosRepetidosOponentes.length = 0;
-        puntosEquipo1 = 0;
-        puntosEquipo2 = 0;
-        contenedorFichasJugador.innerHTML = '';
-        actualizarMejorFichaJugar();
-        actualizarMejorFichaSalir();
-        actualizarExtremosMesa();
-        actualizarFichasPasadas();
-        actualizarExtremosRepetidos();
-        contenedorPuntosEquipo1.textContent = puntosEquipo1;
-        contenedorPuntosEquipo2.textContent = puntosEquipo2;
+    document.getElementById("pass-turn").onclick = function () {
+        // Lógica para pasar el turno
+        updateCurrentPlayer();
+    };
 
-        // Volver a habilitar la selección de fichas
-        document.querySelectorAll('.domino-tile').forEach(tile => {
-            tile.classList.remove('selected');
-        });
-    }
+    document.getElementById("reset-game").onclick = function () {
+        resetGame();
+    };
 
-    function siguienteTurno() {
-        jugadorActual = (jugadorActual % 4) + 1;
-        if (jugadorActual === 1) {
-            actualizarMejorFichaJugar();
-        }
-    }
-
-    function rastrearExtremosOponentes(ficha) {
-        // Rastrear si un extremo se ha jugado 2 o más veces por los oponentes
-        const oponentes = jugadorActual === 2 || jugadorActual === 4;
-        ficha.forEach(numero => {
-            if (oponentes && extremosRepetidosOponentes.filter(n => n === numero).length >= 1) {
-                extremosRepetidosOponentes.push(numero);
-            }
-        });
-        actualizarExtremosRepetidos();
-    }
-
-    botonPasarTurno.addEventListener('click', pasarTurno);
-    botonReiniciarJuego.addEventListener('click', reiniciarJuego);
+    // Inicializar juego
+    resetGame();
+    allTiles.forEach(tile => {
+        const tileElement = createTileElement(tile);
+        document.getElementById("select-tiles").appendChild(tileElement);
+    });
 });

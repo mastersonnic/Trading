@@ -1,70 +1,63 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5dc;
-    color: #333;
+    background-color: #3D5B3A;
+    color: #ffffff;
+    margin: 0;
+    padding: 20px;
+}
+
+h1, h2, p {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.tiles-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.tile {
+    width: 120px;
+    height: 240px;
+    background-color: #A8D5BA;
+    color: #3D5B3A;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+    position: relative;
+}
+
+.tile.selected {
+    background-color: #FFB74D;
 }
 
 #game-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #556b2f;
-    border: 2px solid #8fbc8f;
-    padding: 20px;
-    border-radius: 10px;
-}
-
-h1 {
-    color: #ffffff;
-    margin: 0 0 10px;
-}
-
-#info-panel, #action-panel, #game-board {
-    margin: 10px 0;
-}
-
-#hand-tiles, #select-tiles {
-    display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
-    margin-top: 10px;
 }
 
-.tile {
-    width: 40px;
-    height: 80px;
-    background-color: #ffffff;
-    border: 2px solid #8fbc8f;
-    margin: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    color: #556b2f;
-}
-
-.tile.selected {
-    background-color: #8fbc8f;
-    border-color: #ffffff;
+#selection-area, #info-area {
+    flex-basis: 48%;
 }
 
 button {
-    background-color: #8fbc8f;
-    color: #ffffff;
-    border: none;
+    font-size: 2.5rem;
     padding: 10px 20px;
-    margin: 5px;
-    border-radius: 5px;
+    margin: 10px;
+    background-color: #A8D5BA;
+    color: #3D5B3A;
+    border: none;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 16px;
 }
 
 button:hover {
-    background-color: #6b8e23;
+    background-color: #FFB74D;
 }

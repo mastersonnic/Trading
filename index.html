@@ -3,35 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domino Game</title>
+    <title>Juego de Dominó</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="game-container">
-        <div id="info-panel">
-            <h1>Domino Game</h1>
-            <p id="player-turn">Turno de: <span id="current-player">J1</span></p>
-            <p>Extremos actuales: <span id="current-ends">[0, 0]</span></p>
-            <p>Mejor ficha para salir: <span id="best-start-tile"></span></p>
-            <p>Mejor ficha para jugar: <span id="best-move-tile"></span></p>
-            <p>Fichas en mis manos:</p>
-            <div id="hand-tiles"></div>
-            <p>Puntaje Equipo 1: <span id="team1-score">0</span></p>
-            <p>Puntaje Equipo 2: <span id="team2-score">0</span></p>
+        <div id="selection-area">
+            <h1>Elige tus 7 fichas</h1>
+            <div id="available-tiles" class="tiles-container"></div>
+            <h2>Fichas seleccionadas</h2>
+            <div id="selected-tiles" class="tiles-container"></div>
         </div>
-        <div id="game-board">
-            <div id="domino-tiles">
-                <p>Selecciona tus fichas iniciales:</p>
-                <div id="select-tiles"></div>
-                <button id="confirm-selection">Confirmar Selección</button>
+
+        <div id="info-area">
+            <h1>Información del Juego</h1>
+            <div id="player-info">
+                <p id="current-tiles">Fichas en mano: </p>
+                <p id="best-start-tile">Mejor ficha para salir: </p>
+                <p id="best-move-tile">Mejor ficha para jugar: </p>
+                <p id="current-ends">Extremos actuales de la mesa: </p>
+                <p id="score-team-1">Puntaje Equipo 1: 0</p>
+                <p id="score-team-2">Puntaje Equipo 2: 0</p>
+            </div>
+            <div id="control-panel">
+                <h2>Elige quién empieza</h2>
+                <button id="player1-start">J1</button>
+                <button id="player2-start">J2</button>
+                <button id="player3-start">J3</button>
+                <button id="player4-start">J4</button>
+                <button id="reset-game">Reiniciar</button>
             </div>
         </div>
-        <div id="action-panel">
-            <button id="play-tile">Jugar</button>
-            <button id="pass-turn">Pasar</button>
-            <button id="reset-game">Reiniciar</button>
-        </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>

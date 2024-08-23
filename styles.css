@@ -1,83 +1,89 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #556b2f;
-    color: #f5f5dc;
-    margin: 0;
-    padding: 0;
+    background-color: #F4F4F4;
+    color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0;
 }
 
 .container {
-    background-color: #8fbc8f;
-    border-radius: 15px;
+    background-color: #6B8E23;
     padding: 20px;
-    width: 80%;
-    box-shadow: 0px 0px 15px #2f4f4f;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
     text-align: center;
+    color: #FFF;
+    font-size: 24px;
     margin-bottom: 20px;
 }
 
-.section {
+#scoreboard {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 20px;
+    color: #FFF;
 }
 
-h2, h3 {
-    text-align: center;
+#game-area {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-.tiles {
+#player-area, #game-info {
+    flex: 1;
+    margin: 10px;
+}
+
+#player-tiles {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 10px;
+    gap: 5px;
 }
 
 .tile {
     width: 50px;
     height: 100px;
-    background-color: #f5f5dc;
-    border: 2px solid #2f4f4f;
-    margin: 5px;
+    background-color: #FFF;
+    border: 2px solid #000;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 18px;
     font-weight: bold;
+    font-size: 18px;
     cursor: pointer;
 }
 
-.tile.selected {
-    background-color: #6b8e23;
+#menu-actions {
+    margin-top: 20px;
 }
 
-.player-btn, #play-move, #pass-move, #reset-game, #clear-selection {
-    background-color: #556b2f;
-    color: #f5f5dc;
-    border: none;
+#menu-actions button {
+    background-color: #FFF;
+    color: #333;
+    border: 1px solid #6B8E23;
     padding: 10px;
-    margin: 5px;
-    border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    font-weight: bold;
+    border-radius: 5px;
+    margin-right: 10px;
 }
 
-.player-btn:hover, #play-move:hover, #pass-move:hover, #reset-game:hover, #clear-selection:hover {
-    background-color: #6b8e23;
+#menu-actions button:hover {
+    background-color: #6B8E23;
+    color: #FFF;
 }
 
-#current-hand, #current-ends, #best-move, #points-display {
-    margin-top: 10px;
-    text-align: center;
-}
-
-#player-move-options {
-    text-align: center;
-    margin-top: 10px;
+#best-tile-to-start, #best-tile-to-play, #current-ends, #passed-tiles, #repeated-ends {
+    margin: 10px 0;
+    font-size: 18px;
+    color: #FFF;
 }

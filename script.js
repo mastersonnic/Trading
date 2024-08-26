@@ -1,141 +1,160 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const fichas = [];
-    for (let i = 0; i <= 6; i++) {
-        for (let j = i; j <= 6; j++) {
-            fichas.push(`${i}|${j}`);
-        }
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    const fichas = Array.from({ length: 28 }, (_, i) => `${Math.floor(i / 7)}-${i % 7}`);
+    const fichasList = document.getElementById('fichas-mis');
+    const fichasDisponibles = document.getElementById('fichas-disponibles');
+    const visorMisFichas = document.getElementById('visor-mis-fichas');
+    const visorFichasAgregadas = document.getElementById('visor-fichas-agregadas');
+    const visorPasesEquipo1 = document.getElementById('visor-pases-equipo1');
+    const visorPasesEquipo2 = document.getElementById('visor-pases-equipo2');
+    const visorJugadasEquipo1 = document.getElementById('visor-jugadas-equipo1');
+    const visorJugadasEquipo2 = document.getElementById('visor-jugadas-equipo-2');
+    const visorMejorFicha = document.getElementById('visor-mejor-ficha');
 
-    const fichasSelect = document.getElementById('fichas');
-    const misFichasList = document.getElementById('mis-fichas-list');
-    const pasesEquipo1List = document.getElementById('pases-equipo-1-list');
-    const pasesEquipo2List = document.getElementById('pases-equipo-2-list');
-    const jugadasEquipo1List = document.getElementById('jugadas-equipo-1-list');
-    const jugadasEquipo2List = document.getElementById('jugadas-equipo-2-list');
-    const mejorFichaList = document.getElementById('mejor-ficha-list');
-
-    let seleccionadas = new Set(); // Para registrar las fichas seleccionadas por ti
-
-    // Poblamos el selector de fichas con las 28 fichas posibles
+    const fichasSeleccionadas = new Set();
+    const fichasAgregadas = new Set();
+    const pasesEquipo1 = new Set();
+    const pasesEquipo2 = new Set();
+    const jugadasEquipo1 = new Set();
+    const jugadasEquipo2 = new Set();
+    
+    // Rellenar listas desplegables con opciones de fichas
     fichas.forEach(ficha => {
         const option = document.createElement('option');
         option.value = ficha;
         option.textContent = ficha;
-        fichasSelect.appendChild(option);
+        fichasList.appendChild(option.cloneNode(true));
+        fichasDisponibles.appendChild(option);
     });
 
-    // Confirmar fichas seleccionadas
-    document.getElementById('confirmar-fichas').addEventListener('click', function() {
-        const selectedFichas = Array.from(fichasSelect.selectedOptions).map(option => option.value);
+    // Función para actualizar visores
+    function actualizarVisor(id, elementos) {
+        const visor = document.getElementById(id);
+        visor.innerHTML = '';
+        elementos.forEach(ficha => {
+            const li = document.createElement('li');
+            li.textContent = ficha;
+            const btn = document.createElement('button');
+            btn.textContent = 'Eliminar';
+            btn.addEventListener('click', () => {
+                eliminarFicha(id, ficha);
+            });
+            li.appendChild(btn);
+            visor.appendChild(li);
+        });
+    }
 
-        if (selectedFichas.length !== 7) {
+    // Confirmar fichas iniciales
+    document.getElementById('confirmar-fichas').addEventListener('click', () => {
+        const opciones = Array.from(fichasList.selectedOptions).map(opt => opt.value);
+        if (opciones.length !== 7) {
             alert('Debes seleccionar exactamente 7 fichas.');
             return;
         }
-
-        seleccionadas.clear();
-        selectedFichas.forEach(ficha => seleccionadas.add(ficha));
-
-        updateList(misFichasList, Array.from(seleccionadas));
-        updateMejorFichaList();
+        fichasSeleccionadas.clear();
+        opciones.forEach(ficha => fichasSeleccionadas.add(ficha));
+        actualizarVisor('visor-mis-fichas', fichasSeleccionadas);
     });
 
-    // Función para actualizar las listas visuales
-    function updateList(element, items) {
-        element.innerHTML = '';
-        items.forEach(item => {
-            const li = document.createElement('li');
-            li.textContent = item;
-            element.appendChild(li);
-        });
-    }
+    // Agregar fichas desde la lista de disponibles
+    document.getElementById('agregar-fichas').addEventListener('click', () => {
+        const opciones = Array.from(fichasDisponibles.selectedOptions).map(opt => opt.value);
+        opciones.forEach(ficha => fichasAgregadas.add(ficha));
+        actualizarVisor('visor-fichas-agregadas', fichasAgregadas);
+    });
 
-    // Función para calcular y mostrar la "mejor ficha para jugar"
-    function updateMejorFichaList() {
-        mejorFichaList.innerHTML = '';
+    // Función para eliminar ficha de un visor
+    function eliminarFicha(id, ficha) {
+        const visorSet = id === 'visor-mis-fichas' ? fichasSeleccionadas :
+                         id === 'visor-fichas-agregadas' ? fichasAgregadas :
+                         id === 'visor-pases-equipo1' ? pasesEquipo1 :
+                         id === 'visor-pases-equipo2' ? pasesEquipo2 :
+                         id === 'visor-jugadas-equipo1' ? jugadasEquipo1 :
+                         id === 'visor-jugadas-equipo2' ? jugadasEquipo2 : null;
 
-        const mejoresFichas = Array.from(seleccionadas).filter(ficha => {
-            const [lado1, lado2] = ficha.split('|').map(Number);
-
-            // Criterios A, B, y C
-            return (
-                (lado1 === lado2) || // A) Es un doble
-                (lado1 + lado2 > 6) || // B) Suma más de 6 puntos
-                (Array.from(seleccionadas).filter(f => f.includes(lado1) || f.includes(lado2)).length > 3) // C) Tengo más de 3 fichas con este número
-            );
-        });
-
-        // Aplicación de los criterios D, E, F
-        const extremosEquipo1 = getExtremos(jugadasEquipo1List);
-        const extremosEquipo2 = getExtremos(pasesEquipo2List);
-
-        const mejoresFichasFinal = mejoresFichas.filter(ficha => {
-            const [lado1, lado2] = ficha.split('|').map(Number);
-            return (
-                extremosEquipo1.has(lado1) || extremosEquipo1.has(lado2) || // D) Equipo 1 colocó alguno de su número como extremo
-                extremosEquipo2.has(lado1) || extremosEquipo2.has(lado2) // E) Jugadores del equipo 2 han pasado a su número
-            );
-        }).filter(ficha => {
-            const [lado1, lado2] = ficha.split('|').map(Number);
-            return !extremosEquipo1.has(lado1) && !extremosEquipo1.has(lado2); // F) Restar posibles extremos a los que ha pasado Equipo 1
-        });
-
-        if (mejoresFichasFinal.length > 0) {
-            updateList(mejorFichaList, mejoresFichasFinal);
-        } else {
-            mejorFichaList.innerHTML = '<li>No hay fichas recomendadas para jugar.</li>';
+        if (visorSet) {
+            visorSet.delete(ficha);
+            actualizarVisor(id, visorSet);
+            // Rehabilitar opción en lista desplegable si corresponde
+            if (id === 'visor-fichas-agregadas') {
+                const option = Array.from(fichasDisponibles.querySelectorAll('option'))
+                                    .find(opt => opt.value === ficha);
+                if (option) {
+                    option.selected = false;
+                }
+            }
         }
     }
 
-    // Función para obtener los extremos de una lista
-    function getExtremos(listElement) {
-        const extremos = new Set();
-        Array.from(listElement.children).forEach(li => {
-            const [lado1, lado2] = li.textContent.split('|').map(Number);
-            extremos.add(lado1);
-            extremos.add(lado2);
+    // Actualizar visores de pases y jugadas
+    function agregarElementoLista(id, ficha, lista) {
+        lista.add(ficha);
+        actualizarVisor(id, lista);
+    }
+
+    // Agregar pases al visor correspondiente
+    document.getElementById('pases-equipo1').addEventListener('change', (event) => {
+        Array.from(event.target.selectedOptions).forEach(opt => {
+            agregarElementoLista('visor-pases-equipo1', opt.value, pasesEquipo1);
         });
-        return extremos;
+    });
+
+    document.getElementById('pases-equipo2').addEventListener('change', (event) => {
+        Array.from(event.target.selectedOptions).forEach(opt => {
+            agregarElementoLista('visor-pases-equipo2', opt.value, pasesEquipo2);
+        });
+    });
+
+    // Agregar jugadas al visor correspondiente
+    document.getElementById('jugadas-equipo1').addEventListener('change', (event) => {
+        Array.from(event.target.selectedOptions).forEach(opt => {
+            agregarElementoLista('visor-jugadas-equipo1', opt.value, jugadasEquipo1);
+        });
+    });
+
+    document.getElementById('jugadas-equipo2').addEventListener('change', (event) => {
+        Array.from(event.target.selectedOptions).forEach(opt => {
+            agregarElementoLista('visor-jugadas-equipo2', opt.value, jugadasEquipo2);
+        });
+    });
+
+    // Función para calcular la mejor ficha para jugar
+    function calcularMejorFicha() {
+        const fichasSeleccionadasArray = Array.from(fichasSeleccionadas);
+        const fichasAgregadasArray = Array.from(fichasAgregadas);
+
+        const extremosEquipo1 = Array.from(pasesEquipo1);
+        const numerosPasadosEquipo2 = Array.from(pasesEquipo2);
+        const numerosPasadosEquipo1 = Array.from(jugadasEquipo1);
+
+        const mejorFicha = fichasSeleccionadasArray.filter(ficha => {
+            const [lado1, lado2] = ficha.split('-').map(Number);
+            const esDoble = lado1 === lado2;
+            const puntos = lado1 + lado2;
+            const numFichasConLado1 = fichasSeleccionadasArray.filter(f => f.includes(lado1)).length;
+            const numFichasConLado2 = fichasSeleccionadasArray.filter(f => f.includes(lado2)).length;
+            const esFichaValida = (
+                esDoble || puntos > 6 || numFichasConLado1 > 3 || numFichasConLado2 > 3
+            );
+            return esFichaValida && (
+                extremosEquipo1.some(ext => ext.includes(lado1) || ext.includes(lado2)) ||
+                numerosPasadosEquipo2.includes(lado1) || numerosPasadosEquipo2.includes(lado2) ||
+                numerosPasadosEquipo1.includes(lado1) || numerosPasadosEquipo1.includes(lado2)
+            );
+        });
+
+        actualizarVisor('visor-mejor-ficha', mejorFicha);
     }
 
-    // Eventos para agregar fichas a las listas de jugadas y pases
-    document.getElementById('agregar-pase-equipo-1').addEventListener('click', () => {
-        agregarFicha(pasesEquipo1List);
-    });
-
-    document.getElementById('agregar-pase-equipo-2').addEventListener('click', () => {
-        agregarFicha(pasesEquipo2List);
-    });
-
-    document.getElementById('agregar-jugada-equipo-1').addEventListener('click', () => {
-        agregarFicha(jugadasEquipo1List);
-    });
-
-    document.getElementById('agregar-jugada-equipo-2').addEventListener('click', () => {
-        agregarFicha(jugadasEquipo2List);
-    });
-
-    // Función para agregar fichas a las listas de jugadas o pases
-    function agregarFicha(listElement) {
-        const ficha = prompt("Ingresa la ficha que quieres agregar (formato: X|Y):");
-        if (ficha && fichas.includes(ficha)) {
-            const li = document.createElement('li');
-            li.textContent = ficha;
-            listElement.appendChild(li);
-            updateMejorFichaList(); // Actualiza la mejor ficha considerando nuevas jugadas/pases
-        } else {
-            alert('Ficha inválida. Inténtalo de nuevo.');
-        }
+    // Calcula la mejor ficha para jugar cada vez que se actualiza alguna lista relevante
+    function actualizarMejorFicha() {
+        calcularMejorFicha();
     }
 
-    // Botón de reinicio para que puedas iniciar de nuevo
-    document.getElementById('reiniciar').addEventListener('click', () => {
-        seleccionadas.clear();
-        updateList(misFichasList, []);
-        updateList(pasesEquipo1List, []);
-        updateList(pasesEquipo2List, []);
-        updateList(jugadasEquipo1List, []);
-        updateList(jugadasEquipo2List, []);
-        updateList(mejorFichaList, []);
-    });
+    // Event listeners para actualizar la mejor ficha
+    document.getElementById('confirmar-fichas').addEventListener('click', actualizarMejorFicha);
+    document.getElementById('agregar-fichas').addEventListener('click', actualizarMejorFicha);
+    document.getElementById('pases-equipo1').addEventListener('change', actualizarMejorFicha);
+    document.getElementById('pases-equipo2').addEventListener('change', actualizarMejorFicha);
+    document.getElementById('jugadas-equipo1').addEventListener('change', actualizarMejorFicha);
+    document.getElementById('jugadas-equipo2').addEventListener('change', actualizarMejorFicha);
 });

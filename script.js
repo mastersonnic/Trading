@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const jugadasEquipo2List = document.getElementById('jugadas-equipo-2-list');
     const mejorFichaList = document.getElementById('mejor-ficha-list');
 
-    const seleccionadas = new Set(); // Para registrar las fichas seleccionadas por ti
+    let seleccionadas = new Set(); // Para registrar las fichas seleccionadas por ti
 
     // Poblamos el selector de fichas con las 28 fichas posibles
     fichas.forEach(ficha => {
@@ -24,13 +24,12 @@ document.addEventListener('DOMContentLoaded', function() {
         fichasSelect.appendChild(option);
     });
 
-    // Evento para gestionar la selección de fichas
-    fichasSelect.addEventListener('change', function() {
-        const selectedFichas = Array.from(this.selectedOptions).map(option => option.value);
+    // Confirmar fichas seleccionadas
+    document.getElementById('confirmar-fichas').addEventListener('click', function() {
+        const selectedFichas = Array.from(fichasSelect.selectedOptions).map(option => option.value);
 
-        if (selectedFichas.length > 7) {
-            alert('Solo puedes seleccionar 7 fichas.');
-            this.selectedOptions[7].selected = false;
+        if (selectedFichas.length !== 7) {
+            alert('Debes seleccionar exactamente 7 fichas.');
             return;
         }
 
@@ -67,18 +66,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Aplicación de los criterios D, E, F
-        const extremoEquipo1 = getExtremos(jugadasEquipo1List);
-        const extremoEquipo2 = getExtremos(jugadasEquipo2List);
+        const extremosEquipo1 = getExtremos(jugadasEquipo1List);
+        const extremosEquipo2 = getExtremos(pasesEquipo2List);
 
         const mejoresFichasFinal = mejoresFichas.filter(ficha => {
             const [lado1, lado2] = ficha.split('|').map(Number);
             return (
-                extremoEquipo1.has(lado1) || extremoEquipo1.has(lado2) || // D) Equipo 1 colocó alguno de su número como extremo
-                extremoEquipo2.has(lado1) || extremoEquipo2.has(lado2) // E) Jugadores del equipo 2 han pasado a su número
+                extremosEquipo1.has(lado1) || extremosEquipo1.has(lado2) || // D) Equipo 1 colocó alguno de su número como extremo
+                extremosEquipo2.has(lado1) || extremosEquipo2.has(lado2) // E) Jugadores del equipo 2 han pasado a su número
             );
         }).filter(ficha => {
             const [lado1, lado2] = ficha.split('|').map(Number);
-            return !extremoEquipo1.has(lado1) && !extremoEquipo1.has(lado2); // F) Restar posibles extremos a los que ha pasado Equipo 1
+            return !extremosEquipo1.has(lado1) && !extremosEquipo1.has(lado2); // F) Restar posibles extremos a los que ha pasado Equipo 1
         });
 
         if (mejoresFichasFinal.length > 0) {
@@ -88,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Función para obtener los extremos de un equipo
+    // Función para obtener los extremos de una lista
     function getExtremos(listElement) {
         const extremos = new Set();
         Array.from(listElement.children).forEach(li => {
@@ -99,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return extremos;
     }
 
-    // Eventos para que tú agregues fichas a las listas de jugadas y pases
+    // Eventos para agregar fichas a las listas de jugadas y pases
     document.getElementById('agregar-pase-equipo-1').addEventListener('click', () => {
         agregarFicha(pasesEquipo1List);
     });
@@ -137,6 +136,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateList(pasesEquipo2List, []);
         updateList(jugadasEquipo1List, []);
         updateList(jugadasEquipo2List, []);
-        mejorFichaList.innerHTML = '<li>Selecciona fichas para calcular la mejor ficha para jugar.</li>';
+        updateList(mejorFichaList, []);
     });
 });

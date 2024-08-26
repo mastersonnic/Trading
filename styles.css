@@ -1,34 +1,96 @@
+/* Estilo general del cuerpo */
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
-h1 {
-    text-align: center;
+/* Contenedor principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-label, h2 {
-    display: block;
-    margin: 10px 0;
+/* Estilo para los encabezados */
+h1, h2 {
+    color: #333;
 }
 
+/* Estilo para las listas desplegables */
 select {
-    width: 200px;
-    height: 300px;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
+/* Estilo para los botones */
 button {
-    display: block;
-    margin: 10px 0;
+    padding: 10px 20px;
+    margin: 10px 5px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #007bff;
+    cursor: pointer;
+    font-size: 16px;
 }
 
+/* Estilo para los botones al pasar el ratón por encima */
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para las listas */
 ul {
-    list-style: none;
+    list-style-type: none;
     padding: 0;
 }
 
 li {
-    padding: 5px;
-    border: 1px solid #ddd;
+    padding: 10px;
     margin-bottom: 5px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilo para las listas con opciones eliminables */
+li button {
+    background-color: #dc3545;
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Estilo para el botón de eliminar */
+li button:hover {
+    background-color: #c82333;
+}
+
+/* Estilo para las secciones de visor */
+.section {
+    margin-bottom: 20px;
+}
+
+/* Estilo para los visores */
+.visor {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+/* Estilo para los encabezados de las secciones */
+.visor h3 {
+    margin-top: 0;
+    color: #333;
 }

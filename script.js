@@ -1,194 +1,176 @@
-// Variables globales
-let A = generateDominoTiles();
-let B = [];  // Fichas en las manos de J1
-let C = [];  // Fichas dobles en las manos
-let D = [];  // Fichas con al menos un número repetido en 3 o más de mis fichas
-let E = [];  // Fichas cuyos puntos suman 6 o más
-let F = [];  // Lista mejor ficha para salir
-let G = [];  // Extremos actuales en la mesa
-let H = [];  // Mejor ficha para jugar
-let score1 = 0;
-let score2 = 0;
+// script.js
 
-// Genera las 28 fichas de dominó
-function generateDominoTiles() {
-    let tiles = [];
-    for (let i = 0; i <= 6; i++) {
-        for (let j = i; j <= 6; j++) {
-            tiles.push([i, j]);
-        }
-    }
-    return tiles;
-}
-
-// Inicia la elección de fichas por J1
-function startTileSelection() {
-    displayTiles(A, selectTile);
-}
-
-// Muestra las fichas disponibles para seleccionar
-function displayTiles(tiles, onClickAction) {
-    const playerTiles = document.getElementById('player-tiles');
-    playerTiles.innerHTML = '';
-    tiles.forEach((tile, index) => {
-        const tileDiv = document.createElement('div');
-        tileDiv.classList.add('tile');
-        tileDiv.textContent = `${tile[0]}|${tile[1]}`;
-        tileDiv.onclick = () => onClickAction(index);
-        playerTiles.appendChild(tileDiv);
-    });
-}
-
-// Selecciona una ficha para J1
-function selectTile(index) {
-    if (B.length < 7) {
-        B.push(A[index]);
-        A.splice(index, 1);
-        updateHand();
-    } else {
-        alert("Ya has seleccionado las 7 fichas.");
-    }
-}
-
-// Actualiza la visualización de las fichas en mano (B)
-function updateHand() {
-    const playerTiles = document.getElementById('player-tiles');
-    playerTiles.innerHTML = '';
-    B.forEach(tile => {
-        const tileDiv = document.createElement('div');
-        tileDiv.classList.add('tile');
-        tileDiv.textContent = `${tile[0]}|${tile[1]}`;
-        playerTiles.appendChild(tileDiv);
-    });
-    calculateBestStartTile();
-    calculateBestPlayTile();
-}
-
-// Calcula la mejor ficha para salir
-function calculateBestStartTile() {
-    C = B.filter(tile => tile[0] === tile[1]);  // Fichas dobles
-    D = B.filter(tile => B.filter(t => t.includes(tile[0]) || t.includes(tile[1])).length >= 3);
-    E = B.filter(tile => (tile[0] + tile[1]) >= 6);
-
-    F = [...new Set([...C, ...D, ...E])];
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicialización de variables
+    const grid = document.querySelector('table');
+    const cells = grid.querySelectorAll('td');
+    const switchContainers = document.querySelectorAll('.switch-container');
+    const dominoContainer = document.querySelector('.domino-container');
+    const bestMoveHighlightClass = 'highlight';
+    const scoreCells = document.querySelectorAll('.score');
+    const resetButton = document.querySelector('button.reset');
     
-    document.getElementById('bestStartTile').textContent = F.length > 0 ? `${F[0][0]}|${F[0][1]}` : 'N/A';
-}
+    let currentMove = 0; // Almacena el turno actual del juego
+    let selectedCell = null; // Almacena la celda seleccionada
+    let currentScore = 0; // Almacena la puntuación actual
+    let bestMove = null; // Almacena la mejor ficha para jugar
 
-// Calcula la mejor ficha para jugar
-function calculateBestPlayTile() {
-    H = F.filter(tile => !G.includes(tile));
-    document.getElementById('bestPlayTile').textContent = H.length > 0 ? `${H[0][0]}|${H[0][1]}` : 'N/A';
-}
+    // Genera la cuadrícula y asigna eventos de clic
+    cells.forEach(cell => {
+        cell.addEventListener('click', handleCellClick);
+        cell.dataset.index = Array.from(cells).indexOf(cell);
+    });
 
-// Elige quién sale
-function choosePlayer() {
-    let player = prompt("Elige quién sale (1: J1, 2: J2, 3: J3, 4: J4):");
-    if (player >= 1 && player <= 4) {
-        if (player == 1) {
-            startGame();
-        } else {
-            alert("Jugador " + player + " sale.");
+    // Manejo del clic en las celdas
+    function handleCellClick(event) {
+        const cell = event.target;
+
+        // Validación para que no se pueda seleccionar celdas deshabilitadas
+        if (cell.classList.contains('disabled')) {
+            alert('Esta celda está deshabilitada. Elige otra celda.');
+            return;
         }
-    } else {
-        alert("Por favor, selecciona un jugador válido.");
+
+        // Limpiar cualquier selección previa
+        if (selectedCell) {
+            selectedCell.classList.remove('selected');
+        }
+
+        // Seleccionar la nueva celda
+        selectedCell = cell;
+        selectedCell.classList.add('selected');
+
+        // Actualizar el movimiento actual
+        currentMove = parseInt(cell.dataset.index, 10);
+
+        // Buscar la mejor jugada disponible
+        findBestMove();
     }
-}
 
-// Inicia el juego
-function startGame() {
-    alert("Selecciona la ficha para salir.");
-    displayTiles(B, playTile);
-}
+    // Función para encontrar la mejor jugada disponible
+    function findBestMove() {
+        let maxScore = -Infinity;
+        bestMove = null;
 
-// Juega una ficha
-function playTile(index) {
-    let tile = B[index];
-    G.push(tile[0], tile[1]);
-    B.splice(index, 1);
-    updateHand();
-    updateGameInfo();
-}
+        cells.forEach(cell => {
+            const cellValue = parseInt(cell.textContent, 10);
 
-// Actualiza la información del juego
-function updateGameInfo() {
-    // Actualiza las fichas en las manos del jugador J1
-    document.getElementById('hand-J1').innerHTML = `Fichas en mano (J1): ${hands.J1.join(', ')}`;
-    
-    // Actualiza la mejor ficha para jugar
-    document.getElementById('best-play').innerHTML = `Mejor ficha para jugar: ${bestPlay.join(', ')}`;
-
-    // Actualiza la mejor ficha para salir
-    document.getElementById('best-leave').innerHTML = `Mejor ficha para salir: ${bestLeave.join(', ')}`;
-
-    // Actualiza los extremos actuales de la mesa
-    document.getElementById('current-ends').innerHTML = `Extremos actuales en la mesa: ${currentEnds.join(' | ')}`;
-
-    // Actualiza los puntajes de los equipos
-    document.getElementById('score-team-1').innerHTML = `Puntaje Equipo 1: ${score.team1}`;
-    document.getElementById('score-team-2').innerHTML = `Puntaje Equipo 2: ${score.team2}`;
-
-    // Actualiza la lista de fichas disponibles para la selección
-    document.getElementById('available-pieces').innerHTML = `Fichas disponibles: ${availablePieces.join(', ')}`;
-
-    // Actualiza la lista de fichas jugadas y pasadas
-    document.getElementById('played-pieces').innerHTML = `Fichas jugadas: ${playedPieces.join(', ')}`;
-    document.getElementById('passed-pieces').innerHTML = `Fichas pasadas por cada jugador: ${passedPieces.join(', ')}`;
-
-    // Actualiza la lista de extremos colocados más de dos veces
-    document.getElementById('frequent-ends').innerHTML = `Extremos colocados más de dos veces: ${frequentEnds.join(', ')}`;
-}
-
-// Función para manejar el evento de selección de fichas al inicio
-function selectPieces() {
-    const pieces = Array.from(document.querySelectorAll('.piece'));
-    pieces.forEach(piece => {
-        piece.addEventListener('click', () => {
-            const value = piece.dataset.value;
-            if (selectedPieces.includes(value)) {
-                selectedPieces = selectedPieces.filter(p => p !== value);
-                piece.classList.remove('selected');
-            } else {
-                if (selectedPieces.length < 7) {
-                    selectedPieces.push(value);
-                    piece.classList.add('selected');
-                }
+            if (cellValue > maxScore && !cell.classList.contains('disabled')) {
+                maxScore = cellValue;
+                bestMove = cell;
             }
-            updateSelectionDisplay();
+        });
+
+        highlightBestMove();
+    }
+
+    // Resalta la mejor jugada en la cuadrícula
+    function highlightBestMove() {
+        cells.forEach(cell => {
+            cell.classList.remove(bestMoveHighlightClass);
+        });
+
+        if (bestMove) {
+            bestMove.classList.add(bestMoveHighlightClass);
+        }
+    }
+
+    // Gestión de switches
+    switchContainers.forEach(switchContainer => {
+        const switchElement = switchContainer.querySelector('.switch input');
+
+        switchElement.addEventListener('change', function(event) {
+            const isChecked = event.target.checked;
+
+            // Logica de lo que ocurre cuando el switch se activa o desactiva
+            handleSwitchToggle(isChecked, switchContainer);
         });
     });
-}
 
-// Actualiza la visualización de las fichas seleccionadas
-function updateSelectionDisplay() {
-    document.getElementById('selected-pieces').innerHTML = `Fichas seleccionadas: ${selectedPieces.join(', ')}`;
-    // Permitir borrar fichas seleccionadas
-    document.querySelectorAll('.selected').forEach(piece => {
-        piece.addEventListener('dblclick', () => {
-            const value = piece.dataset.value;
-            selectedPieces = selectedPieces.filter(p => p !== value);
-            piece.classList.remove('selected');
-            updateSelectionDisplay();
+    // Lógica al activar/desactivar un switch
+    function handleSwitchToggle(isChecked, switchContainer) {
+        const cellsAffected = Array.from(cells).filter(cell => cell.dataset.group === switchContainer.dataset.group);
+
+        cellsAffected.forEach(cell => {
+            if (isChecked) {
+                cell.classList.remove('disabled');
+            } else {
+                cell.classList.add('disabled');
+            }
         });
+
+        // Buscar la mejor jugada tras el cambio
+        findBestMove();
+    }
+
+    // Generar fichas de dominó
+    function generateDominoTiles() {
+        const dominoes = [
+            [0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6],
+            [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6],
+            [2, 2], [2, 3], [2, 4], [2, 5], [2, 6],
+            [3, 3], [3, 4], [3, 5], [3, 6],
+            [4, 4], [4, 5], [4, 6],
+            [5, 5], [5, 6],
+            [6, 6]
+        ];
+
+        dominoes.forEach(domino => {
+            const tile = document.createElement('div');
+            tile.className = 'domino';
+
+            const half1 = document.createElement('div');
+            half1.className = 'domino-half';
+            half1.innerHTML = generateDots(domino[0]);
+
+            const half2 = document.createElement('div');
+            half2.className = 'domino-half';
+            half2.innerHTML = generateDots(domino[1]);
+
+            tile.appendChild(half1);
+            tile.appendChild(half2);
+
+            dominoContainer.appendChild(tile);
+        });
+    }
+
+    // Generar los puntos en las fichas de dominó
+    function generateDots(num) {
+        let dots = '';
+        for (let i = 0; i < num; i++) {
+            dots += '<div class="dot"></div>';
+        }
+        return dots;
+    }
+
+    // Actualizar puntuación
+    function updateScore(scoreChange) {
+        currentScore += scoreChange;
+        scoreCells.forEach(cell => {
+            cell.textContent = currentScore;
+        });
+    }
+
+    // Reiniciar el juego
+    resetButton.addEventListener('click', function() {
+        cells.forEach(cell => {
+            cell.classList.remove('selected', 'highlight', 'disabled');
+            cell.textContent = '';
+        });
+
+        currentMove = 0;
+        currentScore = 0;
+        selectedCell = null;
+        bestMove = null;
+
+        dominoContainer.innerHTML = '';
+
+        updateScore(0);
+        generateDominoTiles();
+        findBestMove();
     });
-}
 
-// Inicializa el juego y eventos
-function initGame() {
-    // Asigna fichas a la interfaz
-    const piecesContainer = document.getElementById('pieces-container');
-    pieces.forEach(piece => {
-        const div = document.createElement('div');
-        div.className = 'piece';
-        div.dataset.value = piece;
-        div.innerText = piece;
-        piecesContainer.appendChild(div);
-    });
-
-    // Inicializa selección de fichas
-    selectPieces();
-    updateGameInfo(); // Actualiza la información inicial del juego
-}
-
-// Llama a initGame al cargar el documento
-document.addEventListener('DOMContentLoaded', initGame);
+    // Inicializar el juego al cargar la página
+    generateDominoTiles();
+    findBestMove();
+});

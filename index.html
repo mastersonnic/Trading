@@ -8,45 +8,41 @@
 </head>
 <body>
     <h1>Juego de Dominó</h1>
-    
-    <div class="container">
-        <div class="selector">
-            <label for="fichas">Selecciona tus 7 fichas:</label>
-            <select id="fichas" multiple>
-                <!-- Las 28 fichas se generan dinámicamente en script.js -->
-            </select>
-        </div>
 
-        <div class="visor" id="mis-fichas">
-            <h2>Mis Fichas</h2>
-            <ul id="mis-fichas-list"></ul>
-        </div>
+    <!-- Lista desplegable de fichas -->
+    <label for="fichas">Elige tus 7 fichas:</label>
+    <select id="fichas" multiple size="14">
+        <!-- Opciones serán generadas dinámicamente -->
+    </select>
+    <button id="confirmar-fichas">Confirmar fichas</button>
 
-        <div class="visor" id="pases-equipo-1">
-            <h2>Pases Equipo 1</h2>
-            <ul id="pases-equipo-1-list"></ul>
-        </div>
+    <!-- Visor para "Mis Fichas" -->
+    <h2>Mis Fichas</h2>
+    <ul id="mis-fichas-list"></ul>
 
-        <div class="visor" id="pases-equipo-2">
-            <h2>Pases Equipo 2</h2>
-            <ul id="pases-equipo-2-list"></ul>
-        </div>
+    <!-- Visores de pases y jugadas -->
+    <h2>Pases Equipo 1</h2>
+    <button id="agregar-pase-equipo-1">Agregar Pase</button>
+    <ul id="pases-equipo-1-list"></ul>
 
-        <div class="visor" id="jugadas-equipo-1">
-            <h2>Jugadas Equipo 1</h2>
-            <ul id="jugadas-equipo-1-list"></ul>
-        </div>
+    <h2>Pases Equipo 2</h2>
+    <button id="agregar-pase-equipo-2">Agregar Pase</button>
+    <ul id="pases-equipo-2-list"></ul>
 
-        <div class="visor" id="jugadas-equipo-2">
-            <h2>Jugadas Equipo 2</h2>
-            <ul id="jugadas-equipo-2-list"></ul>
-        </div>
+    <h2>Jugadas Equipo 1</h2>
+    <button id="agregar-jugada-equipo-1">Agregar Jugada</button>
+    <ul id="jugadas-equipo-1-list"></ul>
 
-        <div class="visor" id="mejor-ficha">
-            <h2>Mejor Ficha para Jugar</h2>
-            <ul id="mejor-ficha-list"></ul>
-        </div>
-    </div>
+    <h2>Jugadas Equipo 2</h2>
+    <button id="agregar-jugada-equipo-2">Agregar Jugada</button>
+    <ul id="jugadas-equipo-2-list"></ul>
+
+    <!-- Visor para "Mejor Ficha para Jugar" -->
+    <h2>Mejor Ficha para Jugar</h2>
+    <ul id="mejor-ficha-list"></ul>
+
+    <!-- Botón de reinicio -->
+    <button id="reiniciar">Reiniciar</button>
 
     <script src="script.js"></script>
 </body>

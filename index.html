@@ -1,191 +1,179 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domino Game Board</title>
+    <title>Juego de Dominó</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Domino Game Board</h1>
+    <div class="container">
+        <!-- Cuadrícula de juego -->
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th><strong>YO (J1)</strong></th>
+                    <th><strong>MI DERECHA (J2)</strong></th>
+                    <th><strong>MI FRENTE (J3)</strong></th>
+                    <th><strong>MI IZQUIERDA (J4)</strong></th>
+                    <th><strong>Equipo 1 (J1 Y J3)</strong></th>
+                    <th><strong>Equipo 2 (J2 y J4)</strong></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>MIS DOBLES</strong></td>
+                    <td id="doubles">-</td>
+                    <td colspan="5"></td>
+                </tr>
+                <tr>
+                    <td><strong>MIS FICHAS</strong></td>
+                    <td id="myTiles">-</td>
+                    <td colspan="5"></td>
+                </tr>
+                <tr>
+                    <td><strong>JUGADAS</strong></td>
+                    <td id="playsJ1">-</td>
+                    <td id="playsJ2">-</td>
+                    <td id="playsJ3">-</td>
+                    <td id="playsJ4">-</td>
+                    <td id="playsTeam1">-</td>
+                    <td id="playsTeam2">-</td>
+                </tr>
+                <tr>
+                    <td><strong>SALIDAS</strong></td>
+                    <td id="exit">-</td>
+                    <td colspan="5"></td>
+                </tr>
+                <tr>
+                    <td><strong>PASE</strong></td>
+                    <td id="passJ1">0</td>
+                    <td id="passJ2">0</td>
+                    <td id="passJ3">0</td>
+                    <td id="passJ4">0</td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td><strong>MEJOR FICHA PARA SALIR</strong></td>
+                    <td id="bestTileToExit">-</td>
+                    <td colspan="5"></td>
+                </tr>
+                <tr>
+                    <td><strong>MEJOR FICHA PARA JUGAR</strong></td>
+                    <td id="bestTileToPlay">-</td>
+                    <td colspan="5"></td>
+                </tr>
+                <tr>
+                    <td><strong>QUIÉN SALE</strong></td>
+                    <td id="whoStarts">-</td>
+                    <td colspan="5"></td>
+                </tr>
+                <tr>
+                    <td><strong>Tiene</strong></td>
+                    <td id="hasJ1">-</td>
+                    <td id="hasJ2">-</td>
+                    <td id="hasJ3">-</td>
+                    <td id="hasJ4">-</td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td><strong>EXTREMOS ACTUALES DE LA MESA</strong></td>
+                    <td id="currentEnds">-</td>
+                    <td colspan="5"></td>
+                </tr>
+                <tr>
+                    <td><strong>PUNTAJE EQUIPO</strong></td>
+                    <td colspan="5">
+                        <div id="scoreTeam1" class="score">0</div>
+                        <div id="scoreTeam2" class="score">0</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>FICHAS A LAS QUE HA PASADO</strong></td>
+                    <td id="passedTilesJ1">-</td>
+                    <td id="passedTilesJ2">-</td>
+                    <td id="passedTilesJ3">-</td>
+                    <td id="passedTilesJ4">-</td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td><strong>EXTREMOS QUE HA COLOCADO 2 O MÁS VECES</strong></td>
+                    <td id="placedEndsJ1">-</td>
+                    <td id="placedEndsJ2">-</td>
+                    <td id="placedEndsJ3">-</td>
+                    <td id="placedEndsJ4">-</td>
+                    <td colspan="2"></td>
+                </tr>
+            </tbody>
+        </table>
 
-    <!-- Table Structure -->
-    <table id="domino-table">
-        <thead>
-            <tr>
-                <th></th>
-                <th>YO (J1)</th>
-                <th>MI DERECHA (J2)</th>
-                <th>MI FRENTE (J3)</th>
-                <th>MI IZQUIERDA (J4)</th>
-                <th>Equipo 1 (J1 Y J3)</th>
-                <th>Equipo 2 (J2 y J4)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>MIS DOBLES</td>
-                <td id="B2"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>MIS FICHAS</td>
-                <td id="B3"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>JUGADAS</td>
-                <td id="C3"></td>
-                <td id="C4"></td>
-                <td id="C5"></td>
-                <td id="C6"></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>SALIDAS</td>
-                <td id="B5"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>PASE</td>
-                <td id="B6"></td>
-                <td id="C6"></td>
-                <td id="D6"></td>
-                <td id="E6"></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>MEJOR FICHA PARA SALIR</td>
-                <td id="B7"></td>
-                <td id="C7"></td>
-                <td id="D7"></td>
-                <td id="E7"></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>MEJOR FICHA PARA JUGAR</td>
-                <td id="B8"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>QUIEN SALE</td>
-                <td colspan="6">
-                    <select id="quien-sale">
-                        <option value="J1">J1</option>
-                        <option value="J2">J2</option>
-                        <option value="J3">J3</option>
-                        <option value="J4">J4</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>TIENE</td>
-                <td id="B10"></td>
-                <td id="C10"></td>
-                <td id="D10"></td>
-                <td id="E10"></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>EXTREMOS ACTUALES DE LA MESA</td>
-                <td id="B11"></td>
-                <td colspan="5"></td>
-            </tr>
-            <tr>
-                <td>PUNTAJE EQUIPO</td>
-                <td colspan="5"></td>
-                <td id="F12"></td>
-                <td id="G12"></td>
-            </tr>
-            <tr>
-                <td>FICHAS A LA QUE HA PASADO</td>
-                <td id="B13"></td>
-                <td id="C13"></td>
-                <td id="D13"></td>
-                <td id="E13"></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>EXTREMOS QUE HA COLOCADO 2 O MÁS VECES</td>
-                <td id="B14"></td>
-                <td id="C14"></td>
-                <td id="D14"></td>
-                <td id="E14"></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+        <!-- Contenedor para las fichas de dominó -->
+        <div class="domino-container"></div>
 
-    <!-- Domino Tiles -->
-    <div id="domino-tiles">
-        <!-- Domino tiles will be dynamically generated by JavaScript -->
-    </div>
-
-    <!-- Switches -->
-    <div id="switches">
-        <label>Mis Fichas (J1)
-            <input type="checkbox" id="mis-fichas">
-        </label>
-        <label>J1 Sale
-            <input type="checkbox" id="j1-sale">
-        </label>
-        <label>J2 Sale
-            <input type="checkbox" id="j2-sale">
-        </label>
-        <label>J3 Sale
-            <input type="checkbox" id="j3-sale">
-        </label>
-        <label>J4 Sale
-            <input type="checkbox" id="j4-sale">
-        </label>
-    </div>
-
-    <!-- Pass Buttons -->
-    <div id="pass-buttons">
-        <button id="j1-pasa">J1 Pasa</button>
-        <button id="j2-pasa">J2 Pasa</button>
-        <button id="j3-pasa">J3 Pasa</button>
-        <button id="j4-pasa">J4 Pasa</button>
-    </div>
-
-    <!-- Play Button -->
-    <div id="play-section">
-        <label>Juega
-            <select id="juega">
+        <!-- Lista de quién sale -->
+        <div class="selector">
+            <label for="whoStartsList">¿Quién sale?</label>
+            <select id="whoStartsList">
                 <option value="J1">J1</option>
                 <option value="J2">J2</option>
                 <option value="J3">J3</option>
                 <option value="J4">J4</option>
             </select>
-        </label>
-        <button id="play-button">Jugar</button>
+        </div>
+
+        <!-- Switches -->
+        <div class="switch-container" data-group="J1">
+            <label class="switch">
+                <input type="checkbox" id="switchJ1">
+                <span class="slider"></span>
+            </label>
+            <span>Mis Fichas (J1)</span>
+        </div>
+        <div class="switch-container" data-group="J2">
+            <label class="switch">
+                <input type="checkbox" id="switchJ2">
+                <span class="slider"></span>
+            </label>
+            <span>J2 sale</span>
+        </div>
+        <div class="switch-container" data-group="J3">
+            <label class="switch">
+                <input type="checkbox" id="switchJ3">
+                <span class="slider"></span>
+            </label>
+            <span>J3 sale</span>
+        </div>
+        <div class="switch-container" data-group="J4">
+            <label class="switch">
+                <input type="checkbox" id="switchJ4">
+                <span class="slider"></span>
+            </label>
+            <span>J4 sale</span>
+        </div>
+
+        <!-- Botones para pasar -->
+        <div class="buttons">
+            <button id="passJ1">J1 pasa</button>
+            <button id="passJ2">J2 pasa</button>
+            <button id="passJ3">J3 pasa</button>
+            <button id="passJ4">J4 pasa</button>
+        </div>
+
+        <!-- Botón reiniciar -->
+        <button class="reset">Reiniciar</button>
+
+        <!-- Lista de quién juega -->
+        <div class="selector">
+            <label for="playList">¿Quién juega?</label>
+            <select id="playList">
+                <option value="J1">J1</option>
+                <option value="J2">J2</option>
+                <option value="J3">J3</option>
+                <option value="J4">J4</option>
+            </select>
+        </div>
     </div>
-
-    <!-- Reset Button -->
-    <button id="reset-button">Reiniciar</button>
-
     <script src="script.js"></script>
 </body>
 </html>

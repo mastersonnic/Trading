@@ -1,223 +1,165 @@
-/* Estilos generales del cuerpo */
-body {
-    font-family: Arial, sans-serif;
+/* Reset general para todos los elementos */
+* {
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    box-sizing: border-box;
 }
 
-/* Contenedor principal */
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
 }
 
-/* Estilos de la tabla */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-}
-
-thead {
-    background-color: #dbe9f4;
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
+header {
+    background-color: #004d40;
+    color: #ffffff;
+    padding: 1rem;
     text-align: center;
-    font-weight: bold;
 }
 
-td {
-    font-size: 14px;
+h1 {
+    font-size: 2rem;
 }
 
-/* Estilo para las celdas */
-td#doubles,
-td#myTiles,
-td#playsJ1,
-td#playsJ2,
-td#playsJ3,
-td#playsJ4,
-td#playsTeam1,
-td#playsTeam2,
-td#exit,
-td#passJ1,
-td#passJ2,
-td#passJ3,
-td#passJ4,
-td#bestTileToExit,
-td#bestTileToPlay,
-td#whoStarts,
-td#hasJ1,
-td#hasJ2,
-td#hasJ3,
-td#hasJ4,
-td#currentEnds,
-td#passedTilesJ1,
-td#passedTilesJ2,
-td#passedTilesJ3,
-td#passedTilesJ4,
-td#placedEndsJ1,
-td#placedEndsJ2,
-td#placedEndsJ3,
-td#placedEndsJ4 {
-    background-color: #e8f0fe;
+main {
+    padding: 1rem;
 }
 
-/* Estilos para el contenedor de fichas de dominó */
+/* Sección de fichas de dominó */
 .domino-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-bottom: 1rem;
 }
 
 .domino-tile {
-    width: 60px;
-    height: 120px;
+    width: 100px;
+    height: 50px;
     background-color: #ffffff;
-    border: 1px solid #000;
-    margin: 5px;
+    border: 2px solid #333;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: #000;
-    border-radius: 4px;
-    position: relative;
-}
-
-.domino-tile::before {
-    content: "";
-    position: absolute;
-    border-left: 1px solid #000;
-    height: 60px;
-    width: 0;
-    left: 50%;
-    top: 0;
-    transform: translateX(-50%);
-}
-
-/* Estilos para la selección de quién sale y juega */
-.selector {
-    margin-bottom: 20px;
-}
-
-.selector label {
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-#whoStartsList, #playList {
-    padding: 5px;
-    font-size: 14px;
-}
-
-/* Estilos para los switches */
-.switch-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.switch-container label {
-    display: flex;
-    align-items: center;
-}
-
-.switch-container input[type="checkbox"] {
-    display: none;
-}
-
-.switch-container .switch {
-    position: relative;
-    display: inline-block;
-    width: 34px;
-    height: 20px;
-    margin-right: 10px;
-}
-
-.switch-container .slider {
-    position: absolute;
+    font-size: 1.2rem;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-    border-radius: 20px;
+    transition: background-color 0.3s;
 }
 
-.switch-container .slider::before {
-    position: absolute;
-    content: "";
-    height: 12px;
-    width: 12px;
-    border-radius: 50%;
-    background-color: white;
-    left: 4px;
-    bottom: 4px;
-    transition: .4s;
+.domino-tile:hover {
+    background-color: #e0e0e0;
 }
 
-input:checked + .slider {
-    background-color: #4caf50;
+/* Sección de la tabla del juego */
+#gameTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
 }
 
-input:checked + .slider::before {
-    transform: translateX(14px);
-}
-
-/* Estilos para los botones */
-.buttons {
-    margin-bottom: 20px;
-}
-
-button {
-    background-color: #007bff;
-    border: none;
-    color: white;
-    padding: 10px 20px;
+#gameTable th, #gameTable td {
+    border: 1px solid #333;
+    padding: 0.5rem;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 5px;
-    cursor: pointer;
-    border-radius: 4px;
 }
 
-button:hover {
-    background-color: #0056b3;
+#gameTable th {
+    background-color: #004d40;
+    color: #ffffff;
+    font-size: 1.2rem;
+}
+
+#gameTable td {
+    background-color: #ffffff;
+    font-size: 1rem;
+}
+
+/* Estado del juego */
+#selectedTilesDisplay {
+    padding: 0.5rem;
+    background-color: #e0e0e0;
+    border: 1px solid #333;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.controls {
+    margin-top: 1rem;
+}
+
+.switches {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.switches label {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.switches input[type="radio"] {
+    margin-right: 0.5rem;
+}
+
+.buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.buttons button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #004d40;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.buttons button:hover {
+    background-color: #003d33;
 }
 
 .reset {
-    background-color: #dc3545;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #d32f2f;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .reset:hover {
-    background-color: #c82333;
+    background-color: #b71c1c;
 }
 
-/* Estilos para el puntaje de los equipos */
-.score {
-    font-weight: bold;
-    font-size: 16px;
-    padding: 5px;
-    border-radius: 4px;
-    background-color: #f8f9fa;
+footer {
+    background-color: #004d40;
+    color: #ffffff;
+    padding: 1rem;
+    text-align: center;
+}
+
+/* Diseño para dispositivos móviles */
+@media (max-width: 600px) {
+    .domino-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .buttons {
+        flex-direction: column;
+    }
+
+    .buttons button {
+        width: 100%;
+    }
 }

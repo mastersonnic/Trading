@@ -3,44 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dominó - Juego</title>
+    <title>Domino Game Board</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Juego de Dominó</h1>
-        <div id="scoreboard">
-            <span>Puntaje Equipo 1: <span id="score1">0</span></span>
-            <span>Puntaje Equipo 2: <span id="score2">0</span></span>
-        </div>
-        <div id="game-area">
-            <div id="player-area">
-                <h2>Mis Fichas (J1)</h2>
-                <div id="player-tiles"></div>
-                <div id="best-tile-to-start">
-                    Mejor Ficha para Salir: <span id="bestStartTile"></span>
-                </div>
-                <div id="best-tile-to-play">
-                    Mejor Ficha para Jugar: <span id="bestPlayTile"></span>
-                </div>
-            </div>
-            <div id="game-info">
-                <div id="current-ends">
-                    Extremos Actuales: <span id="currentEnds"></span>
-                </div>
-                <div id="passed-tiles">
-                    Fichas a las que han pasado: <span id="passedTiles"></span>
-                </div>
-                <div id="repeated-ends">
-                    Extremos Repetidos: <span id="repeatedEnds"></span>
-                </div>
-                <div id="menu-actions">
-                    <button onclick="choosePlayer()">Elige quién sale</button>
-                    <button onclick="restartGame()">Reiniciar</button>
-                </div>
-            </div>
-        </div>
+    <h1>Domino Game Board</h1>
+
+    <!-- Table Structure -->
+    <table id="domino-table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>YO (J1)</th>
+                <th>MI DERECHA (J2)</th>
+                <th>MI FRENTE (J3)</th>
+                <th>MI IZQUIERDA (J4)</th>
+                <th>Equipo 1 (J1 Y J3)</th>
+                <th>Equipo 2 (J2 y J4)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>MIS DOBLES</td>
+                <td id="B2"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>MIS FICHAS</td>
+                <td id="B3"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>JUGADAS</td>
+                <td id="C3"></td>
+                <td id="C4"></td>
+                <td id="C5"></td>
+                <td id="C6"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>SALIDAS</td>
+                <td id="B5"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>PASE</td>
+                <td id="B6"></td>
+                <td id="C6"></td>
+                <td id="D6"></td>
+                <td id="E6"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>MEJOR FICHA PARA SALIR</td>
+                <td id="B7"></td>
+                <td id="C7"></td>
+                <td id="D7"></td>
+                <td id="E7"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>MEJOR FICHA PARA JUGAR</td>
+                <td id="B8"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>QUIEN SALE</td>
+                <td colspan="6">
+                    <select id="quien-sale">
+                        <option value="J1">J1</option>
+                        <option value="J2">J2</option>
+                        <option value="J3">J3</option>
+                        <option value="J4">J4</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>TIENE</td>
+                <td id="B10"></td>
+                <td id="C10"></td>
+                <td id="D10"></td>
+                <td id="E10"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>EXTREMOS ACTUALES DE LA MESA</td>
+                <td id="B11"></td>
+                <td colspan="5"></td>
+            </tr>
+            <tr>
+                <td>PUNTAJE EQUIPO</td>
+                <td colspan="5"></td>
+                <td id="F12"></td>
+                <td id="G12"></td>
+            </tr>
+            <tr>
+                <td>FICHAS A LA QUE HA PASADO</td>
+                <td id="B13"></td>
+                <td id="C13"></td>
+                <td id="D13"></td>
+                <td id="E13"></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>EXTREMOS QUE HA COLOCADO 2 O MÁS VECES</td>
+                <td id="B14"></td>
+                <td id="C14"></td>
+                <td id="D14"></td>
+                <td id="E14"></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Domino Tiles -->
+    <div id="domino-tiles">
+        <!-- Domino tiles will be dynamically generated by JavaScript -->
     </div>
+
+    <!-- Switches -->
+    <div id="switches">
+        <label>Mis Fichas (J1)
+            <input type="checkbox" id="mis-fichas">
+        </label>
+        <label>J1 Sale
+            <input type="checkbox" id="j1-sale">
+        </label>
+        <label>J2 Sale
+            <input type="checkbox" id="j2-sale">
+        </label>
+        <label>J3 Sale
+            <input type="checkbox" id="j3-sale">
+        </label>
+        <label>J4 Sale
+            <input type="checkbox" id="j4-sale">
+        </label>
+    </div>
+
+    <!-- Pass Buttons -->
+    <div id="pass-buttons">
+        <button id="j1-pasa">J1 Pasa</button>
+        <button id="j2-pasa">J2 Pasa</button>
+        <button id="j3-pasa">J3 Pasa</button>
+        <button id="j4-pasa">J4 Pasa</button>
+    </div>
+
+    <!-- Play Button -->
+    <div id="play-section">
+        <label>Juega
+            <select id="juega">
+                <option value="J1">J1</option>
+                <option value="J2">J2</option>
+                <option value="J3">J3</option>
+                <option value="J4">J4</option>
+            </select>
+        </label>
+        <button id="play-button">Jugar</button>
+    </div>
+
+    <!-- Reset Button -->
+    <button id="reset-button">Reiniciar</button>
+
     <script src="script.js"></script>
 </body>
 </html>

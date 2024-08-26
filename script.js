@@ -19,8 +19,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Referencias al DOM
     const fichasDisponiblesSelect = document.getElementById('fichas-disponibles');
-    const misFichasSelect = document.getElementById('mis-fichas');
-    const mejorFichaJugarSelect = document.getElementById('mejor-ficha-jugar');
+    const misFichasVisor = document.getElementById('mis-fichas');
+    const pasesEquipo1Visor = document.getElementById('pases-equipo-1');
+    const pasesEquipo2Visor = document.getElementById('pases-equipo-2');
+    const jugadasEquipo1Visor = document.getElementById('jugadas-equipo-1');
+    const jugadasEquipo2Visor = document.getElementById('jugadas-equipo-2');
+    const mejorFichaJugarVisor = document.getElementById('mejor-ficha-jugar');
     const confirmarSeleccionBtn = document.getElementById('confirmar-seleccion');
     const errorMessageP = document.getElementById('error-message');
 
@@ -61,10 +65,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Agregar ficha seleccionada a "Mis Fichas"
     function agregarFichaAMisFichas(ficha) {
-        const option = document.createElement('option');
-        option.textContent = `Ficha ${ficha[0]} | ${ficha[1]}`;
-        option.value = `${ficha[0]}|${ficha[1]}`;
-        misFichasSelect.appendChild(option);
+        const fichaTexto = `Ficha ${ficha[0]} | ${ficha[1]}`;
+        misFichasVisor.textContent += `${fichaTexto}\n`;
     }
 
     // Mostrar error
@@ -77,59 +79,4 @@ document.addEventListener('DOMContentLoaded', function () {
         errorMessageP.textContent = '';
     }
 
-    // Determinar la mejor ficha para jugar
-    function actualizarMejorFichaParaJugar() {
-        mejorFichaJugarSelect.innerHTML = '';
-
-        const mejoresFichas = misFichas.filter(ficha => {
-            return esDoble(ficha) ||
-                sumaMayorQueSeis(ficha) ||
-                tengoTresOMasDelNumero(ficha);
-        });
-
-        if (mejoresFichas.length > 0) {
-            mejoresFichas.forEach(ficha => {
-                const option = document.createElement('option');
-                option.textContent = `Ficha ${ficha[0]} | ${ficha[1]}`;
-                mejorFichaJugarSelect.appendChild(option);
-            });
-        } else {
-            const option = document.createElement('option');
-            option.textContent = 'No hay una ficha clara para jugar.';
-            mejorFichaJugarSelect.appendChild(option);
-        }
-    }
-
-    // Reglas para determinar la mejor ficha
-    function esDoble(ficha) {
-        return ficha[0] === ficha[1];
-    }
-
-    function sumaMayorQueSeis(ficha) {
-        return (ficha[0] + ficha[1]) > 6;
-    }
-
-    function tengoTresOMasDelNumero(ficha) {
-        const numeroA = ficha[0];
-        const numeroB = ficha[1];
-        const cuentaA = misFichas.filter(f => f[0] === numeroA || f[1] === numeroA).length;
-        const cuentaB = misFichas.filter(f => f[0] === numeroB || f[1] === numeroB).length;
-        return cuentaA >= 3 || cuentaB >= 3;
-    }
-
-    // Confirmar selección de fichas
-    confirmarSeleccionBtn.addEventListener('click', function () {
-        if (misFichas.length === 7) {
-            alert('Has confirmado tu selección de fichas.');
-            // Aquí podrías iniciar la lógica del juego o continuar a la siguiente fase.
-        } else {
-            mostrarError('Debes seleccionar exactamente 7 fichas.');
-        }
-    });
-
-    // Evento para manejar la selección
-    fichasDisponiblesSelect.addEventListener('change', manejarSeleccionFicha);
-
-    // Inicializar fichas al cargar la página
-    inicializarFichas();
-});
+    // Determinar la mejor

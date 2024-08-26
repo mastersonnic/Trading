@@ -18,54 +18,42 @@ document.addEventListener('DOMContentLoaded', function () {
     let jugadasEquipo2 = [];
 
     // Referencias al DOM
-    const fichasDisponiblesUl = document.getElementById('fichas-disponibles');
-    const misFichasUl = document.getElementById('mis-fichas');
-    const mejorFichaJugarUl = document.getElementById('mejor-ficha-jugar');
+    const fichasDisponiblesSelect = document.getElementById('fichas-disponibles');
+    const misFichasSelect = document.getElementById('mis-fichas');
+    const mejorFichaJugarSelect = document.getElementById('mejor-ficha-jugar');
     const confirmarSeleccionBtn = document.getElementById('confirmar-seleccion');
     const errorMessageP = document.getElementById('error-message');
 
     // Inicialización de las fichas disponibles
     function inicializarFichas() {
         fichasDisponibles.forEach((ficha, index) => {
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <input type="checkbox" id="ficha-${index}" data-index="${index}">
-                Ficha ${ficha[0]} | ${ficha[1]}
-            `;
-            fichasDisponiblesUl.appendChild(li);
-
-            // Evento al seleccionar una ficha
-            li.querySelector('input').addEventListener('change', function () {
-                manejarSeleccionFicha(this);
-            });
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = `Ficha ${ficha[0]} | ${ficha[1]}`;
+            fichasDisponiblesSelect.appendChild(option);
         });
     }
 
     // Manejar la selección de fichas
-    function manejarSeleccionFicha(checkbox) {
-        const fichaIndex = parseInt(checkbox.dataset.index);
+    function manejarSeleccionFicha() {
+        const fichaIndex = parseInt(fichasDisponiblesSelect.value);
         const ficha = fichasDisponibles[fichaIndex];
 
-        if (checkbox.checked) {
-            if (misFichas.length < 7) {
-                misFichas.push(ficha);
-                agregarFichaAMisFichas(ficha);
-            } else {
-                checkbox.checked = false;
-                mostrarError('Ya has seleccionado 7 fichas.');
-            }
+        if (!ficha || misFichas.some(f => f[0] === ficha[0] && f[1] === ficha[1])) {
+            mostrarError('Ficha ya seleccionada o inválida.');
+            return;
+        }
+
+        if (misFichas.length < 7) {
+            misFichas.push(ficha);
+            agregarFichaAMisFichas(ficha);
+            fichasDisponiblesSelect.querySelector(`option[value="${fichaIndex}"]`).disabled = true;
         } else {
-            misFichas = misFichas.filter(f => !(f[0] === ficha[0] && f[1] === ficha[1]));
-            removerFichaDeMisFichas(ficha);
+            mostrarError('Ya has seleccionado 7 fichas.');
         }
 
-        // Habilitar/deshabilitar botón de confirmar
         confirmarSeleccionBtn.disabled = misFichas.length !== 7;
-
-        // Limpiar mensaje de error si la selección es correcta
-        if (misFichas.length <= 7) {
-            limpiarError();
-        }
+        limpiarError();
 
         // Actualizar la mejor ficha para jugar
         actualizarMejorFichaParaJugar();
@@ -73,19 +61,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Agregar ficha seleccionada a "Mis Fichas"
     function agregarFichaAMisFichas(ficha) {
-        const li = document.createElement('li');
-        li.textContent = `Ficha ${ficha[0]} | ${ficha[1]}`;
-        misFichasUl.appendChild(li);
-    }
-
-    // Remover ficha deseleccionada de "Mis Fichas"
-    function removerFichaDeMisFichas(ficha) {
-        const items = misFichasUl.querySelectorAll('li');
-        items.forEach(item => {
-            if (item.textContent === `Ficha ${ficha[0]} | ${ficha[1]}`) {
-                misFichasUl.removeChild(item);
-            }
-        });
+        const option = document.createElement('option');
+        option.textContent = `Ficha ${ficha[0]} | ${ficha[1]}`;
+        option.value = `${ficha[0]}|${ficha[1]}`;
+        misFichasSelect.appendChild(option);
     }
 
     // Mostrar error
@@ -100,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Determinar la mejor ficha para jugar
     function actualizarMejorFichaParaJugar() {
-        mejorFichaJugarUl.innerHTML = '';
+        mejorFichaJugarSelect.innerHTML = '';
 
         const mejoresFichas = misFichas.filter(ficha => {
             return esDoble(ficha) ||
@@ -110,14 +89,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (mejoresFichas.length > 0) {
             mejoresFichas.forEach(ficha => {
-                const li = document.createElement('li');
-                li.textContent = `Ficha ${ficha[0]} | ${ficha[1]}`;
-                mejorFichaJugarUl.appendChild(li);
+                const option = document.createElement('option');
+                option.textContent = `Ficha ${ficha[0]} | ${ficha[1]}`;
+                mejorFichaJugarSelect.appendChild(option);
             });
         } else {
-            const li = document.createElement('li');
-            li.textContent = 'No hay una ficha clara para jugar.';
-            mejorFichaJugarUl.appendChild(li);
+            const option = document.createElement('option');
+            option.textContent = 'No hay una ficha clara para jugar.';
+            mejorFichaJugarSelect.appendChild(option);
         }
     }
 
@@ -147,6 +126,9 @@ document.addEventListener('DOMContentLoaded', function () {
             mostrarError('Debes seleccionar exactamente 7 fichas.');
         }
     });
+
+    // Evento para manejar la selección
+    fichasDisponiblesSelect.addEventListener('change', manejarSeleccionFicha);
 
     // Inicializar fichas al cargar la página
     inicializarFichas();

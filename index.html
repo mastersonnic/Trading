@@ -1,80 +1,40 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juego de Dominó - Selección de Fichas</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <h1>Juego de Dominó - Selección de Fichas</h1>
-
     <div class="container">
-        <!-- Lista de 28 fichas verificables -->
-        <div class="list-container">
-            <h2>Fichas Disponibles</h2>
-            <ul id="fichas-disponibles">
-                <!-- Aquí se agregarán las fichas dinámicamente con JavaScript -->
-            </ul>
+        <h1>Juego de Dominó</h1>
+
+        <div class="section">
+            <label for="fichas-disponibles">Fichas Disponibles:</label>
+            <select id="fichas-disponibles" size="10">
+                <!-- Opciones se generan dinámicamente -->
+            </select>
         </div>
 
-        <!-- Visor: Mis Fichas (7 seleccionadas) -->
-        <div class="visor">
-            <h2>Mis Fichas (7 seleccionadas)</h2>
-            <ul id="mis-fichas">
-                <!-- Fichas seleccionadas se mostrarán aquí -->
-            </ul>
+        <div class="section">
+            <label for="mis-fichas">Mis Fichas:</label>
+            <select id="mis-fichas" size="7" multiple>
+                <!-- Fichas seleccionadas se muestran aquí -->
+            </select>
         </div>
 
-        <!-- Lista de fichas para pases equipo 1 -->
-        <div class="list-container">
-            <h2>Pases Equipo 1</h2>
-            <ul id="pases-equipo-1">
-                <!-- Fichas seleccionadas se mostrarán aquí -->
-            </ul>
+        <div class="section">
+            <label for="mejor-ficha-jugar">Mejor Ficha para Jugar:</label>
+            <select id="mejor-ficha-jugar" size="5">
+                <!-- Mejor ficha sugerida se muestra aquí -->
+            </select>
         </div>
 
-        <!-- Visor: Jugadas equipo 1 -->
-        <div class="visor">
-            <h2>Jugadas Equipo 1</h2>
-            <ul id="jugadas-equipo-1">
-                <!-- Jugadas equipo 1 se mostrarán aquí -->
-            </ul>
-        </div>
-
-        <!-- Lista de fichas para pases equipo 2 -->
-        <div class="list-container">
-            <h2>Pases Equipo 2</h2>
-            <ul id="pases-equipo-2">
-                <!-- Fichas seleccionadas se mostrarán aquí -->
-            </ul>
-        </div>
-
-        <!-- Visor: Jugadas equipo 2 -->
-        <div class="visor">
-            <h2>Jugadas Equipo 2</h2>
-            <ul id="jugadas-equipo-2">
-                <!-- Jugadas equipo 2 se mostrarán aquí -->
-            </ul>
-        </div>
-
-        <!-- Visor: Mejor Ficha para Jugar -->
-        <div class="visor">
-            <h2>Mejor Ficha para Jugar</h2>
-            <ul id="mejor-ficha-jugar">
-                <!-- Mejor ficha para jugar se mostrará aquí -->
-            </ul>
-        </div>
-    </div>
-
-    <div class="button-container">
-        <button id="confirmar-seleccion" disabled>Confirmar Selección de Fichas</button>
+        <button id="confirmar-seleccion" disabled>Confirmar Selección</button>
         <p id="error-message" class="error-message"></p>
     </div>
 
     <script src="script.js"></script>
 </body>
-
 </html>

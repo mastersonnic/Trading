@@ -138,7 +138,8 @@ function calcularMejorFicha() {
     let mensaje = `La mejor ficha teórica es ${mejorFichaTeorica} con ${maxGruposCumplidos} grupos cumplidos.`;
 
     if (mejorFichaJugable) {
-        mensaje += ` La mejor ficha jugable es ${mejorFichaJugable}.`;
+        let razon = "porque cumple con más grupos";
+        mensaje += ` La mejor ficha jugable es ${mejorFichaJugable} ${razon}.`;
     } else {
         mensaje += " No hay una ficha jugable disponible.";
     }
@@ -157,22 +158,24 @@ function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
     }
 
     const extremos = new Set();
+
     todasLasJugadas.forEach(ficha => {
         const [x, y] = ficha.split(',').map(Number);
 
-        // Si la ficha es un doble y es la única ficha jugada, ambos números son extremos.
-        if (x === y) {
+        if (x === y && todasLasJugadas.length === 1) {
             extremos.add(x);
+            extremos.add(y);
         } else {
-            if (!extremos.has(x)) {
-                extremos.add(x);
-            } else {
+            if (extremos.has(x)) {
                 extremos.delete(x);
-            }
-            if (!extremos.has(y)) {
-                extremos.add(y);
             } else {
+                extremos.add(x);
+            }
+
+            if (extremos.has(y)) {
                 extremos.delete(y);
+            } else {
+                extremos.add(y);
             }
         }
     });

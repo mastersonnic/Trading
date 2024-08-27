@@ -93,6 +93,10 @@ function actualizarMejorFichaParaJugar() {
 
     const extremosActuales = obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2);
 
+    // Elimina las fichas jugadas de la lista de mis fichas
+    const fichasJugadas = [...jugadasEquipo1, ...jugadasEquipo2];
+    const fichasDisponibles = misFichas.filter(ficha => !fichasJugadas.includes(ficha));
+
     let mejorFichaTeorica = null;
     let maxGruposCumplidos = 0;
     let gruposCumplidosTeoricos = [];
@@ -101,9 +105,9 @@ function actualizarMejorFichaParaJugar() {
     let maxGruposJugables = 0;
     let gruposCumplidosJugables = [];
 
-    misFichas.forEach(ficha => {
+    fichasDisponibles.forEach(ficha => {
         const [x, y] = ficha.split(',').map(Number);
-        const gruposCumplidos = calcularGruposCumplidos(ficha, x, y, jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas);
+        const gruposCumplidos = calcularGruposCumplidos(ficha, x, y, jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, fichasDisponibles);
 
         if (gruposCumplidos.length > maxGruposCumplidos) {
             maxGruposCumplidos = gruposCumplidos.length;

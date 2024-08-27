@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gruposContainer.style.marginTop = "10px";
     gruposContainer.style.fontWeight = "bold";
     gruposContainer.innerHTML = `
-        <strong>Definición de los grupos:</strong><br>
+        <strong>Grupos:</strong><br>
         Grupo A: Ficha doble.<br>
         Grupo B: Suma de los extremos mayor a 6.<br>
         Grupo C: Tienes 4 o más fichas con el mismo número.<br>

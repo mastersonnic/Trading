@@ -76,6 +76,11 @@ function calcularGruposCumplidos(ficha, x, y, jugadasEquipo1, jugadasEquipo2, pa
     return gruposCumplidos;
 }
 
+function esFichaJugable(ficha, extremos) {
+    const [x, y] = ficha.split(',').map(Number);
+    return extremos.includes(x) || extremos.includes(y);
+}
+
 function calcularMejorFicha() {
     const misFichas = Array.from(document.getElementById("misFichasDropdown").selectedOptions).map(opt => opt.value);
     const jugadasEquipo1 = Array.from(document.getElementById("jugadasEquipo1Dropdown").selectedOptions).map(opt => opt.value);
@@ -83,23 +88,43 @@ function calcularMejorFicha() {
     const pasesEquipo1 = Array.from(document.getElementById("pasesEquipo1Dropdown").selectedOptions).map(opt => opt.value);
     const pasesEquipo2 = Array.from(document.getElementById("pasesEquipo2Dropdown").selectedOptions).map(opt => opt.value);
 
-    let mejorFicha = null;
+    // Supongamos que los extremos actuales son 6 y 6
+    const extremosActuales = [6, 6];
+
+    let mejorFichaTeorica = null;
     let maxGruposCumplidos = 0;
+
+    let mejorFichaJugable = null;
+    let maxGruposJugables = 0;
 
     misFichas.forEach(ficha => {
         const [x, y] = ficha.split(',').map(Number);
         const gruposCumplidos = calcularGruposCumplidos(ficha, x, y, jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas);
 
+        // Evaluar mejor ficha teórica
         if (gruposCumplidos > maxGruposCumplidos) {
             maxGruposCumplidos = gruposCumplidos;
-            mejorFicha = ficha;
+            mejorFichaTeorica = ficha;
+        }
+
+        // Evaluar mejor ficha jugable
+        if (esFichaJugable(ficha, extremosActuales) && gruposCumplidos > maxGruposJugables) {
+            maxGruposJugables = gruposCumplidos;
+            mejorFichaJugable = ficha;
         }
     });
 
-    if (mejorFicha) {
-        document.getElementById("mejorFichaVisor").textContent = `La mejor ficha para jugar es ${mejorFicha} con ${maxGruposCumplidos} grupos cumplidos.`;
+    // Mostrar resultados
+    if (mejorFichaTeorica) {
+        document.getElementById("mejorFichaVisor").textContent = `La mejor ficha teórica es ${mejorFichaTeorica} con ${maxGruposCumplidos} grupos cumplidos.`;
     } else {
-        document.getElementById("mejorFichaVisor").textContent = "No hay una ficha recomendada para jugar.";
+        document.getElementById("mejorFichaVisor").textContent = "No hay una ficha recomendada teóricamente.";
+    }
+
+    if (mejorFichaJugable) {
+        document.getElementById("mejorFichaJugableVisor").textContent = `La mejor ficha jugable es ${mejorFichaJugable} con ${maxGruposJugables} grupos cumplidos.`;
+    } else {
+        document.getElementById("mejorFichaJugableVisor").textContent = "No hay una ficha jugable disponible.";
     }
 }
 

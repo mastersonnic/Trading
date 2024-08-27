@@ -88,8 +88,8 @@ function calcularMejorFicha() {
     const pasesEquipo1 = Array.from(document.getElementById("pasesEquipo1Dropdown").selectedOptions).map(opt => opt.value);
     const pasesEquipo2 = Array.from(document.getElementById("pasesEquipo2Dropdown").selectedOptions).map(opt => opt.value);
 
-    // Supongamos que los extremos actuales son 6 y 6
-    const extremosActuales = [6, 6];
+    // Obtener los extremos actuales dinámicamente según el estado del juego.
+    const extremosActuales = obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2);
 
     let mejorFichaTeorica = null;
     let maxGruposCumplidos = 0;
@@ -114,18 +114,39 @@ function calcularMejorFicha() {
         }
     });
 
-    // Mostrar resultados
-    if (mejorFichaTeorica) {
-        document.getElementById("mejorFichaVisor").textContent = `La mejor ficha teórica es ${mejorFichaTeorica} con ${maxGruposCumplidos} grupos cumplidos.`;
-    } else {
-        document.getElementById("mejorFichaVisor").textContent = "No hay una ficha recomendada teóricamente.";
-    }
+    // Mostrar la mejor ficha para jugar
+    let mensaje = `La mejor ficha teórica es ${mejorFichaTeorica} con ${maxGruposCumplidos} grupos cumplidos.`;
 
     if (mejorFichaJugable) {
-        document.getElementById("mejorFichaJugableVisor").textContent = `La mejor ficha jugable es ${mejorFichaJugable} con ${maxGruposJugables} grupos cumplidos.`;
+        mensaje += ` La mejor ficha jugable es ${mejorFichaJugable}.`;
     } else {
-        document.getElementById("mejorFichaJugableVisor").textContent = "No hay una ficha jugable disponible.";
+        mensaje += " No hay una ficha jugable disponible.";
     }
+
+    document.getElementById("mejorFichaVisor").textContent = mensaje;
+}
+
+function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
+    const todasLasJugadas = [...jugadasEquipo1, ...jugadasEquipo2];
+    if (todasLasJugadas.length === 0) {
+        return [];
+    }
+
+    const extremos = new Set();
+    todasLasJugadas.forEach(ficha => {
+        const [x, y] = ficha.split(',').map(Number);
+        if (!extremos.has(x)) {
+            extremos.add(x);
+        } else {
+            extremos.delete(x);
+        }
+        if (!extremos.has(y)) {
+            extremos.add(y);
+        } else {
+            extremos.delete(y);
+        }
+    });
+    return Array.from(extremos);
 }
 
 // Actualizar en tiempo real los extremos y la mejor ficha para jugar

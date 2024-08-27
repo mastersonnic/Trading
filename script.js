@@ -43,12 +43,14 @@ function actualizarMisFichas() {
     }
 
     document.getElementById("misFichasVisor").textContent = seleccionadas.join(", ");
+    calcularMejorFicha();
 }
 
 function actualizarVisor(dropdownId, visorId) {
     const dropdown = document.getElementById(dropdownId);
     const seleccionadas = Array.from(dropdown.selectedOptions).map(opt => opt.value);
     document.getElementById(visorId).textContent = seleccionadas.join(", ");
+    calcularMejorFicha();
 }
 
 function esFichaJugable(ficha, extremos) {
@@ -79,9 +81,13 @@ function calcularMejorFicha() {
             const extremoSeleccionado = prompt(`Tienes dos opciones para jugar la ficha ${mejorFichaJugable}: ${opcionesJugables.join(', ')}. ¿Por cuál extremo deseas jugar?`);
             if (opcionesJugables.includes(parseInt(extremoSeleccionado))) {
                 alert(`Se jugará la ficha ${mejorFichaJugable} por el extremo ${extremoSeleccionado}.`);
+                eliminarFichaDeMisFichas(mejorFichaJugable);
             } else {
                 alert("Opción no válida. Se jugará automáticamente por el primer extremo disponible.");
+                eliminarFichaDeMisFichas(mejorFichaJugable);
             }
+        } else {
+            eliminarFichaDeMisFichas(mejorFichaJugable);
         }
     } else {
         alert("No hay fichas jugables disponibles.");
@@ -125,14 +131,15 @@ function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
     return Array.from(extremos);
 }
 
-function actualizarMisFichasVisor(dropdown, fichaJugable) {
-    if (fichaJugable) {
-        const index = Array.from(dropdown.options).findIndex(opt => opt.value === fichaJugable);
-        if (index > -1) {
-            dropdown.remove(index);
-        }
+function eliminarFichaDeMisFichas(ficha) {
+    const dropdown = document.getElementById("misFichasDropdown");
+    const index = Array.from(dropdown.options).findIndex(opt => opt.value === ficha);
+    if (index > -1) {
+        dropdown.remove(index);
     }
+}
 
+function actualizarMisFichasVisor(dropdown, fichaJugable) {
     const seleccionadas = Array.from(dropdown.selectedOptions).map(opt => opt.value);
     document.getElementById("misFichasVisor").textContent = seleccionadas.join(", ");
 }

@@ -1,82 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dominó - Selección de Fichas</title>
+    <title>Dominó - Gestión de Fichas</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Juego de Dominó</h1>
+    <h1>Gestión de Fichas de Dominó</h1>
     
-    <div class="container">
-        <!-- Lista desplegable para seleccionar mis fichas -->
-        <div class="dropdown">
-            <h2>Selecciona tus 7 fichas:</h2>
-            <select id="misFichasDropdown" multiple>
-                <!-- Fichas de dominó -->
-            </select>
-            <button onclick="validarMisFichas()">Confirmar</button>
-            <div class="visor" id="misFichasVisor"></div>
-        </div>
-
-        <!-- Lista desplegable para los pases del equipo 1 -->
-        <div class="dropdown">
-            <h2>Pases Equipo 1:</h2>
-            <select id="pasesEquipo1Dropdown" multiple>
-                <!-- Fichas de dominó -->
-            </select>
-            <button onclick="actualizarVisor('pasesEquipo1Dropdown', 'pasesEquipo1Visor')">Agregar</button>
-            <div class="visor" id="pasesEquipo1Visor"></div>
-        </div>
-
-        <!-- Lista desplegable para los pases del equipo 2 -->
-        <div class="dropdown">
-            <h2>Pases Equipo 2:</h2>
-            <select id="pasesEquipo2Dropdown" multiple>
-                <!-- Fichas de dominó -->
-            </select>
-            <button onclick="actualizarVisor('pasesEquipo2Dropdown', 'pasesEquipo2Visor')">Agregar</button>
-            <div class="visor" id="pasesEquipo2Visor"></div>
-        </div>
-
-        <!-- Lista desplegable para las jugadas del equipo 1 -->
-        <div class="dropdown">
-            <h2>Jugadas Equipo 1:</h2>
-            <select id="jugadasEquipo1Dropdown" multiple>
-                <!-- Fichas de dominó -->
-            </select>
-            <button onclick="actualizarVisor('jugadasEquipo1Dropdown', 'jugadasEquipo1Visor')">Agregar</button>
-            <div class="visor" id="jugadasEquipo1Visor"></div>
-        </div>
-
-        <!-- Lista desplegable para las jugadas del equipo 2 -->
-        <div class="dropdown">
-            <h2>Jugadas Equipo 2:</h2>
-            <select id="jugadasEquipo2Dropdown" multiple>
-                <!-- Fichas de dominó -->
-            </select>
-            <button onclick="actualizarVisor('jugadasEquipo2Dropdown', 'jugadasEquipo2Visor')">Agregar</button>
-            <div class="visor" id="jugadasEquipo2Visor"></div>
-        </div>
+    <!-- Sección para seleccionar mis fichas -->
+    <div class="section">
+        <label for="misFichasDropdown">Selecciona tus 7 fichas:</label>
+        <select id="misFichasDropdown" multiple onchange="actualizarMisFichas()">
+            <!-- Aquí se cargarán las 28 fichas -->
+        </select>
+        <p><strong>Mis fichas:</strong> <span id="misFichasVisor"></span></p>
     </div>
 
-    <!-- Visor para la mejor ficha para jugar -->
-    <div class="resultados">
-        <h2>Mejor Ficha para Jugar:</h2>
-        <div class="visor" id="mejorFichaVisor"></div>
+    <!-- Sección para seleccionar fichas para Pases del Equipo 1 -->
+    <div class="section">
+        <label for="pasesEquipo1Dropdown">Pases del Equipo 1:</label>
+        <select id="pasesEquipo1Dropdown" multiple onchange="actualizarVisor('pasesEquipo1Dropdown', 'pasesEquipo1Visor')">
+            <!-- Aquí se cargarán las 28 fichas -->
+        </select>
+        <p><strong>Pases Equipo 1:</strong> <span id="pasesEquipo1Visor"></span></p>
     </div>
 
-    <!-- Visor para mostrar mis fichas seleccionadas -->
-    <div class="resultados">
-        <h2>Mis Fichas:</h2>
-        <div class="visor" id="misFichasFinalesVisor"></div>
+    <!-- Sección para seleccionar fichas para Pases del Equipo 2 -->
+    <div class="section">
+        <label for="pasesEquipo2Dropdown">Pases del Equipo 2:</label>
+        <select id="pasesEquipo2Dropdown" multiple onchange="actualizarVisor('pasesEquipo2Dropdown', 'pasesEquipo2Visor')">
+            <!-- Aquí se cargarán las 28 fichas -->
+        </select>
+        <p><strong>Pases Equipo 2:</strong> <span id="pasesEquipo2Visor"></span></p>
     </div>
 
-    <!-- Visor para la mejor ficha para salir -->
-    <div class="resultados">
-        <h2>Mejor Ficha para Salir:</h2>
-        <div class="visor" id="mejorFichaSalidaVisor"></div>
+    <!-- Sección para seleccionar fichas para Jugadas del Equipo 1 -->
+    <div class="section">
+        <label for="jugadasEquipo1Dropdown">Jugadas del Equipo 1:</label>
+        <select id="jugadasEquipo1Dropdown" multiple onchange="actualizarVisor('jugadasEquipo1Dropdown', 'jugadasEquipo1Visor')">
+            <!-- Aquí se cargarán las 28 fichas -->
+        </select>
+        <p><strong>Jugadas Equipo 1:</strong> <span id="jugadasEquipo1Visor"></span></p>
+    </div>
+
+    <!-- Sección para seleccionar fichas para Jugadas del Equipo 2 -->
+    <div class="section">
+        <label for="jugadasEquipo2Dropdown">Jugadas del Equipo 2:</label>
+        <select id="jugadasEquipo2Dropdown" multiple onchange="actualizarVisor('jugadasEquipo2Dropdown', 'jugadasEquipo2Visor')">
+            <!-- Aquí se cargarán las 28 fichas -->
+        </select>
+        <p><strong>Jugadas Equipo 2:</strong> <span id="jugadasEquipo2Visor"></span></p>
+    </div>
+
+    <!-- Visor de la mejor ficha para jugar -->
+    <div class="section">
+        <p><strong>Mejor ficha para jugar:</strong> <span id="mejorFichaVisor"></span></p>
+        <button onclick="calcularMejorFicha()">Calcular Mejor Ficha</button>
     </div>
 
     <script src="script.js"></script>

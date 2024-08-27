@@ -122,13 +122,14 @@ function calcularMejorFicha() {
         }
     });
 
-    // Preguntar al usuario por cuál extremo quiere jugar si hay más de un extremo posible
+    // Preguntar al usuario por cuál extremo quiere jugar solo si hay más de un extremo disponible y son diferentes
     if (mejorFichaJugable) {
         const [x, y] = mejorFichaJugable.split(',').map(Number);
         const opcionesJugables = extremosActuales.filter(extremo => extremo === x || extremo === y);
-        if (opcionesJugables.length > 1) {
-            const extremoSeleccionado = prompt(`Tienes dos opciones para jugar la ficha ${mejorFichaJugable}: ${opcionesJugables.join(', ')}. ¿Por cuál extremo deseas jugar?`);
-            if (!extremosActuales.includes(parseInt(extremoSeleccionado))) {
+
+        if (opcionesJugables.length > 1 && opcionesJugables[0] !== opcionesJugables[1]) {
+            const extremoSeleccionado = prompt(`Puedes jugar la ficha ${mejorFichaJugable} en los extremos ${opcionesJugables.join(' o ')}. ¿Por cuál extremo deseas jugar?`);
+            if (!opcionesJugables.includes(parseInt(extremoSeleccionado))) {
                 alert("Opción no válida. Se jugará automáticamente por el primer extremo disponible.");
             }
         }

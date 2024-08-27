@@ -1,8 +1,8 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
+    margin: 20px;
+    padding: 0;
+    background-color: #f5f5f5;
 }
 
 h1 {
@@ -10,56 +10,39 @@ h1 {
     color: #333;
 }
 
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+.section {
+    margin: 20px 0;
 }
 
-.dropdown, .resultados {
-    margin: 20px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
 }
 
-.dropdown select {
-    width: 200px;
-    height: 150px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
-.dropdown button {
-    margin-top: 10px;
-    padding: 10px 15px;
+button {
+    padding: 10px 20px;
     background-color: #28a745;
     color: #fff;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
 }
 
-.dropdown button:hover {
+button:hover {
     background-color: #218838;
 }
 
-.visor {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #e9ecef;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    min-height: 50px;
-    white-space: pre-wrap;
+p {
+    margin: 0;
 }
 
-.resultados {
-    width: 45%;
-}
-
-.resultados .visor {
-    min-height: 80px;
+span {
+    font-weight: bold;
+    color: #007bff;
 }

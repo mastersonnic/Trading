@@ -43,14 +43,44 @@ function actualizarMisFichas() {
     }
 
     document.getElementById("misFichasVisor").textContent = seleccionadas.join(", ");
-    calcularMejorFicha();
 }
 
 function actualizarVisor(dropdownId, visorId) {
     const dropdown = document.getElementById(dropdownId);
     const seleccionadas = Array.from(dropdown.selectedOptions).map(opt => opt.value);
     document.getElementById(visorId).textContent = seleccionadas.join(", ");
-    calcularMejorFicha();
+}
+
+function calcularGruposCumplidos(ficha, x, y, jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas) {
+    let gruposCumplidos = [];
+
+    if (x === y) {
+        gruposCumplidos.push("Grupo A");
+    }
+
+    if ((x + y) > 6) {
+        gruposCumplidos.push("Grupo B");
+    }
+
+    const countX = misFichas.filter(f => f.includes(x.toString())).length;
+    const countY = misFichas.filter(f => f.includes(y.toString())).length;
+    if (countX >= 4 || countY >= 4) {
+        gruposCumplidos.push("Grupo C");
+    }
+
+    if (jugadasEquipo1.some(f => f.includes(x.toString())) || jugadasEquipo1.some(f => f.includes(y.toString()))) {
+        gruposCumplidos.push("Grupo D");
+    }
+
+    if (pasesEquipo2.some(f => f.includes(x.toString())) || pasesEquipo2.some(f => f.includes(y.toString()))) {
+        gruposCumplidos.push("Grupo E");
+    }
+
+    if (!(pasesEquipo1.some(f => f.includes(x.toString())) || pasesEquipo1.some(f => f.includes(y.toString())))) {
+        gruposCumplidos.push("Grupo F");
+    }
+
+    return gruposCumplidos;
 }
 
 function esFichaJugable(ficha, extremos) {
@@ -59,91 +89,55 @@ function esFichaJugable(ficha, extremos) {
 }
 
 function calcularMejorFicha() {
-    const misFichasDropdown = document.getElementById("misFichasDropdown");
-    const misFichas = Array.from(misFichasDropdown.selectedOptions).map(opt => opt.value);
+    const misFichas = Array.from(document.getElementById("misFichasDropdown").selectedOptions).map(opt => opt.value);
     const jugadasEquipo1 = Array.from(document.getElementById("jugadasEquipo1Dropdown").selectedOptions).map(opt => opt.value);
     const jugadasEquipo2 = Array.from(document.getElementById("jugadasEquipo2Dropdown").selectedOptions).map(opt => opt.value);
+    const pasesEquipo1 = Array.from(document.getElementById("pasesEquipo1Dropdown").selectedOptions).map(opt => opt.value);
+    const pasesEquipo2 = Array.from(document.getElementById("pasesEquipo2Dropdown").selectedOptions).map(opt => opt.value);
 
     const extremosActuales = obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2);
-    let mejorFichaJugable = null;
+
+    let mejorFichaTeorica = null;
+    let maxGruposCumplidos = 0;
 
     misFichas.forEach(ficha => {
         if (esFichaJugable(ficha, extremosActuales)) {
-            mejorFichaJugable = ficha;
+            const [x, y] = ficha.split(',').map(Number);
+            const gruposCumplidos = calcularGruposCumplidos(ficha, x, y, jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas);
+            
+            if (gruposCumplidos.length > maxGruposCumplidos) {
+                maxGruposCumplidos = gruposCumplidos.length;
+                mejorFichaTeorica = {
+                    ficha,
+                    grupos: gruposCumplidos.join(', ')
+                };
+            }
         }
     });
 
-    if (mejorFichaJugable) {
-        const [x, y] = mejorFichaJugable.split(',').map(Number);
-        const opcionesJugables = extremosActuales.filter(extremo => extremo === x || extremo === y);
-
-        if (opcionesJugables.length > 1) {
-            const extremoSeleccionado = prompt(`Tienes dos opciones para jugar la ficha ${mejorFichaJugable}: ${opcionesJugables.join(', ')}. ¿Por cuál extremo deseas jugar?`);
-            if (opcionesJugables.includes(parseInt(extremoSeleccionado))) {
-                alert(`Se jugará la ficha ${mejorFichaJugable} por el extremo ${extremoSeleccionado}.`);
-                eliminarFichaDeMisFichas(mejorFichaJugable);
-            } else {
-                alert("Opción no válida. Se jugará automáticamente por el primer extremo disponible.");
-                eliminarFichaDeMisFichas(mejorFichaJugable);
-            }
-        } else {
-            eliminarFichaDeMisFichas(mejorFichaJugable);
-        }
+    if (mejorFichaTeorica) {
+        document.getElementById("mejorFichaVisor").textContent = `Mejor ficha para jugar: ${mejorFichaTeorica.ficha}. Cumple con los siguientes grupos: ${mejorFichaTeorica.grupos}.`;
     } else {
-        alert("No hay fichas jugables disponibles.");
+        document.getElementById("mejorFichaVisor").textContent = "No hay fichas jugables disponibles.";
     }
-
-    actualizarMisFichasVisor(misFichasDropdown, mejorFichaJugable);
-
-    const extremosContainer = document.getElementById("extremosActualesContainer");
-    extremosContainer.innerHTML = `<strong>Extremos actuales:</strong> ${extremosActuales.join(', ')}`;
 }
 
 function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
-    const todasLasJugadas = [...jugadasEquipo1, ...jugadasEquipo2];
-    if (todasLasJugadas.length === 0) {
-        return [];
-    }
-
     const extremos = new Set();
 
-    todasLasJugadas.forEach(ficha => {
+    jugadasEquipo1.concat(jugadasEquipo2).forEach(ficha => {
         const [x, y] = ficha.split(',').map(Number);
-
-        if (x === y && todasLasJugadas.length === 1) {
-            extremos.add(x);
-            extremos.add(y);
-        } else {
-            if (extremos.has(x)) {
-                extremos.delete(x);
-            } else {
-                extremos.add(x);
-            }
-
-            if (extremos.has(y)) {
-                extremos.delete(y);
-            } else {
-                extremos.add(y);
-            }
-        }
+        extremos.add(x);
+        extremos.add(y);
     });
 
     return Array.from(extremos);
 }
 
-function eliminarFichaDeMisFichas(ficha) {
-    const dropdown = document.getElementById("misFichasDropdown");
-    const index = Array.from(dropdown.options).findIndex(opt => opt.value === ficha);
-    if (index > -1) {
-        dropdown.remove(index);
-    }
+function actualizarExtremosActuales() {
+    const jugadasEquipo1 = Array.from(document.getElementById("jugadasEquipo1Dropdown").selectedOptions).map(opt => opt.value);
+    const jugadasEquipo2 = Array.from(document.getElementById("jugadasEquipo2Dropdown").selectedOptions).map(opt => opt.value);
+    
+    const extremosActuales = obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2);
+    document.getElementById("extremosActualesContainer").textContent = `Extremos actuales: ${extremosActuales.join(', ')}`;
 }
-
-function actualizarMisFichasVisor(dropdown, fichaJugable) {
-    const seleccionadas = Array.from(dropdown.selectedOptions).map(opt => opt.value);
-    document.getElementById("misFichasVisor").textContent = seleccionadas.join(", ");
-}
-
-document.querySelectorAll("select").forEach(dropdown => {
-    dropdown.addEventListener("change", calcularMejorFicha);
-});

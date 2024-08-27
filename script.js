@@ -22,12 +22,28 @@ document.addEventListener("DOMContentLoaded", () => {
     extremosContainer.innerHTML = "<strong>Extremos actuales:</strong> ";
     document.body.appendChild(extremosContainer);
 
+    const equipo1Probabilidad = document.createElement("div");
+    equipo1Probabilidad.id = "equipo1Probabilidad";
+    equipo1Probabilidad.style.color = "red";
+    equipo1Probabilidad.style.fontWeight = "bold";
+    equipo1Probabilidad.style.marginTop = "10px";
+    equipo1Probabilidad.innerHTML = "Equipo 1 tiene: ()";
+    document.body.appendChild(equipo1Probabilidad);
+
+    const equipo2Probabilidad = document.createElement("div");
+    equipo2Probabilidad.id = "equipo2Probabilidad";
+    equipo2Probabilidad.style.color = "red";
+    equipo2Probabilidad.style.fontWeight = "bold";
+    equipo2Probabilidad.style.marginTop = "10px";
+    equipo2Probabilidad.innerHTML = "Equipo 2 tiene: ()";
+    document.body.appendChild(equipo2Probabilidad);
+
     const gruposContainer = document.createElement("div");
     gruposContainer.id = "gruposContainer";
     gruposContainer.style.marginTop = "10px";
     gruposContainer.style.fontWeight = "bold";
     gruposContainer.innerHTML = `
-        <strong>Grupos:</strong><br>
+        <strong>Definición de los grupos:</strong><br>
         Grupo A: Ficha doble.<br>
         Grupo B: Suma de los extremos mayor a 6.<br>
         Grupo C: Tienes 4 o más fichas con el mismo número.<br>
@@ -73,35 +89,28 @@ function actualizarVisor(dropdownId, visorId) {
 function calcularGruposCumplidos(ficha, x, y, jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas) {
     let grupos = [];
 
-    // Grupo A
     if (x === y) {
         grupos.push('A');
     }
 
-    // Grupo B
-    const extremos = obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2);
-    if (extremos.length > 0 && (extremos[0] + extremos[1]) > 6) {
+    if ((x + y) > 6) {
         grupos.push('B');
     }
 
-    // Grupo C
     const countX = misFichas.filter(f => f.includes(x.toString())).length;
     const countY = misFichas.filter(f => f.includes(y.toString())).length;
     if (countX >= 4 || countY >= 4) {
         grupos.push('C');
     }
 
-    // Grupo D
     if (jugadasEquipo1.some(f => f.includes(x.toString())) || jugadasEquipo1.some(f => f.includes(y.toString()))) {
         grupos.push('D');
     }
 
-    // Grupo E
     if (pasesEquipo2.some(f => f.includes(x.toString())) || pasesEquipo2.some(f => f.includes(y.toString()))) {
         grupos.push('E');
     }
 
-    // Grupo F
     if (!(pasesEquipo1.some(f => f.includes(x.toString())) || pasesEquipo1.some(f => f.includes(y.toString())))) {
         grupos.push('F');
     }
@@ -157,49 +166,73 @@ function calcularMejorFicha() {
 
     const extremosContainer = document.getElementById("extremosActualesContainer");
     extremosContainer.innerHTML = `<strong>Extremos actuales:</strong> ${extremosActuales.join(', ')}`;
+
+    actualizarProbabilidadesEquipos(pasesEquipo1, pasesEquipo2, jugadasEquipo1, jugadasEquipo2, extremosActuales);
+}
+
+function actualizarProbabilidadesEquipos(pasesEquipo1, pasesEquipo2, jugadasEquipo1, jugadasEquipo2, extremosActuales) {
+    const equipo1NumerosProbables = calcularNumerosProbables(pasesEquipo1, jugadasEquipo2, extremosActuales);
+    const equipo2NumerosProbables = calcularNumerosProbables(pasesEquipo2, jugadasEquipo1, extremosActuales);
+
+    document.getElementById("equipo1Probabilidad").textContent = `Equipo 1 tiene: (${equipo1NumerosProbables.join(', ')})`;
+    document.getElementById("equipo2Probabilidad").textContent = `Equipo 2 tiene: (${equipo2NumerosProbables.join(', ')})`;
+}
+
+function calcularNumerosProbables(pasesEquipo, jugadasOponente, extremosActuales) {
+    const numerosProbables = [];
+
+    pasesEquipo.forEach(pase => {
+        const [x, y] = pase.split(',').map(Number);
+        if (!jugadasOponente.includes(pase) && !extremosActuales.includes(x) && !extremosActuales.includes(y)) {
+            if (!numerosProbables.includes(x)) numerosProbables.push(x);
+            if (!numerosProbables.includes(y)) numerosProbables.push(y);
+        }
+    });
+
+    return numerosProbables;
 }
 
 function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
-    const todasLasJugadas = [...jugadasEquipo1, ...jugadasEquipo2];
-    if (todasLasJugadas.length === 0) {
-        return [];
-    }
-
+    const jugadas = [...jugadasEquipo1, ...jugadasEquipo2];
     const extremos = new Set();
 
-    todasLasJugadas.forEach(ficha => {
+    jugadas.forEach(ficha => {
         const [x, y] = ficha.split(',').map(Number);
-
-        if (x === y && todasLasJugadas.length === 1) {
-            extremos.add(x);
-            extremos.add(y);
-        } else {
-            if (extremos.has(x)) {
-                extremos.delete(x);
-            } else {
-                extremos.add(x);
-            }
-
-            if (extremos.has(y)) {
-                extremos.delete(y);
-            } else {
-                extremos.add(y);
-            }
-        }
+        extremos.add(x);
+        extremos.add(y);
     });
 
     return Array.from(extremos);
 }
 
-function obtenerJugadasCombinadas() {
-    const jugadasEquipo1 = Array.from(document.getElementById("jugadasEquipo1Dropdown").selectedOptions).map(opt => opt.value);
-    const jugadasEquipo2 = Array.from(document.getElementById("jugadasEquipo2Dropdown").selectedOptions).map(opt => opt.value);
-    return [...jugadasEquipo1, ...jugadasEquipo2];
+function actualizarExtremos(fichaJugada) {
+    const [x, y] = fichaJugada.split(',').map(Number);
+    const extremosActuales = obtenerExtremosActuales(
+        Array.from(document.getElementById("jugadasEquipo1Dropdown").selectedOptions).map(opt => opt.value),
+        Array.from(document.getElementById("jugadasEquipo2Dropdown").selectedOptions).map(opt => opt.value)
+    );
+
+    if (extremosActuales.includes(x) && extremosActuales.includes(y)) {
+        const lado = prompt(`¿Por cuál lado deseas colocar la ficha ${fichaJugada}? Opciones: ${x} o ${y}`);
+        if (lado == x) {
+            extremosActuales.push(y);
+        } else if (lado == y) {
+            extremosActuales.push(x);
+        } else {
+            alert("Lado inválido. La ficha no se colocará.");
+            return;
+        }
+    } else if (extremosActuales.includes(x)) {
+        extremosActuales.push(y);
+    } else if (extremosActuales.includes(y)) {
+        extremosActuales.push(x);
+    }
+
+    document.getElementById("extremosActualesContainer").innerHTML = `<strong>Extremos actuales:</strong> ${extremosActuales.join(', ')}`;
 }
 
-document.querySelectorAll("select").forEach(dropdown => {
-    dropdown.addEventListener("change", () => {
-        actualizarMisFichas();
-        calcularMejorFicha();
-    });
-});
+// Ejemplo de cómo llamar a la función al jugar una ficha
+function jugarFicha(ficha) {
+    actualizarExtremos(ficha);
+    // Lógica adicional para actualizar el estado del juego
+}

@@ -1,96 +1,88 @@
-/* Estilo general del cuerpo */
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 0;
+    margin: 0;
+    padding: 20px;
     background-color: #f4f4f4;
 }
 
-/* Contenedor principal */
+h1 {
+    text-align: center;
+}
+
 .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: auto;
 }
 
-/* Estilo para los encabezados */
-h1, h2 {
-    color: #333;
-}
-
-/* Estilo para las listas desplegables */
-select {
+.list-container {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    max-width: 600px;
+    margin: 20px 0;
 }
 
-/* Estilo para los botones */
+select, button {
+    font-size: 1.2em;
+    padding: 10px;
+    margin: 5px;
+}
+
+select {
+    width: calc(100% - 22px);
+    max-height: 150px;
+    overflow-y: auto;
+}
+
 button {
-    padding: 10px 20px;
-    margin: 10px 5px;
+    background-color: #007bff;
+    color: white;
     border: none;
     border-radius: 5px;
-    color: #fff;
-    background-color: #007bff;
     cursor: pointer;
-    font-size: 16px;
 }
 
-/* Estilo para los botones al pasar el ratón por encima */
 button:hover {
     background-color: #0056b3;
 }
 
-/* Estilo para las listas */
 ul {
     list-style-type: none;
     padding: 0;
 }
 
 li {
-    padding: 10px;
-    margin-bottom: 5px;
-    background-color: #fff;
+    background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 5px;
+    margin: 5px 0;
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* Estilo para las listas con opciones eliminables */
 li button {
     background-color: #dc3545;
-    border: none;
-    color: #fff;
-    padding: 5px 10px;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 5px;
 }
 
-/* Estilo para el botón de eliminar */
 li button:hover {
     background-color: #c82333;
 }
 
-/* Estilo para las secciones de visor */
-.section {
-    margin-bottom: 20px;
-}
-
-/* Estilo para los visores */
-.visor {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
+#visor-mis-fichas, #visor-fichas-agregadas, #visor-pases-equipo1, #visor-pases-equipo2, #visor-jugadas-equipo1, #visor-jugadas-equipo2, #visor-mejor-ficha {
     border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
-/* Estilo para los encabezados de las secciones */
-.visor h3 {
-    margin-top: 0;
-    color: #333;
+#visor-mejor-ficha {
+    font-weight: bold;
+    background-color: #dff0d8;
 }

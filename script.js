@@ -112,9 +112,16 @@ function calcularMejorFicha() {
             mejorFichaTeorica = ficha;
         }
 
-        if (esFichaJugable(ficha, extremosActuales) && gruposCumplidos > maxGruposJugables) {
-            maxGruposJugables = gruposCumplidos;
-            mejorFichaJugable = ficha;
+        if (esFichaJugable(ficha, extremosActuales)) {
+            if (extremosActuales.length === 1) {
+                // Solo hay un extremo, jugar automáticamente
+                mejorFichaJugable = ficha;
+            } else if (extremosActuales.length > 1) {
+                // Más de un extremo, verificar coincidencias exactas
+                if (x === extremosActuales[0] && y === extremosActuales[1] || x === extremosActuales[1] && y === extremosActuales[0]) {
+                    mejorFichaJugable = ficha;
+                }
+            }
         }
     });
 
@@ -126,7 +133,7 @@ function calcularMejorFicha() {
             alert(`La ficha ${mejorFichaJugable} será jugada automáticamente por el extremo ${opcionesJugables[0]}.`);
         } else if (opcionesJugables.length > 1) {
             const extremoSeleccionado = prompt(`Tienes dos opciones para jugar la ficha ${mejorFichaJugable}: ${opcionesJugables.join(', ')}. ¿Por cuál extremo deseas jugar?`);
-            if (!extremosActuales.includes(parseInt(extremoSeleccionado))) {
+            if (!opcionesJugables.includes(parseInt(extremoSeleccionado))) {
                 alert("Opción no válida. Se jugará automáticamente por el primer extremo disponible.");
             }
         }

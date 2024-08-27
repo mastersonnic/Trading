@@ -1,111 +1,65 @@
-/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
-
-.container {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    width: 100%;
 }
 
 h1 {
     text-align: center;
-    margin-bottom: 20px;
-    font-size: 28px;
     color: #333;
 }
 
-.section {
-    margin-bottom: 20px;
-}
-
-.section h2 {
-    font-size: 22px;
-    margin-bottom: 10px;
-    color: #444;
-}
-
-.select-container {
+.container {
     display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+    flex-wrap: wrap;
+    justify-content: space-around;
 }
 
-select {
-    flex: 1;
-    padding: 10px;
-    font-size: 18px;
-    border: 2px solid #ccc;
+.dropdown, .resultados {
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown select {
+    width: 200px;
+    height: 150px;
+    padding: 5px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    margin-right: 10px;
-    height: 180px;
-    box-sizing: border-box;
 }
 
-.button-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-button {
-    padding: 10px;
-    font-size: 18px;
-    background-color: #007bff;
+.dropdown button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #28a745;
     color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #0056b3;
+.dropdown button:hover {
+    background-color: #218838;
 }
 
 .visor {
+    margin-top: 10px;
     padding: 10px;
-    background-color: #f0f0f0;
+    background-color: #e9ecef;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 18px;
-    color: #333;
     min-height: 50px;
+    white-space: pre-wrap;
 }
 
-.visor-mejor-jugada {
-    padding: 15px;
-    background-color: #ffebcc;
-    border: 2px solid #ffcc00;
-    border-radius: 4px;
-    font-size: 20px;
-    color: #555;
-    min-height: 60px;
-    text-align: center;
+.resultados {
+    width: 45%;
 }
 
-.visor span {
-    display: inline-block;
-    margin-right: 10px;
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: white;
-    border-radius: 4px;
-    margin-bottom: 5px;
-}
-
-.visor span:hover {
-    background-color: #0056b3;
-    cursor: pointer;
+.resultados .visor {
+    min-height: 80px;
 }

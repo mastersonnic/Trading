@@ -15,10 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarFichas('jugadasEquipo1Dropdown');
     cargarFichas('jugadasEquipo2Dropdown');
     
-    // Crear un contenedor para los extremos actuales
+    // Crear un contenedor para los extremos actuales con estilo en negrita
     const extremosContainer = document.createElement("div");
     extremosContainer.id = "extremosActualesContainer";
     extremosContainer.style.marginTop = "10px";
+    extremosContainer.style.fontWeight = "bold"; // Negrita para los extremos actuales
     document.body.appendChild(extremosContainer);
 });
 
@@ -133,7 +134,7 @@ function calcularMejorFicha() {
 
     // Mostrar los extremos actuales
     const extremosContainer = document.getElementById("extremosActualesContainer");
-    extremosContainer.textContent = `Extremos actuales: ${extremosActuales.join(', ')}`;
+    extremosContainer.innerHTML = `<strong>Extremos actuales:</strong> ${extremosActuales.join(', ')}`;
 }
 
 function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
@@ -156,6 +157,7 @@ function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
             extremos.delete(y);
         }
     });
+
     return Array.from(extremos);
 }
 

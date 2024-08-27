@@ -3,110 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Dominó</title>
+    <title>Gestión de Fichas de Dominó</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Juego de Dominó</h1>
+        <h1>Gestión de Fichas de Dominó</h1>
 
-        <!-- Lista para elegir las 7 fichas para iniciar -->
-        <section class="section">
+        <!-- Lista para seleccionar las 7 fichas iniciales -->
+        <div class="list-container">
             <h2>Mis Fichas</h2>
-            <select id="fichas-mis" multiple>
-                <!-- Opciones de fichas, se agregarán con JavaScript -->
+            <select id="fichas-lista" multiple size="14">
+                <!-- Las opciones se generarán con JavaScript -->
             </select>
-            <button id="confirmar-fichas">Confirmar Fichas</button>
-            <div class="visor">
-                <h3>Fichas Elegidas</h3>
-                <ul id="visor-mis-fichas">
-                    <!-- Fichas seleccionadas aparecerán aquí -->
+            <button id="add-fichas-btn">Agregar 7 Fichas</button>
+            <div id="visor-mis-fichas">
+                <h3>Mis Fichas Seleccionadas</h3>
+                <ul id="lista-mis-fichas">
+                    <!-- Las fichas seleccionadas se mostrarán aquí -->
                 </ul>
             </div>
-        </section>
+        </div>
 
-        <!-- Lista para elegir fichas adicionales -->
-        <section class="section">
+        <!-- Lista para seleccionar fichas adicionales -->
+        <div class="list-container">
             <h2>Fichas Disponibles</h2>
-            <select id="fichas-disponibles" multiple>
-                <!-- Opciones de fichas, se agregarán con JavaScript -->
+            <select id="fichas-adicionales" multiple size="14">
+                <!-- Las opciones se generarán con JavaScript -->
             </select>
-            <button id="agregar-fichas">Agregar Fichas</button>
-            <div class="visor">
+            <button id="add-fichas-adicionales-btn">Agregar Fichas</button>
+            <div id="visor-fichas-agregadas">
                 <h3>Fichas Agregadas</h3>
-                <ul id="visor-fichas-agregadas">
-                    <!-- Fichas seleccionadas aparecerán aquí -->
+                <ul id="lista-fichas-agregadas">
+                    <!-- Las fichas adicionales se mostrarán aquí -->
                 </ul>
             </div>
-        </section>
+        </div>
 
-        <!-- Lista de pases para el equipo 1 -->
-        <section class="section">
+        <!-- Pases y Jugadas del Equipo 1 -->
+        <div class="list-container">
             <h2>Pases Equipo 1</h2>
-            <select id="pases-equipo1" multiple>
-                <!-- Opciones de fichas, se agregarán con JavaScript -->
+            <select id="pases-equipo1" multiple size="14">
+                <!-- Las opciones se generarán con JavaScript -->
             </select>
-            <div class="visor">
-                <h3>Visor de Pases Equipo 1</h3>
-                <ul id="visor-pases-equipo1">
-                    <!-- Pases del equipo 1 aparecerán aquí -->
+            <button id="add-pases-equipo1-btn">Agregar Pases</button>
+            <div id="visor-pases-equipo1">
+                <h3>Pases Equipo 1</h3>
+                <ul id="lista-pases-equipo1">
+                    <!-- Los pases del equipo 1 se mostrarán aquí -->
                 </ul>
             </div>
-        </section>
+        </div>
 
-        <!-- Lista de pases para el equipo 2 -->
-        <section class="section">
+        <!-- Pases y Jugadas del Equipo 2 -->
+        <div class="list-container">
             <h2>Pases Equipo 2</h2>
-            <select id="pases-equipo2" multiple>
-                <!-- Opciones de fichas, se agregarán con JavaScript -->
+            <select id="pases-equipo2" multiple size="14">
+                <!-- Las opciones se generarán con JavaScript -->
             </select>
-            <div class="visor">
-                <h3>Visor de Pases Equipo 2</h3>
-                <ul id="visor-pases-equipo2">
-                    <!-- Pases del equipo 2 aparecerán aquí -->
+            <button id="add-pases-equipo2-btn">Agregar Pases</button>
+            <div id="visor-pases-equipo2">
+                <h3>Pases Equipo 2</h3>
+                <ul id="lista-pases-equipo2">
+                    <!-- Los pases del equipo 2 se mostrarán aquí -->
                 </ul>
             </div>
-        </section>
+        </div>
 
-        <!-- Lista de jugadas para el equipo 1 -->
-        <section class="section">
+        <div class="list-container">
             <h2>Jugadas Equipo 1</h2>
-            <select id="jugadas-equipo1" multiple>
-                <!-- Opciones de fichas, se agregarán con JavaScript -->
+            <select id="jugadas-equipo1" multiple size="14">
+                <!-- Las opciones se generarán con JavaScript -->
             </select>
-            <div class="visor">
-                <h3>Visor de Jugadas Equipo 1</h3>
-                <ul id="visor-jugadas-equipo1">
-                    <!-- Jugadas del equipo 1 aparecerán aquí -->
+            <button id="add-jugadas-equipo1-btn">Agregar Jugadas</button>
+            <div id="visor-jugadas-equipo1">
+                <h3>Jugadas Equipo 1</h3>
+                <ul id="lista-jugadas-equipo1">
+                    <!-- Las jugadas del equipo 1 se mostrarán aquí -->
                 </ul>
             </div>
-        </section>
+        </div>
 
-        <!-- Lista de jugadas para el equipo 2 -->
-        <section class="section">
+        <div class="list-container">
             <h2>Jugadas Equipo 2</h2>
-            <select id="jugadas-equipo2" multiple>
-                <!-- Opciones de fichas, se agregarán con JavaScript -->
+            <select id="jugadas-equipo2" multiple size="14">
+                <!-- Las opciones se generarán con JavaScript -->
             </select>
-            <div class="visor">
-                <h3>Visor de Jugadas Equipo 2</h3>
-                <ul id="visor-jugadas-equipo2">
-                    <!-- Jugadas del equipo 2 aparecerán aquí -->
+            <button id="add-jugadas-equipo2-btn">Agregar Jugadas</button>
+            <div id="visor-jugadas-equipo2">
+                <h3>Jugadas Equipo 2</h3>
+                <ul id="lista-jugadas-equipo2">
+                    <!-- Las jugadas del equipo 2 se mostrarán aquí -->
                 </ul>
             </div>
-        </section>
+        </div>
 
-        <!-- Lista de mejor ficha para jugar -->
-        <section class="section">
+        <!-- Visor de Mejor Ficha para Jugar -->
+        <div class="list-container">
             <h2>Mejor Ficha para Jugar</h2>
-            <div class="visor">
-                <h3>Visor Mejor Ficha</h3>
-                <ul id="visor-mejor-ficha">
-                    <!-- Mejor ficha para jugar aparecerá aquí -->
-                </ul>
+            <div id="visor-mejor-ficha">
+                <!-- La mejor ficha para jugar se mostrará aquí -->
             </div>
-        </section>
+        </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>

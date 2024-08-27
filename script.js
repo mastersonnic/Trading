@@ -14,12 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarFichas('pasesEquipo2Dropdown');
     cargarFichas('jugadasEquipo1Dropdown');
     cargarFichas('jugadasEquipo2Dropdown');
-    
+
     // Crear un contenedor para los extremos actuales con estilo en negrita
     const extremosContainer = document.createElement("div");
     extremosContainer.id = "extremosActualesContainer";
     extremosContainer.style.marginTop = "10px";
-    extremosContainer.style.fontWeight = "bold"; // Negrita para los extremos actuales
+    extremosContainer.style.fontWeight = "bold"; // Aplicar negrita para "Extremos actuales"
+    extremosContainer.innerHTML = "<strong>Extremos actuales:</strong> "; // Texto en negrita
     document.body.appendChild(extremosContainer);
 });
 
@@ -121,6 +122,18 @@ function calcularMejorFicha() {
         }
     });
 
+    // Preguntar al usuario por cuál extremo quiere jugar si hay más de un extremo posible
+    if (mejorFichaJugable) {
+        const [x, y] = mejorFichaJugable.split(',').map(Number);
+        const opcionesJugables = extremosActuales.filter(extremo => extremo === x || extremo === y);
+        if (opcionesJugables.length > 1) {
+            const extremoSeleccionado = prompt(`Tienes dos opciones para jugar la ficha ${mejorFichaJugable}: ${opcionesJugables.join(', ')}. ¿Por cuál extremo deseas jugar?`);
+            if (!extremosActuales.includes(parseInt(extremoSeleccionado))) {
+                alert("Opción no válida. Se jugará automáticamente por el primer extremo disponible.");
+            }
+        }
+    }
+
     // Mostrar la mejor ficha para jugar
     let mensaje = `La mejor ficha teórica es ${mejorFichaTeorica} con ${maxGruposCumplidos} grupos cumplidos.`;
 
@@ -132,7 +145,7 @@ function calcularMejorFicha() {
 
     document.getElementById("mejorFichaVisor").textContent = mensaje;
 
-    // Mostrar los extremos actuales
+    // Mostrar los extremos actuales en negrita
     const extremosContainer = document.getElementById("extremosActualesContainer");
     extremosContainer.innerHTML = `<strong>Extremos actuales:</strong> ${extremosActuales.join(', ')}`;
 }
@@ -146,15 +159,21 @@ function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
     const extremos = new Set();
     todasLasJugadas.forEach(ficha => {
         const [x, y] = ficha.split(',').map(Number);
-        if (!extremos.has(x)) {
+
+        // Si la ficha es un doble y es la única ficha jugada, ambos números son extremos.
+        if (x === y) {
             extremos.add(x);
         } else {
-            extremos.delete(x);
-        }
-        if (!extremos.has(y)) {
-            extremos.add(y);
-        } else {
-            extremos.delete(y);
+            if (!extremos.has(x)) {
+                extremos.add(x);
+            } else {
+                extremos.delete(x);
+            }
+            if (!extremos.has(y)) {
+                extremos.add(y);
+            } else {
+                extremos.delete(y);
+            }
         }
     });
 

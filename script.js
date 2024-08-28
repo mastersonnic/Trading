@@ -87,8 +87,8 @@ function actualizarVisores() {
     actualizarVisor('jugadasEquipo1Dropdown', 'jugadasEquipo1Visor');
     actualizarVisor('jugadasEquipo2Dropdown', 'jugadasEquipo2Visor');
     calcularMejorFicha();
-    actualizarExtremosActuales();
-    actualizarProbabilidades();
+    actualizarExtremos();
+    actualizarEquipo1Y2();
 }
 
 function actualizarMisFichas() {
@@ -190,36 +190,80 @@ function calcularMejorFicha() {
     let mensaje = `La mejor ficha teórica es ${mejorFichaTeorica} porque pertenece al grupo ${maxGruposTeoricos.join(', ')}.`;
 
     if (mejorFichaJugable) {
-    mensaje += ` La mejor ficha jugable es ${mejorFichaJugable} porque pertenece al grupo ${maxGruposJugables.join(', ')}.`;
-} else {
-    mensaje += " No hay una ficha jugable disponible.";
-}
+            mensaje += ` La mejor ficha jugable es ${mejorFichaJugable} porque pertenece al grupo ${maxGruposJugables.join(', ')}.`;
+        } else {
+            mensaje += " No hay una ficha jugable disponible.";
+        }
 
-document.getElementById("mejorFichaVisor").textContent = mensaje;
+        document.getElementById("mejorFichaVisor").textContent = mensaje;
+    }
 
-// Actualizar las probabilidades de los equipos
-actualizarProbabilidadesEquipos(jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas);
-}
+    function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
+        let extremos = [];
 
-function actualizarProbabilidadesEquipos(jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas) {
-    // Lógica para calcular y actualizar las probabilidades de ganar para cada equipo
-    // Basada en las jugadas y pases de ambos equipos y en las fichas que posee el usuario
-    let probabilidadEquipo1 = calcularProbabilidad(jugadasEquipo1, pasesEquipo1, misFichas);
-    let probabilidadEquipo2 = calcularProbabilidad(jugadasEquipo2, pasesEquipo2, misFichas);
-    
-    // Actualizar el visor de probabilidades en la interfaz
-    document.getElementById("probabilidadEquipo1").textContent = `Probabilidad de ganar del Equipo 1: ${probabilidadEquipo1}%`;
-    document.getElementById("probabilidadEquipo2").textContent = `Probabilidad de ganar del Equipo 2: ${probabilidadEquipo2}%`;
-}
+        // La primera ficha jugada por el equipo 1 determina el primer extremo
+        if (jugadasEquipo1.length > 0) {
+            const [x1, y1] = jugadasEquipo1[0].split(',').map(Number);
+            extremos.push(x1, y1);
+        }
 
-function calcularProbabilidad(jugadas, pases, misFichas) {
-    // Implementa la lógica para calcular la probabilidad
-    // Esta lógica puede basarse en la cantidad de jugadas exitosas, la cantidad de pases,
-    // y las fichas restantes que posee el jugador en cuestión
-    let probabilidad = (jugadas.length / (jugadas.length + pases.length)) * 100;
+        // La última ficha jugada por el equipo 2 determina el segundo extremo
+        if (jugadasEquipo2.length > 0) {
+            const [x2, y2] = jugadasEquipo2[jugadasEquipo2.length - 1].split(',').map(Number);
+            extremos.push(x2, y2);
+        }
 
-    // Ajustar la probabilidad según las fichas que tiene el usuario
-    // Puedes agregar más lógica aquí para considerar otros factores
+        // Solo se conservan los extremos actuales y únicos
+        extremos = extremos.filter((extremo, index, self) => self.indexOf(extremo) === index);
 
-    return probabilidad.toFixed(2);
-}
+        return extremos.slice(-2);  // Aseguramos que solo queden los dos últimos extremos
+    }
+
+    function obtenerJugadasCombinadas() {
+        const jugadasEquipo1 = Array.from(document.getElementById("jugadasEquipo1Dropdown").selectedOptions).map(opt => opt.value);
+        const jugadasEquipo2 = Array.from(document.getElementById("jugadasEquipo2Dropdown").selectedOptions).map(opt => opt.value);
+        return jugadasEquipo1.concat(jugadasEquipo2);
+    }
+
+    function actualizarVisorEquipos() {
+        const jugadasCombinadas = obtenerJugadasCombinadas();
+        const misFichas = Array.from(document.getElementById("misFichasDropdown").selectedOptions).map(opt => opt.value);
+
+        const numerosRestantes = [0, 1, 2, 3, 4, 5, 6].filter(numero => {
+            const cantidadJugadas = jugadasCombinadas.filter(ficha => ficha.includes(numero.toString())).length;
+            const cantidadEnMisFichas = misFichas.filter(ficha => ficha.includes(numero.toString())).length;
+
+            // Si hay exactamente 7 fichas de un número, excluimos ese número
+            return (cantidadJugadas + cantidadEnMisFichas) < 7;
+        });
+
+        const equipo1Fichas = [];
+        const equipo2Fichas = [];
+
+        numerosRestantes.forEach(numero => {
+            const pasesEquipo1 = Array.from(document.getElementById("pasesEquipo1Dropdown").selectedOptions).map(opt => opt.value);
+            const pasesEquipo2 = Array.from(document.getElementById("pasesEquipo2Dropdown").selectedOptions).map(opt => opt.value);
+
+            const enEquipo1 = pasesEquipo2.filter(ficha => ficha.includes(numero.toString())).length > 0;
+            const enEquipo2 = pasesEquipo1.filter(ficha => ficha.includes(numero.toString())).length > 0;
+
+            if (enEquipo1) equipo1Fichas.push(numero);
+            if (enEquipo2) equipo2Fichas.push(numero);
+        });
+
+        document.getElementById("equipo1Probabilidad").textContent = `Equipo 1 tiene: ${equipo1Fichas.join(', ')}`;
+        document.getElementById("equipo2Probabilidad").textContent = `Equipo 2 tiene: ${equipo2Fichas.join(', ')}`;
+    }
+
+    // Se asegura que los visores de los equipos se actualicen correctamente
+    document.querySelectorAll("select").forEach(dropdown => {
+        dropdown.addEventListener("change", () => {
+            actualizarVisores();
+            actualizarVisorEquipos();  // Actualizamos las fichas seguras en manos de los equipos
+        });
+    });
+
+    // Llamar una vez para inicializar todo
+    actualizarVisores();
+    actualizarVisorEquipos();
+});

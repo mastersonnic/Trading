@@ -201,5 +201,25 @@ document.getElementById("mejorFichaVisor").textContent = mensaje;
 actualizarProbabilidadesEquipos(jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas);
 }
 
-function actualizarProbabilidadesEquipos(jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, mis
-        mensaje
+function actualizarProbabilidadesEquipos(jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas) {
+    // Lógica para calcular y actualizar las probabilidades de ganar para cada equipo
+    // Basada en las jugadas y pases de ambos equipos y en las fichas que posee el usuario
+    let probabilidadEquipo1 = calcularProbabilidad(jugadasEquipo1, pasesEquipo1, misFichas);
+    let probabilidadEquipo2 = calcularProbabilidad(jugadasEquipo2, pasesEquipo2, misFichas);
+    
+    // Actualizar el visor de probabilidades en la interfaz
+    document.getElementById("probabilidadEquipo1").textContent = `Probabilidad de ganar del Equipo 1: ${probabilidadEquipo1}%`;
+    document.getElementById("probabilidadEquipo2").textContent = `Probabilidad de ganar del Equipo 2: ${probabilidadEquipo2}%`;
+}
+
+function calcularProbabilidad(jugadas, pases, misFichas) {
+    // Implementa la lógica para calcular la probabilidad
+    // Esta lógica puede basarse en la cantidad de jugadas exitosas, la cantidad de pases,
+    // y las fichas restantes que posee el jugador en cuestión
+    let probabilidad = (jugadas.length / (jugadas.length + pases.length)) * 100;
+
+    // Ajustar la probabilidad según las fichas que tiene el usuario
+    // Puedes agregar más lógica aquí para considerar otros factores
+
+    return probabilidad.toFixed(2);
+}

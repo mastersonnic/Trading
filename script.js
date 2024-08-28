@@ -22,37 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
     extremosContainer.innerHTML = "<strong>Extremos actuales:</strong> ";
     document.body.appendChild(extremosContainer);
 
-    const equipo1Probabilidad = document.createElement("div");
-    equipo1Probabilidad.id = "equipo1Probabilidad";
-    equipo1Probabilidad.style.color = "red";
-    equipo1Probabilidad.style.fontWeight = "bold";
-    equipo1Probabilidad.style.marginTop = "10px";
-    equipo1Probabilidad.innerHTML = "Equipo 1 tiene: ()";
-    document.body.appendChild(equipo1Probabilidad);
-
-    const equipo2Probabilidad = document.createElement("div");
-    equipo2Probabilidad.id = "equipo2Probabilidad";
-    equipo2Probabilidad.style.color = "red";
-    equipo2Probabilidad.style.fontWeight = "bold";
-    equipo2Probabilidad.style.marginTop = "10px";
-    equipo2Probabilidad.innerHTML = "Equipo 2 tiene: ()";
-    document.body.appendChild(equipo2Probabilidad);
-
-    const gruposContainer = document.createElement("div");
-    gruposContainer.id = "gruposContainer";
-    gruposContainer.style.marginTop = "10px";
-    gruposContainer.style.fontWeight = "bold";
-    gruposContainer.innerHTML = `
-        <strong>Definición de los grupos:</strong><br>
-        Grupo A: Ficha doble.<br>
-        Grupo B: Suma de los extremos mayor a 6.<br>
-        Grupo C: Tienes 4 o más fichas con el mismo número.<br>
-        Grupo D: Aliado jugó una ficha con alguno de los extremos.<br>
-        Grupo E: Oponente pasó por alguno de los extremos.<br>
-        Grupo F: Aliado no pasó por los extremos.
-    `;
-    document.body.appendChild(gruposContainer);
-
     const mejorFichaContainer = document.createElement("div");
     mejorFichaContainer.id = "mejorFichaVisor";
     mejorFichaContainer.style.marginTop = "10px";
@@ -63,7 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Asociar el evento 'change' a cada dropdown para actualizar visores y calcular la mejor ficha
     document.querySelectorAll("select").forEach(dropdown => {
         dropdown.addEventListener("change", () => {
-            actualizarVisores();
+            actualizarMisFichas();
+            calcularMejorFicha();
         });
     });
 
@@ -82,13 +52,11 @@ function cargarFichas(dropdownId) {
 
 function actualizarVisores() {
     actualizarMisFichas();
-    actualizarVisor('pasesEquipo1Dropdown', 'equipo1Probabilidad');
-    actualizarVisor('pasesEquipo2Dropdown', 'equipo2Probabilidad');
-    actualizarVisor('jugadasEquipo1Dropdown', 'jugadasEquipo1Visor');
-    actualizarVisor('jugadasEquipo2Dropdown', 'jugadasEquipo2Visor');
+    actualizarVisor('pasesEquipo1Dropdown');
+    actualizarVisor('pasesEquipo2Dropdown');
+    actualizarVisor('jugadasEquipo1Dropdown');
+    actualizarVisor('jugadasEquipo2Dropdown');
     calcularMejorFicha();
-    actualizarExtremos();
-    actualizarEquipo1Y2();
 }
 
 function actualizarMisFichas() {
@@ -106,10 +74,10 @@ function actualizarMisFichas() {
     document.getElementById("misFichasVisor").textContent = fichasRestantes.join(", ");
 }
 
-function actualizarVisor(dropdownId, visorId) {
+function actualizarVisor(dropdownId) {
     const dropdown = document.getElementById(dropdownId);
     const seleccionadas = Array.from(dropdown.selectedOptions).map(opt => opt.value);
-    document.getElementById(visorId).textContent = seleccionadas.join(", ");
+    document.getElementById(dropdownId + "Visor").textContent = seleccionadas.join(", ");
 }
 
 function calcularGruposCumplidos(ficha, x, y, jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas) {
@@ -190,80 +158,32 @@ function calcularMejorFicha() {
     let mensaje = `La mejor ficha teórica es ${mejorFichaTeorica} porque pertenece al grupo ${maxGruposTeoricos.join(', ')}.`;
 
     if (mejorFichaJugable) {
-            mensaje += ` La mejor ficha jugable es ${mejorFichaJugable} porque pertenece al grupo ${maxGruposJugables.join(', ')}.`;
-        } else {
-            mensaje += " No hay una ficha jugable disponible.";
+        mensaje += ` La mejor ficha jugable es ${mejorFichaJugable} porque pertenece al grupo ${maxGruposJugables.join(', ')}.`;
+    } else {
+        mensaje += " No hay una ficha jugable disponible.";
+    }
+
+    document.getElementById("mejorFichaVisor").textContent = mensaje;
+
+    const extremosContainer = document.getElementById("extremosActualesContainer");
+    extremosContainer.innerHTML = `<strong>Extremos actuales:</strong> ${extremosActuales.join(', ')}`;
+}
+
+function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
+    const jugadas = [...jugadasEquipo1, ...jugadasEquipo2];
+    if (jugadas.length === 0) return [];
+
+    const primerFicha = jugadas[0].split(',').map(Number);
+    let extremos = [primerFicha[0], primerFicha[1]];
+
+    jugadas.slice(1).forEach(ficha => {
+        const [x, y] = ficha.split(',').map(Number);
+        if (extremos.includes(x)) {
+            extremos[extremos.indexOf(x)] = y;
+        } else if (extremos.includes(y)) {
+            extremos[extremos.indexOf(y)] = x;
         }
-
-        document.getElementById("mejorFichaVisor").textContent = mensaje;
-    }
-
-    function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
-        let extremos = [];
-
-        // La primera ficha jugada por el equipo 1 determina el primer extremo
-        if (jugadasEquipo1.length > 0) {
-            const [x1, y1] = jugadasEquipo1[0].split(',').map(Number);
-            extremos.push(x1, y1);
-        }
-
-        // La última ficha jugada por el equipo 2 determina el segundo extremo
-        if (jugadasEquipo2.length > 0) {
-            const [x2, y2] = jugadasEquipo2[jugadasEquipo2.length - 1].split(',').map(Number);
-            extremos.push(x2, y2);
-        }
-
-        // Solo se conservan los extremos actuales y únicos
-        extremos = extremos.filter((extremo, index, self) => self.indexOf(extremo) === index);
-
-        return extremos.slice(-2);  // Aseguramos que solo queden los dos últimos extremos
-    }
-
-    function obtenerJugadasCombinadas() {
-        const jugadasEquipo1 = Array.from(document.getElementById("jugadasEquipo1Dropdown").selectedOptions).map(opt => opt.value);
-        const jugadasEquipo2 = Array.from(document.getElementById("jugadasEquipo2Dropdown").selectedOptions).map(opt => opt.value);
-        return jugadasEquipo1.concat(jugadasEquipo2);
-    }
-
-    function actualizarVisorEquipos() {
-        const jugadasCombinadas = obtenerJugadasCombinadas();
-        const misFichas = Array.from(document.getElementById("misFichasDropdown").selectedOptions).map(opt => opt.value);
-
-        const numerosRestantes = [0, 1, 2, 3, 4, 5, 6].filter(numero => {
-            const cantidadJugadas = jugadasCombinadas.filter(ficha => ficha.includes(numero.toString())).length;
-            const cantidadEnMisFichas = misFichas.filter(ficha => ficha.includes(numero.toString())).length;
-
-            // Si hay exactamente 7 fichas de un número, excluimos ese número
-            return (cantidadJugadas + cantidadEnMisFichas) < 7;
-        });
-
-        const equipo1Fichas = [];
-        const equipo2Fichas = [];
-
-        numerosRestantes.forEach(numero => {
-            const pasesEquipo1 = Array.from(document.getElementById("pasesEquipo1Dropdown").selectedOptions).map(opt => opt.value);
-            const pasesEquipo2 = Array.from(document.getElementById("pasesEquipo2Dropdown").selectedOptions).map(opt => opt.value);
-
-            const enEquipo1 = pasesEquipo2.filter(ficha => ficha.includes(numero.toString())).length > 0;
-            const enEquipo2 = pasesEquipo1.filter(ficha => ficha.includes(numero.toString())).length > 0;
-
-            if (enEquipo1) equipo1Fichas.push(numero);
-            if (enEquipo2) equipo2Fichas.push(numero);
-        });
-
-        document.getElementById("equipo1Probabilidad").textContent = `Equipo 1 tiene: ${equipo1Fichas.join(', ')}`;
-        document.getElementById("equipo2Probabilidad").textContent = `Equipo 2 tiene: ${equipo2Fichas.join(', ')}`;
-    }
-
-    // Se asegura que los visores de los equipos se actualicen correctamente
-    document.querySelectorAll("select").forEach(dropdown => {
-        dropdown.addEventListener("change", () => {
-            actualizarVisores();
-            actualizarVisorEquipos();  // Actualizamos las fichas seguras en manos de los equipos
-        });
     });
 
-    // Llamar una vez para inicializar todo
-    actualizarVisores();
-    actualizarVisorEquipos();
-});
+    return extremos;
+    }

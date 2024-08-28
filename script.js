@@ -52,6 +52,14 @@ document.addEventListener("DOMContentLoaded", () => {
         Grupo F: Aliado no pasó por los extremos.
     `;
     document.body.appendChild(gruposContainer);
+
+    // Asociar el evento 'change' a cada dropdown para actualizar visores y calcular la mejor ficha
+    document.querySelectorAll("select").forEach(dropdown => {
+        dropdown.addEventListener("change", () => {
+            actualizarMisFichas();
+            calcularMejorFicha();
+        });
+    });
 });
 
 function cargarFichas(dropdownId) {
@@ -89,28 +97,35 @@ function actualizarVisor(dropdownId, visorId) {
 function calcularGruposCumplidos(ficha, x, y, jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas) {
     let grupos = [];
 
+    // Grupo A
     if (x === y) {
         grupos.push('A');
     }
 
-    if ((x + y) > 6) {
+    // Grupo B
+    const extremos = obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2);
+    if (extremos.length > 0 && (extremos[0] + extremos[1]) > 6) {
         grupos.push('B');
     }
 
+    // Grupo C
     const countX = misFichas.filter(f => f.includes(x.toString())).length;
     const countY = misFichas.filter(f => f.includes(y.toString())).length;
     if (countX >= 4 || countY >= 4) {
         grupos.push('C');
     }
 
+    // Grupo D
     if (jugadasEquipo1.some(f => f.includes(x.toString())) || jugadasEquipo1.some(f => f.includes(y.toString()))) {
         grupos.push('D');
     }
 
+    // Grupo E
     if (pasesEquipo2.some(f => f.includes(x.toString())) || pasesEquipo2.some(f => f.includes(y.toString()))) {
         grupos.push('E');
     }
 
+    // Grupo F
     if (!(pasesEquipo1.some(f => f.includes(x.toString())) || pasesEquipo1.some(f => f.includes(y.toString())))) {
         grupos.push('F');
     }
@@ -166,30 +181,74 @@ function calcularMejorFicha() {
 
     const extremosContainer = document.getElementById("extremosActualesContainer");
     extremosContainer.innerHTML = `<strong>Extremos actuales:</strong> ${extremosActuales.join(', ')}`;
-
-    actualizarProbabilidadesEquipos(pasesEquipo1, pasesEquipo2, jugadasEquipo1, jugadasEquipo2, extremosActuales);
 }
 
-function actualizarProbabilidadesEquipos(pasesEquipo1, pasesEquipo2, jugadasEquipo1, jugadasEquipo2, extremosActuales) {
-    const equipo1NumerosProbables = calcularNumerosProbables(pasesEquipo1, jugadasEquipo2, extremosActuales);
-    const equipo2NumerosProbables = calcularNumerosProbables(pasesEquipo2, jugadasEquipo1, extremosActuales);
+function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
+    const todasLasJugadas = [...jugadasEquipo1, ...jugadasEquipo2];
 
-    document.getElementById("equipo1Probabilidad").textContent = `Equipo 1 tiene: (${equipo1NumerosProbables.join(', ')})`;
-    document.getElementById("equipo2Probabilidad").textContent = `Equipo 2 tiene: (${equipo2NumerosProbables.join(', ')})`;
-
-document.getElementById("extremosActualesContainer").innerHTML = `<strong>Extremos actuales:</strong> ${extremosActuales.join(', ')}`;
-}
-
-function calcularNumerosProbables(pasesEquipo, jugadasOponente, extremosActuales) {
-    const numerosProbables = [];
-
-    pasesEquipo.forEach(pase => {
-    const [x, y] = pase.split(',').map(Number);
-    if (!jugadasOponente.includes(pase) && !extremosActuales.includes(x) && !extremosActuales.includes(y)) {
-        if (!numerosProbables.includes(x)) numerosProbables.push(x);
-        if (!numerosProbables.includes(y)) numerosProbables.push(y);
+    if (todasLasJugadas.length === 0) {
+        // Si no hay jugadas, no hay extremos
+        return [];
     }
-});
 
-return numerosProbables;
+    // Obtener los extremos actuales
+    const primerExtremo = Number(todasLasJugadas[0].split(',')[0]);
+    const ultimoExtremo = Number(todasLasJugadas[todasLasJugadas.length - 1].split(',')[1]);
+
+    return [primerExtremo, ultimoExtremo];
 }
+
+// Llama a esta función para inicializar los dropdowns y visores cuando se carga la página
+document.addEventListener("DOMContentLoaded", () => {
+    cargarFichas('misFichasDropdown');
+    cargarFichas('pasesEquipo1Dropdown');
+    cargarFichas('pasesEquipo2Dropdown');
+    cargarFichas('jugadasEquipo1Dropdown');
+    cargarFichas('jugadasEquipo2Dropdown');
+
+    const extremosContainer = document.createElement("div");
+    extremosContainer.id = "extremosActualesContainer";
+    extremosContainer.style.marginTop = "10px";
+    extremosContainer.style.fontWeight = "bold";
+    extremosContainer.innerHTML = "<strong>Extremos actuales:</strong> ";
+    document.body.appendChild(extremosContainer);
+
+    const equipo1Probabilidad = document.createElement("div");
+    equipo1Probabilidad.id = "equipo1Probabilidad";
+    equipo1Probabilidad.style.color = "red";
+    equipo1Probabilidad.style.fontWeight = "bold";
+    equipo1Probabilidad.style.marginTop = "10px";
+    equipo1Probabilidad.innerHTML = "Equipo 1 tiene: ()";
+    document.body.appendChild(equipo1Probabilidad);
+
+    const equipo2Probabilidad = document.createElement("div");
+    equipo2Probabilidad.id = "equipo2Probabilidad";
+    equipo2Probabilidad.style.color = "red";
+    equipo2Probabilidad.style.fontWeight = "bold";
+    equipo2Probabilidad.style.marginTop = "10px";
+    equipo2Probabilidad.innerHTML = "Equipo 2 tiene: ()";
+    document.body.appendChild(equipo2Probabilidad);
+
+    const gruposContainer = document.createElement("div");
+    gruposContainer.id = "gruposContainer";
+    gruposContainer.style.marginTop = "10px";
+    gruposContainer.style.fontWeight = "bold";
+    gruposContainer.innerHTML = `
+        <strong>Definición de los grupos:</strong><br>
+        Grupo A: Ficha doble.<br>
+        Grupo B: Suma de los extremos mayor a 6.<br>
+        Grupo C: Tienes 4 o más fichas con el mismo número.<br>
+        Grupo D: Aliado jugó una ficha con alguno de los extremos.<br>
+        Grupo E: Oponente pasó por alguno de los extremos.<br>
+        Grupo F: Aliado no pasó por los extremos.
+    `;
+    document.body.appendChild(gruposContainer);
+
+    // Asociar el evento 'change' a cada dropdown para actualizar visores y calcular la mejor ficha
+    document.querySelectorAll("select").forEach(dropdown => {
+        dropdown.addEventListener("change", () => {
+            actualizarMisFichas();
+            calcularMejorFicha();
+        });
+    });
+});

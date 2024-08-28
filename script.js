@@ -186,4 +186,4 @@ function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
     });
 
     return extremos;
-    }
+}

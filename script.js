@@ -192,47 +192,49 @@ function calcularNumerosProbables(pasesEquipo, jugadasOponente, extremosActuales
     return numerosProbables;
 }
 
-function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
-    const jugadas = [...jugadasEquipo1, ...jugadasEquipo2];
-    const extremos = new Set();
-
-    jugadas.forEach(ficha => {
-        const [x, y] = ficha.split(',').map(Number);
-        extremos.add(x);
-        extremos.add(y);
-    });
-
-    return Array.from(extremos);
-}
-
-function actualizarExtremos(fichaJugada) {
-    const [x, y] = fichaJugada.split(',').map(Number);
+// Ejemplo de cómo llamar a la función al jugar una ficha
+function jugarFicha(ficha) {
+    actualizarExtremos(ficha);
+    calcularMejorFicha();  // Llamar a esta función para actualizar la mejor ficha
+    
+    // Lógica adicional para actualizar el estado del juego
+    const [x, y] = ficha.split(',').map(Number);
     const extremosActuales = obtenerExtremosActuales(
         Array.from(document.getElementById("jugadasEquipo1Dropdown").selectedOptions).map(opt => opt.value),
         Array.from(document.getElementById("jugadasEquipo2Dropdown").selectedOptions).map(opt => opt.value)
     );
 
-    if (extremosActuales.includes(x) && extremosActuales.includes(y)) {
-        const lado = prompt(`¿Por cuál lado deseas colocar la ficha ${fichaJugada}? Opciones: ${x} o ${y}`);
-        if (lado == x) {
-            extremosActuales.push(y);
-        } else if (lado == y) {
-            extremosActuales.push(x);
-        } else {
-            alert("Lado inválido. La ficha no se colocará.");
-            return;
-        }
-    } else if (extremosActuales.includes(x)) {
-        extremosActuales.push(y);
-    } else if (extremosActuales.includes(y)) {
-        extremosActuales.push(x);
+    // Actualizar extremos de la mesa
+    if (extremosActuales[0] === x || extremosActuales[1] === x) {
+        extremosActuales[0] = y;
+    } else if (extremosActuales[0] === y || extremosActuales[1] === y) {
+        extremosActuales[1] = x;
     }
 
+    // Actualizar el visor de extremos
     document.getElementById("extremosActualesContainer").innerHTML = `<strong>Extremos actuales:</strong> ${extremosActuales.join(', ')}`;
+
+    // Eliminar la ficha jugada de la mano
+    const misFichasDropdown = document.getElementById("misFichasDropdown");
+    const options = Array.from(misFichasDropdown.options);
+    const optionToRemove = options.find(opt => opt.value === ficha);
+    if (optionToRemove) {
+        misFichasDropdown.removeChild(optionToRemove);
+    }
+
+    // Actualizar visor de mis fichas
+    actualizarMisFichas();
+    
+    // Verificar si el juego ha terminado
+    if (misFichasDropdown.options.length === 0) {
+        alert("¡Felicidades! Has jugado todas tus fichas.");
+    }
 }
 
-// Ejemplo de cómo llamar a la función al jugar una ficha
-function jugarFicha(ficha) {
-    actualizarExtremos(ficha);
-    // Lógica adicional para actualizar el estado del juego
+function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
+    const jugadas = jugadasEquipo1.concat(jugadasEquipo2);
+    if (jugadas.length === 0) return [null, null];
+    const [primerFicha] = jugadas[0].split(',').map(Number);
+    const [ultimaFicha] = jugadas[jugadas.length - 1].split(',').map(Number);
+    return [primerFicha, ultimaFicha];
 }

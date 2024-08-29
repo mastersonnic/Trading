@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveConfigButton = document.getElementById('save-config');
     const loadConfigButton = document.getElementById('load-config');
 
+    // Objeto para almacenar variables creadas por el usuario
+    let userVariables = {};
+
     // Manejar arrastrar y soltar de componentes
     document.querySelectorAll('.component').forEach(component => {
         component.addEventListener('dragstart', function(event) {
@@ -96,8 +99,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Ejemplo de lógica condicional: puedes escribir esto en el textarea de código para probar
-    // if (workspace.querySelectorAll('select').length > 0) {
-    //     alert('There are dropdowns in the workspace!');
-    // }
+    // Crear variables desde el editor de código
+    window.createVariable = function(name, value) {
+        userVariables[name] = value;
+        alert(`Variable ${name} created with value: ${value}`);
+    };
+
+    // Fusionar variables en un componente
+    window.insertVariablesIntoComponent = function(componentId, ...variableNames) {
+        const component = document.getElementById(componentId);
+        if (!component) {
+            alert('Component not found');
+            return;
+        }
+
+        const combinedContent = variableNames.map(name => userVariables[name] || '').join(' ');
+        if (component.tagName === 'SELECT') {
+            const option = document.createElement('option');
+            option.textContent = combinedContent;
+            component.appendChild(option);
+        } else {
+            component.textContent = combinedContent;
+        }
+    };
+    
+    // Ejemplo de creación y uso de variables
+    // createVariable('myText', 'Hello World');
+    // insertVariablesIntoComponent('myComponent', 'myText');
 });

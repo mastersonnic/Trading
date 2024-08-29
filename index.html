@@ -3,62 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dominó - Gestión de Fichas</title>
     <link rel="stylesheet" href="styles.css">
+    <title>Dominó</title>
 </head>
 <body>
-    <h1>Gestión de Fichas de Dominó</h1>
+    <h1>Dominó Juego</h1>
     
-    <!-- Sección para seleccionar mis fichas -->
-    <div class="section">
-        <label for="misFichasDropdown">Selecciona tus 7 fichas:</label>
-        <select id="misFichasDropdown" multiple onchange="actualizarMisFichas()">
-            <!-- Aquí se cargarán las 28 fichas -->
-        </select>
-        <p><strong>Mis fichas:</strong> <span id="misFichasVisor"></span></p>
-    </div>
+    <!-- 3* Lista desplegable "lista todas las fichas" -->
+    <label for="fichas-duales">Lista de Todas las Fichas:</label>
+    <select id="fichas-duales" multiple>
+    </select>
 
-    <!-- Sección para seleccionar fichas para Pases del Equipo 1 -->
-    <div class="section">
-        <label for="pasesEquipo1Dropdown">Pases del Equipo 1:</label>
-        <select id="pasesEquipo1Dropdown" multiple onchange="actualizarVisor('pasesEquipo1Dropdown', 'pasesEquipo1Visor')">
-            <!-- Aquí se cargarán las 28 fichas -->
-        </select>
-        <p><strong>Pases Equipo 1:</strong> <span id="pasesEquipo1Visor"></span></p>
-    </div>
+    <div id="mensaje"></div> <!-- 5* Mensaje inherente si no se seleccionan 7 fichas -->
 
-    <!-- Sección para seleccionar fichas para Pases del Equipo 2 -->
-    <div class="section">
-        <label for="pasesEquipo2Dropdown">Pases del Equipo 2:</label>
-        <select id="pasesEquipo2Dropdown" multiple onchange="actualizarVisor('pasesEquipo2Dropdown', 'pasesEquipo2Visor')">
-            <!-- Aquí se cargarán las 28 fichas -->
-        </select>
-        <p><strong>Pases Equipo 2:</strong> <span id="pasesEquipo2Visor"></span></p>
-    </div>
+    <!-- 7* Visor X -->
+    <h2>Mis Fichas Seleccionadas (D):</h2>
+    <ul id="mis-fichas"></ul> <!-- 9* Visor E "Visor Mis Fichas" -->
 
-    <!-- Sección para seleccionar fichas para Jugadas del Equipo 1 -->
-    <div class="section">
-        <label for="jugadasEquipo1Dropdown">Jugadas del Equipo 1:</label>
-        <select id="jugadasEquipo1Dropdown" multiple onchange="actualizarVisor('jugadasEquipo1Dropdown', 'jugadasEquipo1Visor')">
-            <!-- Aquí se cargarán las 28 fichas -->
-        </select>
-        <p><strong>Jugadas Equipo 1:</strong> <span id="jugadasEquipo1Visor"></span></p>
-    </div>
+    <!-- 10* Listas desplegables F, G, H, I -->
+    <label for="fichas-F">Candidatas a Pases de J1:</label>
+    <select id="fichas-F" multiple></select>
+    <label for="fichas-G">Candidatas a Pases de J2:</label>
+    <select id="fichas-G" multiple></select>
+    <label for="fichas-H">Candidatas a Pases de J3:</label>
+    <select id="fichas-H" multiple></select>
+    <label for="fichas-I">Candidatas a Pases de J4:</label>
+    <select id="fichas-I" multiple></select>
 
-    <!-- Sección para seleccionar fichas para Jugadas del Equipo 2 -->
-    <div class="section">
-        <label for="jugadasEquipo2Dropdown">Jugadas del Equipo 2:</label>
-        <select id="jugadasEquipo2Dropdown" multiple onchange="actualizarVisor('jugadasEquipo2Dropdown', 'jugadasEquipo2Visor')">
-            <!-- Aquí se cargarán las 28 fichas -->
-        </select>
-        <p><strong>Jugadas Equipo 2:</strong> <span id="jugadasEquipo2Visor"></span></p>
-    </div>
+    <!-- 12* Listas desplegables O, P, Q, R -->
+    <label for="fichas-O">Candidatas a Jugada de J1:</label>
+    <select id="fichas-O" multiple></select>
+    <label for="fichas-P">Candidatas a Jugada de J2:</label>
+    <select id="fichas-P" multiple></select>
+    <label for="fichas-Q">Candidatas a Jugada de J3:</label>
+    <select id="fichas-Q" multiple></select>
+    <label for="fichas-R">Candidatas a Jugada de J4:</label>
+    <select id="fichas-R" multiple></select>
 
-    <!-- Visor de la mejor ficha para jugar -->
-    <div class="section">
-        <p><strong>Mejor ficha para jugar:</strong> <span id="mejorFichaVisor"></span></p>
-        <button onclick="calcularMejorFicha()">Calcular Mejor Ficha</button>
-    </div>
+    <!-- 15* Visor Z -->
+    <h2>Mejor Ficha para Jugar (Y):</h2>
+    <div id="mejor-ficha"></div>
+
+    <!-- 17* Visor J1 -->
+    <h2>Extremos Actuales (H1):</h2>
+    <div id="extremos-actuales"></div>
+
+    <!-- 18* Visores O1 y P1 -->
+    <h2>Equipo 1 - Fichas Pasadas:</h2>
+    <div id="fichas-equipo1"></div>
+    <h2>Equipo 2 - Fichas Pasadas:</h2>
+    <div id="fichas-equipo2"></div>
 
     <script src="script.js"></script>
 </body>

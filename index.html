@@ -1,53 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Domino Interface</title>
+    <title>Interfaz Dinámica de Dominó</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Domino Interface Creator</h1>
-    
-    <!-- Input para insertar código directamente -->
-    <div class="input-section">
-        <h2>Insert Code</h2>
-        <textarea id="code-input" placeholder="Insert code here..."></textarea>
-        <button id="undo">Undo</button>
-        <button id="redo">Redo</button>
-        <button id="execute-code">Execute</button>
-    </div>
-    
-    <!-- Guardar y cargar configuraciones -->
-    <div class="config-section">
-        <h2>Configuration</h2>
-        <button id="save-config">Save Configuration</button>
-        <select id="config-list">
-            <option value="">Select a configuration</option>
-        </select>
-        <button id="load-config">Load Selected Configuration</button>
-        <button id="delete-config">Delete Selected Configuration</button>
-    </div>
-    
-    <!-- Sección de componentes arrastrables -->
-    <div class="drag-section">
-        <h2>Drag & Drop Components</h2>
-        <div class="component" draggable="true" data-type="dropdown">Dropdown List</div>
-        <div class="component" draggable="true" data-type="button">Button</div>
-        <div class="component" draggable="true" data-type="text-view">Text View</div>
-    </div>
-    
-    <!-- Zona de trabajo para arrastrar componentes -->
-    <div id="workspace" class="workspace">
-        <h2>Workspace</h2>
-        <!-- Los componentes aparecerán aquí -->
-    </div>
+    <header>
+        <h1>Editor de Interfaz de Dominó</h1>
+    </header>
 
-    <!-- Visor de componentes creados -->
-    <div id="component-viewer" class="component-viewer">
-        <h2>Component Viewer</h2>
-        <!-- Aquí se listarán todos los componentes creados -->
-    </div>
+    <main>
+        <section id="editor">
+            <div id="toolbar">
+                <h2>Componentes Disponibles</h2>
+                <ul>
+                    <li><button class="add-component" data-type="list">Agregar Lista Desplegable</button></li>
+                    <li><button class="add-component" data-type="text">Agregar Texto</button></li>
+                    <li><button class="add-component" data-type="button">Agregar Botón</button></li>
+                    <li><button class="add-component" data-type="viewer">Agregar Visor</button></li>
+                </ul>
+            </div>
+
+            <div id="workspace">
+                <h2>Espacio de Trabajo</h2>
+                <div id="components"></div>
+            </div>
+        </section>
+
+        <section id="code-input">
+            <h2>Editor de Código</h2>
+            <textarea id="code" placeholder="Inserte código aquí..."></textarea>
+            <button id="run-code">Ejecutar Código</button>
+        </section>
+
+        <section id="component-overview">
+            <h2>Componentes Creados</h2>
+            <ul id="component-list"></ul>
+        </section>
+    </main>
+
+    <footer>
+        <button id="save-session">Guardar Sesión</button>
+        <button id="load-session">Cargar Sesión</button>
+        <button id="undo">Deshacer</button>
+        <button id="redo">Rehacer</button>
+    </footer>
 
     <script src="script.js"></script>
 </body>

@@ -88,5 +88,72 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.getElementById("redo").addEventListener("click", () => {
-        if (redoStack.length > 0) {
-            const lastAction = redoStack
+    if (redoStack.length > 0) {
+        const lastAction = redoStack.pop();
+        undoStack.push(lastAction);
+
+        if (lastAction.action === 'create') {
+            const { id, type, element } = lastAction.component;
+            components.push({ id, type, element });
+            componentsDiv.appendChild(element);
+            updateComponentList();
+        }
+        // Se pueden añadir más casos aquí para otras acciones como 'delete', 'update', etc.
+    }
+});
+
+// Guardar sesión
+document.getElementById("save-session").addEventListener("click", () => {
+    const sessionData = components.map(c => ({
+        id: c.id,
+        type: c.type,
+        html: c.element.innerHTML
+    }));
+    localStorage.setItem("dominoSession", JSON.stringify(sessionData));
+    alert("Sesión guardada exitosamente.");
+});
+
+// Cargar sesión
+document.getElementById("load-session").addEventListener("click", () => {
+    const sessionData = JSON.parse(localStorage.getItem("dominoSession"));
+    if (sessionData) {
+        componentsDiv.innerHTML = '';
+        components = sessionData.map(data => {
+            const component = document.createElement("div");
+            component.classList.add("component");
+            component.dataset.id = data.id;
+            component.innerHTML = data.html;
+            componentsDiv.appendChild(component);
+            return { id: data.id, type: data.type, element: component };
+        });
+        updateComponentList();
+        alert("Sesión cargada exitosamente.");
+    } else {
+        alert("No hay sesiones guardadas.");
+    }
+});
+
+// Ejemplo de cómo agregar una acción personalizada en un componente (para futuros desarrollos)
+function addCustomAction(componentId, actionType, action) {
+    const component = components.find(c => c.id === componentId);
+    if (component) {
+        // Agregar lógica para acciones personalizadas, como eventos de click en botones, cambios en listas, etc.
+        if (actionType === 'click' && component.type === 'button') {
+            const button = component.element.querySelector('button');
+            button.addEventListener('click', action);
+        }
+        // Se pueden agregar más tipos de acciones aquí
+    } else {
+        alert("Componente no encontrado.");
+    }
+}
+
+// Última línea del primer código: Ejecutar el código del input
+document.getElementById("run-code").addEventListener("click", () => {
+    const code = document.getElementById("code").value;
+    try {
+        eval(code);
+    } catch (error) {
+        alert("Error en el código: " + error.message);
+    }
+});

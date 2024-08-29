@@ -1,6 +1,6 @@
 let elementCounter = 0;
 
-function createElement(type) {
+function createElement(type, listNumber) {
     elementCounter++;
     const contentDiv = document.getElementById('content');
     

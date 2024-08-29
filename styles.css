@@ -1,33 +1,27 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #6B8E23; /* Color verde aceituna */
-    color: #fff; /* Color blanco para las letras */
-    font-weight: bold; /* Hacer las letras bold */
-    font-size: 1.2em; /* Hacer las letras grandes */
+    background-color: #556B2F;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
+    margin: 20px;
 }
 
 h1, h2 {
-    color: #f5f5dc; /* Tono claro para los encabezados */
+    color: #8FBC8F;
 }
 
-label {
-    margin-top: 10px;
-    display: block;
+p {
+    color: #FAFAD2;
 }
 
-select, div, ul {
-    margin-bottom: 20px;
+button {
+    background-color: #6B8E23;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
 }
 
-select {
-    background-color: #556B2F; /* Otro tono de verde aceituna */
-    color: #fff;
-    padding: 5px;
-    font-weight: bold;
-    font-size: 1em;
-}
-
-#mensaje {
-    color: #ff4500; /* Color rojo para mensajes de error */
-    font-weight: bold;
+button:hover {
+    background-color: #8FBC8F;
 }

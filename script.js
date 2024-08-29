@@ -1,237 +1,134 @@
-const todasLasFichas = [
-    '0,0', '0,1', '0,2', '0,3', '0,4', '0,5', '0,6',
-    '1,1', '1,2', '1,3', '1,4', '1,5', '1,6',
-    '2,2', '2,3', '2,4', '2,5', '2,6',
-    '3,3', '3,4', '3,5', '3,6',
-    '4,4', '4,5', '4,6',
-    '5,5', '5,6',
-    '6,6'
+// 1* Crear variable A "fichas duales" que contiene las 28 fichas de dominó con sus dos números.
+const A = [
+    [0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6],
+    [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6],
+    [2, 2], [2, 3], [2, 4], [2, 5], [2, 6],
+    [3, 3], [3, 4], [3, 5], [3, 6],
+    [4, 4], [4, 5], [4, 6],
+    [5, 5], [5, 6],
+    [6, 6]
 ];
 
-document.addEventListener("DOMContentLoaded", () => {
-    cargarFichas('misFichasDropdown');
-    cargarFichas('pasesEquipo1Dropdown');
-    cargarFichas('pasesEquipo2Dropdown');
-    cargarFichas('jugadasEquipo1Dropdown');
-    cargarFichas('jugadasEquipo2Dropdown');
-
-    const extremosContainer = document.createElement("div");
-    extremosContainer.id = "extremosActualesContainer";
-    extremosContainer.style.marginTop = "10px";
-    extremosContainer.style.fontWeight = "bold";
-    extremosContainer.innerHTML = "<strong>Extremos actuales:</strong> ";
-    document.body.appendChild(extremosContainer);
-
-    const equipo1Probabilidad = document.createElement("div");
-    equipo1Probabilidad.id = "equipo1Probabilidad";
-    equipo1Probabilidad.style.color = "red";
-    equipo1Probabilidad.style.fontWeight = "bold";
-    equipo1Probabilidad.style.marginTop = "10px";
-    equipo1Probabilidad.innerHTML = "Equipo 1 tiene: ()";
-    document.body.appendChild(equipo1Probabilidad);
-
-    const equipo2Probabilidad = document.createElement("div");
-    equipo2Probabilidad.id = "equipo2Probabilidad";
-    equipo2Probabilidad.style.color = "red";
-    equipo2Probabilidad.style.fontWeight = "bold";
-    equipo2Probabilidad.style.marginTop = "10px";
-    equipo2Probabilidad.innerHTML = "Equipo 2 tiene: ()";
-    document.body.appendChild(equipo2Probabilidad);
-
-    const gruposContainer = document.createElement("div");
-    gruposContainer.id = "gruposContainer";
-    gruposContainer.style.marginTop = "10px";
-    gruposContainer.style.fontWeight = "bold";
-    gruposContainer.innerHTML = `
-        <strong>Definición de los grupos:</strong><br>
-        Grupo A: Ficha doble.<br>
-        Grupo B: Suma de los extremos mayor a 6.<br>
-        Grupo C: Tienes 3 o más fichas con el mismo número.<br>
-        Grupo D: Aliado jugó una ficha con alguno de los extremos.<br>
-        Grupo E: Oponente pasó por alguno de los extremos.<br>
-        Grupo F: Aliado no pasó por los extremos.
-    `;
-    document.body.appendChild(gruposContainer);
-
-    const mejorFichaContainer = document.createElement("div");
-    mejorFichaContainer.id = "mejorFichaVisor";
-    mejorFichaContainer.style.marginTop = "10px";
-    mejorFichaContainer.style.fontWeight = "bold";
-    mejorFichaContainer.innerHTML = "<strong>Mejor ficha para jugar:</strong> ";
-    document.body.appendChild(mejorFichaContainer);
-
-    // Asociar el evento 'change' a cada dropdown para actualizar visores y calcular la mejor ficha
-    document.querySelectorAll("select").forEach(dropdown => {
-        dropdown.addEventListener("change", () => {
-            actualizarVisores();
-        });
-    });
-
-    actualizarVisores();  // Llamar una vez para inicializar todo
+// 2* Crear variable B "fichas separadas" y cualquier posible auxiliar.
+const B = [];
+A.forEach(tile => {
+    B.push({x: tile[0], y: tile[1]});
 });
 
-function cargarFichas(dropdownId) {
-    const dropdown = document.getElementById(dropdownId);
-    todasLasFichas.forEach(ficha => {
-        const option = document.createElement('option');
-        option.value = ficha;
-        option.textContent = ficha;
-        dropdown.appendChild(option);
-    });
-}
+// 3* Crear una lista desplegable C "lista todas las fichas".
+const tileSelect = document.getElementById('all-tiles');
+A.forEach(tile => {
+    const option = document.createElement('option');
+    option.value = tile;
+    option.textContent = `Ficha ${tile[0]},${tile[1]}`;
+    tileSelect.appendChild(option);
+});
 
-function actualizarVisores() {
-    actualizarMisFichas();
-    actualizarVisor('pasesEquipo1Dropdown', 'equipo1Probabilidad');
-    actualizarVisor('pasesEquipo2Dropdown', 'equipo2Probabilidad');
-    actualizarVisor('jugadasEquipo1Dropdown', 'jugadasEquipo1Visor');
-    actualizarVisor('jugadasEquipo2Dropdown', 'jugadasEquipo2Visor');
-    calcularMejorFicha();
-    actualizarExtremosActuales();
-    actualizarPosiblesFichas();
-}
-
-function actualizarMisFichas() {
-    const dropdown = document.getElementById("misFichasDropdown");
-    const seleccionadas = Array.from(dropdown.selectedOptions).map(opt => opt.value);
-
-    if (seleccionadas.length > 7) {
-        alert("Solo puedes seleccionar 7 fichas.");
-        return;
-    }
-
-    const jugadas = obtenerJugadasCombinadas();
-    const fichasRestantes = seleccionadas.filter(ficha => !jugadas.includes(ficha));
-
-    document.getElementById("misFichasVisor").textContent = fichasRestantes.join(", ");
-}
-
-function actualizarVisor(dropdownId, visorId) {
-    const dropdown = document.getElementById(dropdownId);
-    const seleccionadas = Array.from(dropdown.selectedOptions).map(opt => opt.value);
-    document.getElementById(visorId).textContent = seleccionadas.join(", ");
-}
-
-function calcularGruposCumplidos(ficha, x, y, jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas) {
-    let grupos = [];
-
-    // Grupo A
-    if (x === y) {
-        grupos.push('A');
-    }
-
-    // Grupo B
-    const extremos = obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2);
-    if (extremos.length > 0 && (extremos[0] + extremos[1]) > 6) {
-        grupos.push('B');
-    }
-
-    // Grupo C
-    const countX = misFichas.filter(f => f.includes(x.toString())).length;
-    const countY = misFichas.filter(f => f.includes(y.toString())).length;
-    if (countX >= 3 || countY >= 3) {
-        grupos.push('C');
-    }
-
-    // Grupo D
-    if (jugadasEquipo1.some(f => f.includes(x.toString())) || jugadasEquipo1.some(f => f.includes(y.toString()))) {
-        grupos.push('D');
-    }
-
-    // Grupo E
-    if (pasesEquipo2.some(f => f.includes(x.toString())) || pasesEquipo2.some(f => f.includes(y.toString()))) {
-        grupos.push('E');
-    }
-
-    // Grupo F
-    if (!(pasesEquipo1.some(f => f.includes(x.toString())) || pasesEquipo1.some(f => f.includes(y.toString())))) {
-        grupos.push('F');
-    }
-
-    return grupos;
-}
-
-function esFichaJugable(ficha, extremos) {
-    const [x, y] = ficha.split(',').map(Number);
-    return extremos.includes(x) || extremos.includes(y);
-}
-
-function calcularMejorFicha() {
-    const misFichas = Array.from(document.getElementById("misFichasDropdown").selectedOptions).map(opt => opt.value);
-    const jugadasEquipo1 = Array.from(document.getElementById("jugadasEquipo1Dropdown").selectedOptions).map(opt => opt.value);
-    const jugadasEquipo2 = Array.from(document.getElementById("jugadasEquipo2Dropdown").selectedOptions).map(opt => opt.value);
-    const pasesEquipo1 = Array.from(document.getElementById("pasesEquipo1Dropdown").selectedOptions).map(opt => opt.value);
-    const pasesEquipo2 = Array.from(document.getElementById("pasesEquipo2Dropdown").selectedOptions).map(opt => opt.value);
-
-    const extremosActuales = obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2);
-
-    let mejorFichaTeorica = null;
-    let maxGruposTeoricos = [];
-    let mejorFichaJugable = null;
-    let maxGruposJugables = [];
-
-    misFichas.forEach(ficha => {
-        const [x, y] = ficha.split(',').map(Number);
-        const gruposCumplidos = calcularGruposCumplidos(ficha, x, y, jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas);
-
-        if (gruposCumplidos.length > maxGruposTeoricos.length) {
-            maxGruposTeoricos = gruposCumplidos;
-            mejorFichaTeorica = ficha;
-        }
-
-        if (esFichaJugable(ficha, extremosActuales)) {
-            if (gruposCumplidos.length > maxGruposJugables.length) {
-                maxGruposJugables = gruposCumplidos;
-                mejorFichaJugable = ficha;
-            }
-        }
-    });
-
-    let mensaje = `La mejor ficha teórica es ${mejorFichaTeorica} porque pertenece al grupo ${maxGruposTeoricos.join(', ')}.`;
-
-    if (mejorFichaJugable) {
-        mensaje += ` La mejor ficha jugable es ${mejorFichaJugable} porque pertenece al grupo ${maxGruposJugables.join(', ')}.`;
+// 4* Aquí no se puede seleccionar ni menos ni más que 7 fichas sino 
+// 5* muestra un mensaje inherente.
+document.getElementById('select-tiles').addEventListener('click', () => {
+    const selectedOptions = Array.from(tileSelect.selectedOptions);
+    if (selectedOptions.length !== 7) {
+        document.getElementById('message').textContent = "Debe seleccionar exactamente 7 fichas.";
     } else {
-        mensaje += " No tienes fichas jugables.";
+        document.getElementById('message').textContent = "";
+        // 6* Crear una variable D "Var Mis fichas" junto a un 
+        const D = selectedOptions.map(option => option.value);
+
+        // 7* Visor X que contendría todas las fichas seleccionadas en C. 
+        const selectedTilesList = document.getElementById('selected-tiles');
+        selectedTilesList.innerHTML = '';
+        D.forEach(tile => {
+            const li = document.createElement('li');
+            li.textContent = tile;
+            selectedTilesList.appendChild(li);
+        });
+
+        // 8* Permanece la variable W con las 7 fichas.
+        const W = [...D];
     }
+});
 
-    document.getElementById("mejorFichaVisor").textContent = mensaje;
-}
+// 9* Crear un visor E "Visor Mis fichas".
+const E = document.getElementById('selected-tiles');
 
-function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
-    const jugadasCombinadas = [...jugadasEquipo1, ...jugadasEquipo2];
-    const extremos = [];
+// 10* Crear listas desplegables F, G, H, e I cada una con una 
+// 11* variable asociada J, K, L, M.
+const F = document.getElementById('candidate-pass');
+const G = []; // J2's tiles
+const H = []; // J3's tiles
+const I = []; // J4's tiles
+let J = [];
+let K = [];
+let L = [];
+let M = [];
 
-    jugadasCombinadas.forEach(ficha => {
-        const [x, y] = ficha.split(',').map(Number);
-        extremos.push(x, y);
+// Populate candidate pass list for J1
+const populateCandidatePass = () => {
+    F.innerHTML = '';
+    D.forEach(tile => {
+        const option = document.createElement('option');
+        option.value = tile;
+        option.textContent = tile;
+        F.appendChild(option);
     });
+};
 
-    return extremos.filter((extremo, index, self) => self.indexOf(extremo) === index);
-}
+// 12* Crear listas desplegables O, P, Q, e R cada una con una 
+// 13* variable asociada S, T, U, V.
+const O = document.getElementById('candidate-play');
+const P = []; // J2's play list
+const Q = []; // J3's play list
+const R = []; // J4's play list
+let S = [];
+let T = [];
+let U = [];
+let V = [];
 
-function actualizarExtremosActuales() {
-    const jugadasEquipo1 = Array.from(document.getElementById("jugadasEquipo1Dropdown").selectedOptions).map(opt => opt.value);
-    const jugadasEquipo2 = Array.from(document.getElementById("jugadasEquipo2Dropdown").selectedOptions).map(opt => opt.value);
-    const extremos = obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2);
-    document.getElementById("extremosActualesContainer").textContent = `Extremos actuales: ${extremos.join(', ')}`;
-}
+// Populate candidate play list for J1
+const populateCandidatePlay = () => {
+    O.innerHTML = '';
+    D.forEach(tile => {
+        const option = document.createElement('option');
+        option.value = tile;
+        option.textContent = tile;
+        O.appendChild(option);
+    });
+};
 
-function obtenerJugadasCombinadas() {
-    const jugadasEquipo1 = Array.from(document.getElementById("jugadasEquipo1Dropdown").selectedOptions).map(opt => opt.value);
-    const jugadasEquipo2 = Array.from(document.getElementById("jugadasEquipo2Dropdown").selectedOptions).map(opt => opt.value);
-    return [...jugadasEquipo1, ...jugadasEquipo2];
-}
+// 14* Crear una variable Y, llamada "mejor ficha para jugar" junto con 
+// 15* un visor Z que cumple con el criterio mejor ficha.
+const Z = document.getElementById('best-tile');
 
-function actualizarPosiblesFichas() {
-    const misFichas = Array.from(document.getElementById("misFichasDropdown").selectedOptions).map(opt => opt.value);
-    const jugadasEquipo1 = Array.from(document.getElementById("jugadasEquipo1Dropdown").selectedOptions).map(opt => opt.value);
-    const jugadasEquipo2 = Array.from(document.getElementById("jugadasEquipo2Dropdown").selectedOptions).map(opt => opt.value);
-    const extremos = obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2);
+const calculateBestTile = () => {
+    let Y = null;
+    // Apply logic for determining the best tile...
+    // This is a placeholder logic. Real logic depends on the criteria mentioned in the steps.
+    Y = D.find(tile => tile.includes(6)); // Example logic, not final
+    Z.textContent = `Mejor ficha para jugar: ${Y}`;
+};
 
-    const fichasJugables = misFichas.filter(ficha => esFichaJugable(ficha, extremos));
+// 17* Crear F1, G1, H1 y J1.
+let F1 = null; // extremo izquierdo
+let G1 = null; // extremo derecho
+let H1 = []; // par de extremos
+const J1 = document.getElementById('table-extremes');
 
-    document.getElementById("misFichasVisor").textContent = fichasJugables.length > 0 
-        ? `Fichas jugables: ${fichasJugables.join(', ')}` 
-        : "No tienes fichas jugables.";
-}
+// 18* Crear a K1, L1, M1, N1, O1 y P1.
+let K1 = []; // Fichas de J2 y J4 no jugadas
+let L1 = []; // Fichas a las que pasa equipo contrario
+let M1 = []; // Fichas de J1 y J3 no jugadas
+let N1 = []; // Fichas a las que pasa equipo propio
+const O1 = document.getElementById('team1-passes');
+const P1 = document.getElementById('team2-passes');
+
+// 19* Variables para convertir todas las variables duales.
+const convertToSeparateTiles = (dualTiles) => {
+    const separateTiles = [];
+    dualTiles.forEach(tile => {
+        separateTiles.push({x: tile[0], y: tile[1]});
+    });
+    return separateTiles;
+};
+
+// 20* Mostrar texto de grupos debajo de todo.

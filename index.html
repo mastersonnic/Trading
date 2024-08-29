@@ -3,48 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domino Game</title>
+    <title>Dynamic Domino Interface</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Domino Game</h1>
-
-    <label for="all-tiles">Select Your 7 Tiles:</label>
-    <select id="all-tiles" multiple></select>
-    <button id="select-tiles">Select</button>
-    <p id="message"></p>
-
-    <h2>Your Selected Tiles</h2>
-    <ul id="selected-tiles"></ul>
-
-    <h2>Play or Pass Options</h2>
-    <div>
-        <label for="candidate-pass">Pass Candidates (J1):</label>
-        <select id="candidate-pass" multiple></select>
+    <h1>Domino Interface Creator</h1>
+    
+    <!-- Input para insertar código directamente -->
+    <div class="input-section">
+        <h2>Insert Code</h2>
+        <textarea id="code-input" placeholder="Insert code here..."></textarea>
+        <button id="execute-code">Execute</button>
+        <button id="save-config">Save Configuration</button>
+        <button id="load-config">Load Configuration</button>
     </div>
-
-    <div>
-        <label for="candidate-play">Play Candidates (J1):</label>
-        <select id="candidate-play" multiple></select>
+    
+    <!-- Sección de componentes arrastrables -->
+    <div class="drag-section">
+        <h2>Drag & Drop Components</h2>
+        <div class="component" draggable="true" data-type="dropdown">Dropdown List</div>
+        <div class="component" draggable="true" data-type="button">Button</div>
+        <div class="component" draggable="true" data-type="text-view">Text View</div>
     </div>
-
-    <h2>Best Tile to Play</h2>
-    <p id="best-tile"></p>
-
-    <h2>Table Extremes</h2>
-    <p id="table-extremes"></p>
-
-    <h2>Team Info</h2>
-    <p id="team1-passes"></p>
-    <p id="team2-passes"></p>
-
-    <p>Groups:</p>
-    <p>Grupo A: Ficha doble.</p>
-    <p>Grupo B: Suma de los extremos mayor a 6.</p>
-    <p>Grupo C: Tienes 4 o más fichas con el mismo número.</p>
-    <p>Grupo D: Aliado jugó una ficha con alguno de los extremos.</p>
-    <p>Grupo E: Oponente pasó por alguno de los extremos.</p>
-    <p>Grupo F: Aliado no pasó por los extremos.</p>
+    
+    <!-- Zona de trabajo para arrastrar componentes -->
+    <div id="workspace" class="workspace">
+        <h2>Workspace</h2>
+        <!-- Los componentes aparecerán aquí -->
+    </div>
 
     <script src="script.js"></script>
 </body>

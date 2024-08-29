@@ -13,9 +13,20 @@
     <div class="input-section">
         <h2>Insert Code</h2>
         <textarea id="code-input" placeholder="Insert code here..."></textarea>
+        <button id="undo">Undo</button>
+        <button id="redo">Redo</button>
         <button id="execute-code">Execute</button>
+    </div>
+    
+    <!-- Guardar y cargar configuraciones -->
+    <div class="config-section">
+        <h2>Configuration</h2>
         <button id="save-config">Save Configuration</button>
-        <button id="load-config">Load Configuration</button>
+        <select id="config-list">
+            <option value="">Select a configuration</option>
+        </select>
+        <button id="load-config">Load Selected Configuration</button>
+        <button id="delete-config">Delete Selected Configuration</button>
     </div>
     
     <!-- Sección de componentes arrastrables -->
@@ -30,6 +41,12 @@
     <div id="workspace" class="workspace">
         <h2>Workspace</h2>
         <!-- Los componentes aparecerán aquí -->
+    </div>
+
+    <!-- Visor de componentes creados -->
+    <div id="component-viewer" class="component-viewer">
+        <h2>Component Viewer</h2>
+        <!-- Aquí se listarán todos los componentes creados -->
     </div>
 
     <script src="script.js"></script>

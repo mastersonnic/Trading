@@ -87,8 +87,8 @@ function actualizarVisores() {
     actualizarVisor('jugadasEquipo1Dropdown', 'jugadasEquipo1Visor');
     actualizarVisor('jugadasEquipo2Dropdown', 'jugadasEquipo2Visor');
     calcularMejorFicha();
-    actualizarExtremos();
-    actualizarEquipo1Y2();
+    actualizarExtremosActuales();
+    actualizarPosiblesFichas();
 }
 
 function actualizarMisFichas() {
@@ -190,80 +190,64 @@ function calcularMejorFicha() {
     let mensaje = `La mejor ficha teórica es ${mejorFichaTeorica} porque pertenece al grupo ${maxGruposTeoricos.join(', ')}.`;
 
     if (mejorFichaJugable) {
-            mensaje += ` La mejor ficha jugable es ${mejorFichaJugable} porque pertenece al grupo ${maxGruposJugables.join(', ')}.`;
-        } else {
-            mensaje += " No hay una ficha jugable disponible.";
-        }
-
-        document.getElementById("mejorFichaVisor").textContent = mensaje;
+        mensaje += ` La mejor ficha jugable es ${mejorFichaJugable} porque pertenece al grupo ${maxGruposJugables.join(', ')}.`;
+    } else {
+        mensaje += " No hay una ficha jugable disponible.";
     }
 
-    function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
-        let extremos = [];
+    document.getElementById("mejorFichaVisor").textContent = mensaje;
+    actualizarEquiposProbables(jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas);
+}
 
-        // La primera ficha jugada por el equipo 1 determina el primer extremo
-        if (jugadasEquipo1.length > 0) {
-            const [x1, y1] = jugadasEquipo1[0].split(',').map(Number);
-            extremos.push(x1, y1);
-        }
+function obtenerExtremosActuales(jugadasEquipo1, jugadasEquipo2) {
+    let extremos = [];
 
-        // La última ficha jugada por el equipo 2 determina el segundo extremo
-        if (jugadasEquipo2.length > 0) {
-            const [x2, y2] = jugadasEquipo2[jugadasEquipo2.length - 1].split(',').map(Number);
-            extremos.push(x2, y2);
-        }
-
-        // Solo se conservan los extremos actuales y únicos
-        extremos = extremos.filter((extremo, index, self) => self.indexOf(extremo) === index);
-
-        return extremos.slice(-2);  // Aseguramos que solo queden los dos últimos extremos
+    if (jugadasEquipo1.length > 0) {
+        const [x1, y1] = jugadasEquipo1[0].split(',').map(Number);
+        extremos.push(x1);
     }
 
-    function obtenerJugadasCombinadas() {
-        const jugadasEquipo1 = Array.from(document.getElementById("jugadasEquipo1Dropdown").selectedOptions).map(opt => opt.value);
-        const jugadasEquipo2 = Array.from(document.getElementById("jugadasEquipo2Dropdown").selectedOptions).map(opt => opt.value);
-        return jugadasEquipo1.concat(jugadasEquipo2);
+    if (jugadasEquipo2.length > 0) {
+        const [x2, y2] = jugadasEquipo2[jugadasEquipo2.length - 1].split(',').map(Number);
+        extremos.push(y2);
     }
 
-    function actualizarVisorEquipos() {
-        const jugadasCombinadas = obtenerJugadasCombinadas();
-        const misFichas = Array.from(document.getElementById("misFichasDropdown").selectedOptions).map(opt => opt.value);
+    return extremos;
+}
 
-        const numerosRestantes = [0, 1, 2, 3, 4, 5, 6].filter(numero => {
-            const cantidadJugadas = jugadasCombinadas.filter(ficha => ficha.includes(numero.toString())).length;
-            const cantidadEnMisFichas = misFichas.filter(ficha => ficha.includes(numero.toString())).length;
+function actualizarEquiposProbables(jugadasEquipo1, jugadasEquipo2, pasesEquipo1, pasesEquipo2, misFichas) {
+    const equipo1Probables = calcularProbables(pasesEquipo2, jugadasEquipo1.concat(jugadasEquipo2), misFichas);
+    const equipo2Probables = calcularProbables(pasesEquipo1, jugadasEquipo1.concat(jugadasEquipo2), misFichas);
 
-            // Si hay exactamente 7 fichas de un número, excluimos ese número
-            return (cantidadJugadas + cantidadEnMisFichas) < 7;
-        });
+    document.getElementById("equipo1Probabilidad").textContent = `Equipo 1 tiene: ${equipo1Probables.join(', ')}`;
+    document.getElementById("equipo2Probabilidad").textContent = `Equipo 2 tiene: ${equipo2Probables.join(', ')}`;
+}
 
-        const equipo1Fichas = [];
-        const equipo2Fichas = [];
+function calcularProbables(pasesOponente, jugadasCombinadas, misFichas) {
+    let posiblesNumeros = new Set();
 
-        numerosRestantes.forEach(numero => {
-            const pasesEquipo1 = Array.from(document.getElementById("pasesEquipo1Dropdown").selectedOptions).map(opt => opt.value);
-            const pasesEquipo2 = Array.from(document.getElementById("pasesEquipo2Dropdown").selectedOptions).map(opt => opt.value);
-
-            const enEquipo1 = pasesEquipo2.filter(ficha => ficha.includes(numero.toString())).length > 0;
-            const enEquipo2 = pasesEquipo1.filter(ficha => ficha.includes(numero.toString())).length > 0;
-
-            if (enEquipo1) equipo1Fichas.push(numero);
-            if (enEquipo2) equipo2Fichas.push(numero);
-        });
-
-        document.getElementById("equipo1Probabilidad").textContent = `Equipo 1 tiene: ${equipo1Fichas.join(', ')}`;
-        document.getElementById("equipo2Probabilidad").textContent = `Equipo 2 tiene: ${equipo2Fichas.join(', ')}`;
-    }
-
-    // Se asegura que los visores de los equipos se actualicen correctamente
-    document.querySelectorAll("select").forEach(dropdown => {
-        dropdown.addEventListener("change", () => {
-            actualizarVisores();
-            actualizarVisorEquipos();  // Actualizamos las fichas seguras en manos de los equipos
-        });
+    pasesOponente.forEach(ficha => {
+        const [x, y] = ficha.split(',').map(Number);
+        posiblesNumeros.add(x);
+        posiblesNumeros.add(y);
     });
 
-    // Llamar una vez para inicializar todo
-    actualizarVisores();
-    actualizarVisorEquipos();
-});
+    posiblesNumeros.forEach(numero => {
+        const totalApariciones = [
+            ...misFichas,
+            ...jugadasCombinadas
+        ].filter(f => f.includes(numero.toString())).length;
+
+        if (totalApariciones === 7) {
+            posiblesNumeros.delete(numero);
+        }
+    });
+
+    return Array.from(posiblesNumeros);
+}
+
+function obtenerJugadasCombinadas() {
+    const jugadasEquipo1 = Array.from(document.getElementById("jugadasEquipo1Dropdown").selectedOptions).map(opt => opt.value);
+    const jugadasEquipo2 = Array.from(document.getElementById("jugadasEquipo2Dropdown").selectedOptions).map(opt => opt.value);
+    return jugadasEquipo1.concat(jugadasEquipo2);
+}

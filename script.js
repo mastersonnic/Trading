@@ -1,6 +1,13 @@
 let elementCounter = 0;
 
-function createElement(type, listNumber) {
+document.querySelectorAll('.dropdown-item').forEach(item => {
+    item.addEventListener('click', function() {
+        const type = this.getAttribute('data-type');
+        createElement(type);
+    });
+});
+
+function createElement(type) {
     elementCounter++;
     const contentDiv = document.getElementById('content');
     
@@ -45,7 +52,15 @@ function createElement(type, listNumber) {
 function renameElement(element) {
     const newName = prompt('Nuevo nombre:');
     if (newName) {
-        element.querySelector('button, input, ul').setAttribute('name', newName);
+        const elementType = element.querySelector('button, input, ul');
+        if (elementType.tagName.toLowerCase() === 'button') {
+            elementType.innerText = newName;
+        } else if (elementType.tagName.toLowerCase() === 'input') {
+            elementType.placeholder = newName;
+        } else if (elementType.tagName.toLowerCase() === 'ul') {
+            // Puedes manejar esto como prefieras, aquí solo cambiamos el primer elemento de la lista
+            elementType.querySelector('li').innerText = newName;
+        }
     }
 }
 

@@ -1,33 +1,54 @@
 body {
-    background-color: #e0f7fa; /* Cambia el fondo a un color azul claro */
-    color: #000000; /* Color de texto principal */
     font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
-h1, h2 {
-    color: #00796b; /* Cambia los títulos a un verde oscuro */
+h1 {
+    margin-top: 20px;
 }
 
-textarea, button, .component {
-    background-color: #ffffff; /* Fondo blanco para los componentes */
-    color: #000000; /* Texto negro */
-    border: 1px solid #00796b; /* Borde verde oscuro */
-    padding: 10px;
-    margin: 10px 0;
-}
-
-.component[data-type="dropdown"] {
-    color: #388e3c; /* Verde oscuro para las listas desplegables */
-}
-
-textarea {
-    width: 100%;
-    height: 100px;
-}
-
-.workspace {
-    background-color: #ffffff; /* Fondo blanco para el área de trabajo */
-    border: 2px solid #00796b; /* Borde verde oscuro */
+.input-section, .config-section, .drag-section, .workspace, .component-viewer {
+    width: 80%;
+    max-width: 800px;
+    margin: 20px;
     padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#workspace {
     min-height: 300px;
+    border: 2px dashed #ccc;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+#component-viewer {
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #e0e0e0;
+}
+
+.component {
+    background-color: #d9edf7;
+    border: 1px solid #a6d2e5;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
 }

@@ -1,12 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
     const workspace = document.getElementById('workspace');
+    const componentViewer = document.getElementById('component-viewer');
     const codeInput = document.getElementById('code-input');
     const executeCodeButton = document.getElementById('execute-code');
     const saveConfigButton = document.getElementById('save-config');
     const loadConfigButton = document.getElementById('load-config');
+    const deleteConfigButton = document.getElementById('delete-config');
+    const configList = document.getElementById('config-list');
+    const undoButton = document.getElementById('undo');
+    const redoButton = document.getElementById('redo');
 
-    // Objeto para almacenar variables creadas por el usuario
     let userVariables = {};
+    let history = [];
+    let future = [];
 
     // Manejar arrastrar y soltar de componentes
     document.querySelectorAll('.component').forEach(component => {
@@ -22,12 +28,15 @@ document.addEventListener('DOMContentLoaded', function() {
     workspace.addEventListener('drop', function(event) {
         event.preventDefault();
         const componentType = event.dataTransfer.getData('text/plain');
+        saveState();
         createComponent(componentType, workspace);
+        updateComponentViewer();
     });
 
-    // Crear componente dinámicamente en el workspace
-    function createComponent(type, parent, content = '') {
+    function createComponent(type, parent, content = '', id = null) {
         let element;
+        let elementId = id || `component-${Date.now()}`;
+
         switch (type) {
             case 'dropdown':
                 element = document.createElement('select');
@@ -35,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     <option value="1-1">1-1</option>
                     <option value="1-2">1-2</option>
                     <option value="2-2">2-2</option>
-                    <!-- Puedes agregar más opciones aquí -->
                 `;
                 if (content) element.innerHTML = content;
                 break;
@@ -54,76 +62,126 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (element) {
             element.classList.add('component');
+            element.id = elementId;
             parent.appendChild(element);
+            updateComponentViewer();
         }
     }
 
-    // Ejecutar código insertado por el usuario
+    function updateComponentViewer() {
+        componentViewer.innerHTML = '<h2>Component Viewer</h2>';
+        const components = workspace.querySelectorAll('.component');
+        components.forEach(component => {
+            const div = document.createElement('div');
+            div.textContent = `${component.tagName.toLowerCase()} - ID: ${component.id}`;
+            div.classList.add('component-info');
+            componentViewer.appendChild(div);
+        });
+    }
+
     executeCodeButton.addEventListener('click', function() {
         const code = codeInput.value;
         try {
             eval(code);
+            updateComponentViewer();
         } catch (error) {
             alert('Error in code execution: ' + error.message);
         }
     });
 
-    // Guardar la configuración actual en localStorage
+    // Guardar la configuración actual
     saveConfigButton.addEventListener('click', function() {
+        const configName = prompt("Enter a name for the configuration:");
+        if (!configName) return;
+
         const components = workspace.querySelectorAll('.component');
         const config = [];
 
         components.forEach(component => {
             config.push({
                 type: component.tagName.toLowerCase(),
-                content: component.outerHTML
+                content: component.outerHTML,
+                id: component.id
             });
         });
 
-        localStorage.setItem('dominoConfig', JSON.stringify(config));
+        localStorage.setItem(configName, JSON.stringify(config));
+        updateConfigList();
         alert('Configuration saved!');
     });
 
-    // Cargar la configuración desde localStorage
+    // Cargar la configuración seleccionada
     loadConfigButton.addEventListener('click', function() {
-        const config = JSON.parse(localStorage.getItem('dominoConfig'));
-
-        if (config && Array.isArray(config)) {
-            workspace.innerHTML = ''; // Clear the workspace
-            config.forEach(item => {
-                createComponent(item.type, workspace, item.content);
-            });
-            alert('Configuration loaded!');
-        } else {
-            alert('No saved configuration found.');
-        }
-    });
-
-    // Crear variables desde el editor de código
-    window.createVariable = function(name, value) {
-        userVariables[name] = value;
-        alert(`Variable ${name} created with value: ${value}`);
-    };
-
-    // Fusionar variables en un componente
-    window.insertVariablesIntoComponent = function(componentId, ...variableNames) {
-        const component = document.getElementById(componentId);
-        if (!component) {
-            alert('Component not found');
+        const selectedConfig = configList.value;
+        if (!selectedConfig) {
+            alert('No configuration selected.');
             return;
         }
 
-        const combinedContent = variableNames.map(name => userVariables[name] || '').join(' ');
-        if (component.tagName === 'SELECT') {
-            const option = document.createElement('option');
-            option.textContent = combinedContent;
-            component.appendChild(option);
+        const config = JSON.parse(localStorage.getItem(selectedConfig));
+        if (config && Array.isArray(config)) {
+            saveState();
+            workspace.innerHTML = '';
+            config.forEach(item => {
+                createComponent(item.type, workspace, item.content, item.id);
+            });
+            updateComponentViewer();
+            alert('Configuration loaded!');
         } else {
-            component.textContent = combinedContent;
+            alert('Configuration is invalid.');
         }
-    };
-    
-    // Ejemplo de creación y uso de variables
-    // createVariable('myText', 'Hello World');
-    // insertVariablesIntoComponent('myComponent', 'myText');
+    });
+
+    // Eliminar la configuración seleccionada
+    deleteConfigButton.addEventListener('click', function() {
+        const selectedConfig = configList.value;
+        if (!selectedConfig) {
+            alert('No configuration selected.');
+            return;
+        }
+
+        localStorage.removeItem(selectedConfig);
+        updateConfigList();
+        alert('Configuration deleted!');
+    });
+
+    // Actualizar la lista de configuraciones guardadas
+    function updateConfigList() {
+        const keys = Object.keys(localStorage);
+        configList.innerHTML = '<option value="">Select a configuration</option>';
+        keys.forEach(key => {
+            const option = document.createElement('option');
+            option.value = key;
+            option.textContent = key;
+            configList.appendChild(option);
+        });
+    }
+
+    // Guardar el estado actual para deshacer/rehacer
+    function saveState() {
+        const components = workspace.innerHTML;
+        history.push(components);
+        future = [];
+    }
+
+    // Deshacer última acción
+    undoButton.addEventListener('click', function() {
+        if (history.length > 0) {
+            future.push(workspace.innerHTML);
+            workspace.innerHTML = history.pop();
+            updateComponentViewer();
+        }
+    });
+
+    // Rehacer última acción
+    redoButton.addEventListener('click', function() {
+        if (future.length > 0) {
+            history.push(workspace.innerHTML);
+            workspace.innerHTML = future.pop();
+            updateComponentViewer();
+        }
+    });
+
+    // Inicializar la lista de configuraciones al cargar la página
+    updateConfigList();
 });

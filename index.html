@@ -3,48 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dominó</title>
+    <title>Dynamic UI Creator</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
 </head>
 <body>
-    <h1>Dominó</h1>
-    
-    <!-- Lista desplegable A -->
-    <div id="domino-container"></div>
-    
-    <!-- Ficha B y Auxiliar B -->
-    <div id="ficha-container"></div>
-    
-    <!-- Lista C -->
-    <h2>Selecciona tus Fichas de Dominó</h2>
-    <select id="C" multiple></select>
-    <p id="message"></p>
-    
-    <!-- Variable D -->
-    <h2>Mis Fichas de Dominó</h2>
-    <select id="D" multiple></select>
-    <div id="X"></div>
-    <p id="message-D"></p>
-    
-    <!-- Visor E -->
-    <h2>Visor de Mis Fichas</h2>
-    <div id="E"></div>
-    
-    <!-- Listas de pases -->
-    <h2>Listas de Pases</h2>
-    <select id="F" multiple></select>
-    <select id="G" multiple></select>
-    <select id="H" multiple></select>
-    <select id="I" multiple></select>
-    <div id="resultados-pases"></div>
-    
-    <!-- Listas de jugadas -->
-    <h2>Listas de Jugadas</h2>
-    <select id="O" multiple></select>
-    <select id="P" multiple></select>
-    <select id="Q" multiple></select>
-    <select id="R" multiple></select>
-    <div id="resultados-jugadas"></div>
+    <div class="container">
+        <div class="sidebar">
+            <div class="dropdown" onclick="createElement('list')">Crear Lista</div>
+            <div class="dropdown" onclick="createElement('visor')">Crear Visor</div>
+            <div class="dropdown" onclick="createElement('button')">Crear Botón</div>
+        </div>
+        <div class="content" id="content">
+            <!-- Aquí se insertarán los elementos dinámicamente -->
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>

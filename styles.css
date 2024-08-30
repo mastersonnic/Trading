@@ -1,97 +1,54 @@
 body {
     font-family: Arial, sans-serif;
-}
-
-.container {
-    display: flex;
-}
-
-.side-bar {
-    width: 200px;
-}
-
-.dropdown {
-    margin: 10px;
-}
-
-.dropbtn {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.dropdown-content {
-    display: none;
-    position: relative;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.dropdown-content button {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.content-area {
-    flex-grow: 1;
-    padding: 10px;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.elemento {
-    width: 25%;
-    margin: 10px;
+    background-color: #f0f0f0;
+    margin: 0;
     padding: 20px;
-    background-color: #e7e7e7;
-    border: 1px solid #ccc;
-    position: relative;
 }
 
-.elemento-lista {
-    background-color: #f2f2f2;
+#container {
+    width: 80%;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.elemento-boton {
-    background-color: #d9edf7;
+h1, h2 {
+    text-align: center;
 }
 
-.elemento-visor {
-    background-color: #fcf8e3;
+#list-controls, #element-controls {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.elemento-bloques {
-    background-color: #dff0d8;
-}
-
-.actions {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    width: 100%;
-}
-
-.actions button {
-    margin: 5px 0;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-    border: none;
+#list-controls button, #element-controls button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
     cursor: pointer;
+}
+
+#list-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+select {
+    width: 150px;
+    height: 200px;
+    margin: 10px;
+    font-size: 14px;
+}
+
+#viewer {
+    text-align: center;
+}
+
+#element-viewer {
     width: 100%;
+    height: 100px;
+    margin-top: 10px;
+    font-size: 14px;
 }

@@ -19,20 +19,20 @@
                     <button onclick="createElement('bloques_logicos')">Bloques Lógicos A</button>
                 </div>
             </div>
+
+            <!-- Botones adicionales a la izquierda -->
+            <div class="actions">
+                <button onclick="reiniciar()">Reiniciar</button>
+                <button onclick="deshacer()">Deshacer</button>
+                <button onclick="rehacer()">Rehacer</button>
+                <button onclick="guardarConfiguracion()">Guardar Configuración Actual</button>
+                <button onclick="cargarConfiguracion()">Cargar Configuración Actual</button>
+                <button onclick="guardarConfiguracionComo()">Guardar Configuración Actual Como</button>
+            </div>
         </div>
 
         <!-- Área donde se crearán los elementos -->
         <div class="content-area" id="content-area"></div>
-
-        <!-- Botones para reiniciar, deshacer, rehacer y gestión de configuraciones -->
-        <div class="actions">
-            <button onclick="reiniciar()">Reiniciar</button>
-            <button onclick="deshacer()">Deshacer</button>
-            <button onclick="rehacer()">Rehacer</button>
-            <button onclick="guardarConfiguracion()">Guardar Configuración Actual</button>
-            <button onclick="cargarConfiguracion()">Cargar Configuración Actual</button>
-            <button onclick="guardarConfiguracionComo()">Guardar Configuración Actual Como</button>
-        </div>
     </div>
     <script src="script.js"></script>
 </body>

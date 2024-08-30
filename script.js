@@ -75,20 +75,28 @@ function rehacer() {
 function guardarConfiguracion() {
     const nombre = prompt('Introduce el nombre de la configuración:');
     if (nombre) {
-        configuracionesGuardadas[nombre] = elementosCreados.slice();
+        configuracionesGuardadas[nombre] = elementosCreados.map(el => el.outerHTML);
         alert(`Configuración "${nombre}" guardada.`);
     }
 }
 
 function cargarConfiguracion() {
-    const nombre = prompt('Introduce el nombre de la configuración a cargar:');
-    if (nombre && configuracionesGuardadas[nombre]) {
-        reiniciar(); // Limpiar la pantalla antes de cargar
-        configuracionesGuardadas[nombre].forEach(elemento => {
-            createElement(elemento.className.split(' ')[1].split('-')[1]);
-        });
+    const nombresConfiguraciones = Object.keys(configuracionesGuardadas);
+    if (nombresConfiguraciones.length > 0) {
+        const seleccion = prompt(`Elige una configuración:\n${nombresConfiguraciones.join('\n')}`);
+        if (seleccion && configuracionesGuardadas[seleccion]) {
+            reiniciar(); // Limpiar la pantalla antes de cargar
+            configuracionesGuardadas[seleccion].forEach(html => {
+                const nuevoElemento = document.createElement('div');
+                nuevoElemento.outerHTML = html;
+                document.getElementById('content-area').appendChild(nuevoElemento);
+                elementosCreados.push(nuevoElemento);
+            });
+        } else {
+            alert('Configuración no encontrada.');
+        }
     } else {
-        alert('Configuración no encontrada.');
+        alert('No hay configuraciones guardadas.');
     }
 }
 

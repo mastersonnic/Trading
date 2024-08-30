@@ -1,108 +1,95 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
 }
 
 .container {
     display: flex;
-    height: 100vh;
 }
 
-.sidebar {
-    width: 20%;
-    background-color: #f0f0f0;
-    padding: 10px;
-    overflow-y: auto;
+.side-bar {
+    width: 200px;
 }
 
-.dropdown-container {
-    margin-bottom: 10px;
+.dropdown {
+    margin: 10px;
 }
 
-.dropdown-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
+.dropbtn {
     width: 100%;
-    text-align: left;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
     border: none;
     cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-.dropdown-button:hover {
-    background-color: #0056b3;
 }
 
 .dropdown-content {
     display: none;
-    background-color: #f1f1f1;
-    margin-top: 5px;
-    padding: 5px;
-    border-radius: 4px;
+    position: relative;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
 }
 
-.dropdown-container:hover .dropdown-content {
+.dropdown-content button {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
     display: block;
-}
-
-.dropdown-content div {
-    padding: 8px;
-    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
     text-align: left;
 }
 
-.dropdown-content div:hover {
-    background-color: #ddd;
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 
-.content {
-    width: 80%;
-    padding: 20px;
-    border-left: 2px solid #f0f0f0;
-    overflow-y: auto;
+.content-area {
+    flex-grow: 1;
+    padding: 10px;
     display: flex;
     flex-wrap: wrap;
 }
 
-.dynamic-element {
-    width: 23%;
-    margin: 1%;
-    padding: 10px;
-    border: 1px solid #007bff;
-    border-radius: 4px;
+.elemento {
+    width: 25%;
+    margin: 10px;
+    padding: 20px;
+    background-color: #e7e7e7;
+    border: 1px solid #ccc;
     position: relative;
 }
 
-.dynamic-element button, .dynamic-element input, .dynamic-element ul {
-    width: 100%;
-    box-sizing: border-box;
+.elemento-lista {
+    background-color: #f2f2f2;
 }
 
-.menu {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    display: none;
-    z-index: 10;
-    padding: 5px;
+.elemento-boton {
+    background-color: #d9edf7;
 }
 
-.menu button {
-    display: block;
-    width: 100%;
-    padding: 5px;
-    background-color: #f9f9f9;
+.elemento-visor {
+    background-color: #fcf8e3;
+}
+
+.elemento-bloques {
+    background-color: #dff0d8;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.actions button {
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #333;
+    color: white;
     border: none;
     cursor: pointer;
-    text-align: left;
-}
-
-.menu button:hover {
-    background-color: #eee;
 }

@@ -83,6 +83,7 @@ body {
     display: flex;
     flex-direction: column;
     padding: 10px;
+    width: 100%;
 }
 
 .actions button {
@@ -92,4 +93,5 @@ body {
     color: white;
     border: none;
     cursor: pointer;
+    width: 100%;
 }

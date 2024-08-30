@@ -63,15 +63,46 @@ body {
     padding: 20px;
     border-left: 2px solid #f0f0f0;
     overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .dynamic-element {
-    margin-bottom: 15px;
+    width: 23%;
+    margin: 1%;
     padding: 10px;
     border: 1px solid #007bff;
     border-radius: 4px;
+    position: relative;
 }
 
-.dynamic-element button {
-    margin-top: 10px;
+.dynamic-element button, .dynamic-element input, .dynamic-element ul {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: none;
+    z-index: 10;
+    padding: 5px;
+}
+
+.menu button {
+    display: block;
+    width: 100%;
+    padding: 5px;
+    background-color: #f9f9f9;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.menu button:hover {
+    background-color: #eee;
 }

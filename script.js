@@ -1,115 +1,29 @@
-let elementosCreados = [];
 let historialDeshacer = [];
 let historialRehacer = [];
-let configuracionesGuardadas = {};
-let nombreListaActual = null;
+let elementosCreados = [];
+let bloquesLogicos = [];
 
-function createElement(type) {
-    const contentArea = document.getElementById('content-area');
-    let nuevoElemento;
+// Asociar eventos a los botones principales
+document.getElementById('boton-reiniciar').addEventListener('click', reiniciar);
+document.getElementById('boton-deshacer').addEventListener('click', deshacer);
+document.getElementById('boton-rehacer').addEventListener('click', rehacer);
+document.getElementById('boton-guardar').addEventListener('click', guardarConfiguracion);
+document.getElementById('boton-cargar').addEventListener('click', cargarConfiguracionSeleccionada);
+document.getElementById('boton-guardar-como').addEventListener('click', guardarConfiguracionSeleccionadaComo);
+document.getElementById('boton-crear-bloque-logico').addEventListener('click', crearBloqueLogico);
 
-    if (type === 'lista') {
-        let nombreLista = prompt('Introduce un nombre para la lista:');
-        if (!nombreLista) return;
-
-        nombreListaActual = nombreLista;
-        nuevoElemento = document.createElement('div');
-        nuevoElemento.className = 'elemento elemento-lista';
-        nuevoElemento.innerHTML = `<h4>${nombreLista}</h4><button onclick="agregarElementoLista()">Agregar Elementos</button><div id="${nombreLista}-items"></div>`;
-        nuevoElemento.setAttribute('data-nombre', nombreLista);
-    } else if (type === 'boton') {
-        nuevoElemento = document.createElement('div');
-        nuevoElemento.className = 'elemento elemento-boton';
-        nuevoElemento.textContent = 'Botón A';
-    } else if (type === 'visor') {
-        nuevoElemento = document.createElement('div');
-        nuevoElemento.className = 'elemento elemento-visor';
-        nuevoElemento.textContent = 'Visor A';
-    } else if (type === 'bloques_logicos') {
-        nuevoElemento = document.createElement('div');
-        nuevoElemento.className = 'elemento elemento-bloques';
-        nuevoElemento.textContent = 'Bloques Lógicos A';
-        // Aquí puedes agregar el contenido de los bloques lógicos, por ejemplo:
-        nuevoElemento.innerHTML = generarBloquesLogicosHTML();
-    }
-
-    contentArea.appendChild(nuevoElemento);
-    elementosCreados.push(nuevoElemento);
-    guardarEnHistorial(historialDeshacer, nuevoElemento, 'crear');
-    historialRehacer = []; // Limpiar rehacer después de crear un nuevo elemento
-}
-
-function agregarElementoLista() {
-    let elementos = prompt('Introduce los elementos separados por punto y coma ( ; ):');
-    if (elementos) {
-        const lista = document.getElementById(`${nombreListaActual}-items`);
-        elementos.split(';').forEach(elemento => {
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.value = elemento.trim();
-            checkbox.id = `${nombreListaActual}-${elemento.trim()}`;
-
-            const label = document.createElement('label');
-            label.htmlFor = checkbox.id;
-            label.textContent = elemento.trim();
-
-            const div = document.createElement('div');
-            div.appendChild(checkbox);
-            div.appendChild(label);
-            lista.appendChild(div);
-        });
-    }
-}
-
-function generarBloquesLogicosHTML() {
-    // Generar el HTML para los bloques lógicos basados en tu descripción
-    return `
-        <div>
-            <h4>Sector 1</h4>
-            <select>
-                <option value="iniciar">Al Iniciar</option>
-                <option value="verdadero">Cuando sea verdadero que ()</option>
-                <option value="cuando">Cuando ()</option>
-                <option value="clickear">Al clickear</option>
-                <option value="elementos_lista">Cuando elementos lista sea distinto de 0</option>
-            </select>
-        </div>
-        <div>
-            <h4>Sector 2</h4>
-            <select>
-                <option value="si">Si ()</option>
-            </select>
-        </div>
-        <div>
-            <h4>Sector 3</h4>
-            <select>
-                <option value="opcion1">Opción 1</option>
-            </select>
-        </div>
-        <div>
-            <h4>Sector 4</h4>
-            <select>
-                <option value="unir">Unir ()</option>
-                <option value="insertar">Insertar en ()</option>
-                <option value="eliminar">Eliminar ()</option>
-                <option value="eliminar_de">Eliminar () de</option>
-            </select>
-        </div>
-    `;
-}
-
-function guardarEnHistorial(historial, elemento, accion) {
-    historial.push({ accion: accion, elemento: elemento });
-}
-
+// Función de reinicio del área de contenido
 function reiniciar() {
-    const contentArea = document.getElementById('content-area');
-    contentArea.innerHTML = '';
-    elementosCreados = [];
+    document.getElementById('content-area').innerHTML = '';
+    document.getElementById('bloques-logicos-area').innerHTML = '';
     historialDeshacer = [];
     historialRehacer = [];
+    elementosCreados = [];
+    bloquesLogicos = [];
+    alert('Se ha reiniciado la configuración.');
 }
 
+// Funciones de deshacer y rehacer
 function deshacer() {
     if (historialDeshacer.length > 0) {
         const ultimaAccion = historialDeshacer.pop();
@@ -119,6 +33,8 @@ function deshacer() {
         } else if (ultimaAccion.accion === 'eliminar') {
             document.getElementById('content-area').appendChild(ultimaAccion.elemento);
             historialRehacer.push(ultimaAccion);
+        } else if (ultimaAccion.accion === 'modificar') {
+            // Deshacer modificaciones si hay alguna lógica
         }
     }
 }
@@ -132,22 +48,27 @@ function rehacer() {
         } else if (ultimaAccion.accion === 'eliminar') {
             ultimaAccion.elemento.remove();
             historialDeshacer.push(ultimaAccion);
+        } else if (ultimaAccion.accion === 'modificar') {
+            // Rehacer modificaciones si hay alguna lógica
         }
     }
 }
 
+// Función para guardar la configuración actual
 function guardarConfiguracion() {
     const configuracion = {
         elementos: elementosCreados.map(elemento => ({
             type: elemento.className,
             html: elemento.innerHTML,
             nombre: elemento.getAttribute('data-nombre')
-        }))
+        })),
+        bloquesLogicos
     };
     localStorage.setItem('configuracionActual', JSON.stringify(configuracion));
     alert('Configuración guardada.');
 }
 
+// Función para cargar una configuración guardada
 function cargarConfiguracion() {
     const configuracion = JSON.parse(localStorage.getItem('configuracionActual'));
     if (configuracion) {
@@ -160,9 +81,22 @@ function cargarConfiguracion() {
             document.getElementById('content-area').appendChild(nuevoElemento);
             elementosCreados.push(nuevoElemento);
         });
+        bloquesLogicos = configuracion.bloquesLogicos || [];
+        cargarBloquesLogicos();
     } else {
         alert('No se encontró ninguna configuración guardada.');
     }
+}
+
+function cargarBloquesLogicos() {
+    const areaBloques = document.getElementById('bloques-logicos-area');
+    areaBloques.innerHTML = '';
+    bloquesLogicos.forEach((bloque, index) => {
+        const bloqueDiv = document.createElement('div');
+        bloqueDiv.className = 'bloque-logico';
+        bloqueDiv.innerHTML = `<strong>Bloque Lógico ${index + 1}:</strong> ${bloque.descripcion}`;
+        areaBloques.appendChild(bloqueDiv);
+    });
 }
 
 function guardarConfiguracionComo() {
@@ -173,8 +107,16 @@ function guardarConfiguracionComo() {
                 type: elemento.className,
                 html: elemento.innerHTML,
                 nombre: elemento.getAttribute('data-nombre')
-            }))
+            })),
+            bloquesLogicos
         };
+
+        // Sobrescribir si ya existe
+        if (localStorage.getItem(`configuracion_${nombre}`)) {
+            const reemplazar = confirm(`La configuración "${nombre}" ya existe. ¿Deseas reemplazarla?`);
+            if (!reemplazar) return;
+        }
+
         localStorage.setItem(`configuracion_${nombre}`, JSON.stringify(configuracion));
         alert(`Configuración guardada como "${nombre}".`);
     }
@@ -206,6 +148,8 @@ function mostrarListaConfiguraciones(tipo) {
                 document.getElementById('content-area').appendChild(nuevoElemento);
                 elementosCreados.push(nuevoElemento);
             });
+            bloquesLogicos = configuracion.bloquesLogicos || [];
+            cargarBloquesLogicos();
         } else if (tipo === 'guardar_como') {
             guardarConfiguracionComo();
         }
@@ -222,5 +166,86 @@ function guardarConfiguracionSeleccionadaComo() {
     mostrarListaConfiguraciones('guardar_como');
 }
 
-// Evento para "Guardar Configuración Actual Como"
-document.querySelector('[onclick="guardarConfiguracionComo()"]').addEventListener('click', guardarConfiguracionSeleccionadaComo);
+// Funciones relacionadas con bloques lógicos
+function crearBloqueLogico() {
+    const sector1 = prompt('Selecciona una opción para Sector 1:\n1) al iniciar\n2) cuando sea verdadero que ()\n3) cuando ()\n4) al clickear\n5) Cuando elementos lista sea distinto de 0');
+    const sector2 = prompt('Selecciona una opción para Sector 2:\n1) Si()\n(Esto mostrará todos los componentes creados)');
+    const sector3 = prompt('Selecciona una opción para Sector 3:\n(Incluirá todos los elementos creados, valores alfanuméricos, etc.)');
+    const sector4 = prompt('Selecciona una opción para Sector 4:\n1) unir ()\n2) insertar en ()\n3) eliminar ()\n4) eliminar () de');
+    
+    const descripcion = `Sector 1: ${sector1}, Sector 2: ${sector2}, Sector 3: ${sector3}, Sector 4: ${sector4}`;
+    bloquesLogicos.push({ descripcion });
+    
+    cargarBloquesLogicos();
+    historialDeshacer.push({ accion: 'crear', bloque: descripcion });
+}
+
+// Funciones para manejar bloques lógicos
+function unirListas(lista1Nombre, lista2Nombre) {
+    const lista1 = document.querySelector(`.lista[data-nombre='${lista1Nombre}']`);
+    const lista2 = document.querySelector(`.lista[data-nombre='${lista2Nombre}']`);
+    
+    if (lista1 && lista2) {
+        Array.from(lista2.children).forEach(item => {
+            lista1.appendChild(item);
+        });
+        historialDeshacer.push({ accion: 'modificar', tipo: 'unir', lista1Nombre, lista2Nombre });
+    }
+}
+
+function eliminarDeLista(listaNombre, valor) {
+    const lista = document.querySelector(`.lista[data-nombre='${listaNombre}']`);
+    
+    if (lista) {
+        Array.from(lista.children).forEach(item => {
+            if (item.textContent === valor) {
+                item.remove();
+            }
+        });
+        historialDeshacer.push({ accion: 'modificar', tipo: 'eliminar', listaNombre, valor });
+    }
+}
+
+// Event listeners para acciones de bloques
+document.addEventListener('click', function(event) {
+    const target = event.target;
+    
+    // Identificar elementos y aplicar acciones basadas en clases o atributos
+    if (target.classList.contains('unir-listas')) {
+        const lista1Nombre = prompt('Introduce el nombre de la primera lista:');
+        const lista2Nombre = prompt('Introduce el nombre de la segunda lista:');
+        unirListas(lista1Nombre, lista2Nombre);
+    }
+    
+    if (target.classList.contains('eliminar-de-lista')) {
+        const listaNombre = prompt('Introduce el nombre de la lista:');
+        const valor = prompt('Introduce el valor a eliminar de la lista:');
+        eliminarDeLista(listaNombre, valor);
+    }
+});
+
+// Función para crear una nueva lista
+function crearLista(nombre) {
+    const lista = document.createElement('ul');
+    lista.className = 'lista';
+    lista.setAttribute('data-nombre', nombre);
+    lista.innerHTML = `<strong>${nombre}</strong>`;
+    document.getElementById('content-area').appendChild(lista);
+    elementosCreados.push(lista);
+    historialDeshacer.push({ accion: 'crear', elemento: lista });
+}
+
+// Inicialización del script
+function inicializar() {
+    // Cargar configuraciones previas si existen
+    if (localStorage.getItem('configuracionActual')) {
+        cargarConfiguracion();
+    }
+    
+    // Crear listas de ejemplo
+    crearLista('Lista 1');
+    crearLista('Lista 2');
+}
+
+// Llamada a la función de inicialización
+inicializar();

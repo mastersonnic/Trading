@@ -1,83 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic UI Creator</title>
+    <title>Editor de Elementos</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <div class="sidebar">
-            <!-- Ocho listas desplegables -->
-            <div class="dropdown-container">
-                <button class="dropdown-button">Crear (1)</button>
+        <!-- Barra lateral con una única lista desplegable -->
+        <div class="side-bar">
+            <div class="dropdown">
+                <button class="dropbtn">Lista A</button>
                 <div class="dropdown-content">
-                    <div class="dropdown-item" data-type="list">Crear Lista</div>
-                    <div class="dropdown-item" data-type="visor">Crear Visor</div>
-                    <div class="dropdown-item" data-type="button">Crear Botón</div>
-                </div>
-            </div>
-            <!-- Repetir este bloque para los otros 7 dropdowns -->
-            <div class="dropdown-container">
-                <button class="dropdown-button">Crear (2)</button>
-                <div class="dropdown-content">
-                    <div class="dropdown-item" data-type="list">Crear Lista</div>
-                    <div class="dropdown-item" data-type="visor">Crear Visor</div>
-                    <div class="dropdown-item" data-type="button">Crear Botón</div>
-                </div>
-            </div>
-            <div class="dropdown-container">
-                <button class="dropdown-button">Crear (3)</button>
-                <div class="dropdown-content">
-                    <div class="dropdown-item" data-type="list">Crear Lista</div>
-                    <div class="dropdown-item" data-type="visor">Crear Visor</div>
-                    <div class="dropdown-item" data-type="button">Crear Botón</div>
-                </div>
-            </div>
-            <div class="dropdown-container">
-                <button class="dropdown-button">Crear (4)</button>
-                <div class="dropdown-content">
-                    <div class="dropdown-item" data-type="list">Crear Lista</div>
-                    <div class="dropdown-item" data-type="visor">Crear Visor</div>
-                    <div class="dropdown-item" data-type="button">Crear Botón</div>
-                </div>
-            </div>
-            <div class="dropdown-container">
-                <button class="dropdown-button">Crear (5)</button>
-                <div class="dropdown-content">
-                    <div class="dropdown-item" data-type="list">Crear Lista</div>
-                    <div class="dropdown-item" data-type="visor">Crear Visor</div>
-                    <div class="dropdown-item" data-type="button">Crear Botón</div>
-                </div>
-            </div>
-            <div class="dropdown-container">
-                <button class="dropdown-button">Crear (6)</button>
-                <div class="dropdown-content">
-                    <div class="dropdown-item" data-type="list">Crear Lista</div>
-                    <div class="dropdown-item" data-type="visor">Crear Visor</div>
-                    <div class="dropdown-item" data-type="button">Crear Botón</div>
-                </div>
-            </div>
-            <div class="dropdown-container">
-                <button class="dropdown-button">Crear (7)</button>
-                <div class="dropdown-content">
-                    <div class="dropdown-item" data-type="list">Crear Lista</div>
-                    <div class="dropdown-item" data-type="visor">Crear Visor</div>
-                    <div class="dropdown-item" data-type="button">Crear Botón</div>
-                </div>
-            </div>
-            <div class="dropdown-container">
-                <button class="dropdown-button">Crear (8)</button>
-                <div class="dropdown-content">
-                    <div class="dropdown-item" data-type="list">Crear Lista</div>
-                    <div class="dropdown-item" data-type="visor">Crear Visor</div>
-                    <div class="dropdown-item" data-type="button">Crear Botón</div>
+                    <button onclick="createElement('lista')">Crear Lista A</button>
+                    <button onclick="createElement('boton')">Crear Botón A</button>
+                    <button onclick="createElement('visor')">Crear Visor A</button>
+                    <button onclick="createElement('bloques_logicos')">Bloques Lógicos A</button>
                 </div>
             </div>
         </div>
-        <div class="content" id="content">
-            <!-- Aquí se insertarán los elementos dinámicamente -->
+
+        <!-- Área donde se crearán los elementos -->
+        <div class="content-area" id="content-area"></div>
+
+        <!-- Botones para reiniciar, deshacer, rehacer y gestión de configuraciones -->
+        <div class="actions">
+            <button onclick="reiniciar()">Reiniciar</button>
+            <button onclick="deshacer()">Deshacer</button>
+            <button onclick="rehacer()">Rehacer</button>
+            <button onclick="guardarConfiguracion()">Guardar Configuración Actual</button>
+            <button onclick="cargarConfiguracion()">Cargar Configuración Actual</button>
+            <button onclick="guardarConfiguracionComo()">Guardar Configuración Actual Como</button>
         </div>
     </div>
     <script src="script.js"></script>

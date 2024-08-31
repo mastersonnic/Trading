@@ -3,58 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domino Game</title>
+    <title>Juego de Dominó</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Domino Game</h1>
-    
-    <!-- 3*, 4*, 5* -->
-    <label for="listaFichas">Lista de todas las fichas:</label>
-    <select id="listaFichas" multiple></select>
-    <p id="mensajeError"></p>
+    <!-- Listas desplegables para seleccionar fichas -->
+    <label for="fichas-lista">Selecciona tus fichas (7 fichas):</label>
+    <select id="fichas-lista" multiple></select>
 
-    <!-- 7*, 8*, 9* -->
-    <h2>Mis Fichas</h2>
-    <div id="misFichas"></div>
+    <!-- Mensaje de error si no se seleccionan 7 fichas -->
+    <div id="error-msg" class="error"></div>
 
-    <!-- 10*, 12* -->
-    <h2>Jugadas de los Jugadores</h2>
-    <label for="listaFichasJ1">Candidatas a Pases de J1:</label>
-    <select id="listaFichasJ1" multiple></select>
+    <!-- Visor para mostrar las fichas seleccionadas -->
+    <div id="visor-mis-fichas"></div>
 
-    <label for="listaFichasJ2">Candidatas a Pases de J2:</label>
-    <select id="listaFichasJ2" multiple></select>
+    <!-- Visor para mostrar la mejor ficha para jugar -->
+    <div id="mejor-ficha"></div>
 
-    <label for="listaFichasJ3">Candidatas a Pases de J3:</label>
-    <select id="listaFichasJ3" multiple></select>
+    <!-- Visores para los extremos de la mesa -->
+    <div id="extremos-mesa"></div>
 
-    <label for="listaFichasJ4">Candidatas a Pases de J4:</label>
-    <select id="listaFichasJ4" multiple></select>
+    <!-- Listas desplegables para jugadas de cada jugador -->
+    <div id="jugadas-j1">
+        <label for="jugada-j1">J1 - Selecciona una ficha para jugar:</label>
+        <select id="jugada-j1"></select>
+    </div>
+    <div id="jugadas-j2">
+        <label for="jugada-j2">J2 - Selecciona una ficha para jugar:</label>
+        <select id="jugada-j2"></select>
+    </div>
+    <div id="jugadas-j3">
+        <label for="jugada-j3">J3 - Selecciona una ficha para jugar:</label>
+        <select id="jugada-j3"></select>
+    </div>
+    <div id="jugadas-j4">
+        <label for="jugada-j4">J4 - Selecciona una ficha para jugar:</label>
+        <select id="jugada-j4"></select>
+    </div>
 
-    <!-- 15*, 17* -->
-    <h2>Mejor ficha para jugar</h2>
-    <div id="mejorFicha"></div>
+    <!-- Visores para mostrar las fichas pasadas -->
+    <div id="visor-equipo1-pasa"></div>
+    <div id="visor-equipo2-pasa"></div>
 
-    <!-- 17* -->
-    <h2>Extremos de la Mesa</h2>
-    <div id="extremoIzquierdo"></div>
-    <div id="extremoDerecho"></div>
-    <div id="extremosActuales"></div>
-
-    <!-- 18* -->
-    <h2>Fichas del Equipo</h2>
-    <div id="equipo1Pasadas"></div>
-    <div id="equipo2Pasadas"></div>
-
-    <!-- 20* -->
-    <h2>Grupos:</h2>
-    <p><strong>Grupo A:</strong> Ficha doble.</p>
-    <p><strong>Grupo B:</strong> Suma de los extremos mayor a 6.</p>
-    <p><strong>Grupo C:</strong> Tienes 4 o más fichas con el mismo número.</p>
-    <p><strong>Grupo D:</strong> Aliado jugó una ficha con alguno de los extremos.</p>
-    <p><strong>Grupo E:</strong> Oponente pasó por alguno de los extremos.</p>
-    <p><strong>Grupo F:</strong> Aliado no pasó por los extremos.</p>
+    <!-- Texto sobre los grupos -->
+    <div id="grupos"></div>
 
     <script src="script.js"></script>
 </body>

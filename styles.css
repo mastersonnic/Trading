@@ -1,54 +1,79 @@
+/* Estilo general */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 20px;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 20px;
 }
 
-#container {
-    width: 80%;
-    margin: auto;
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h1, h2 {
-    text-align: center;
-}
-
-#list-controls, #element-controls {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#list-controls button, #element-controls button {
-    margin: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-#list-container {
+/* Contenedor principal */
+.container {
     display: flex;
-    justify-content: space-around;
+    gap: 20px;
+    justify-content: center;
     margin-bottom: 20px;
 }
 
+/* Estilo para los contenedores de listas */
+.list-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Título de cada lista */
+.list-container h3 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #007BFF;
+}
+
+/* Estilo para los selectores */
 select {
-    width: 150px;
-    height: 200px;
-    margin: 10px;
-    font-size: 14px;
+    width: 200px;
+    height: 150px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-size: 1em;
 }
 
-#viewer {
-    text-align: center;
-}
-
-#element-viewer {
-    width: 100%;
-    height: 100px;
+/* Estilo para los botones dentro de los contenedores de listas */
+.list-container button {
     margin-top: 10px;
-    font-size: 14px;
+    padding: 8px 12px;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+/* Hover para los botones dentro de los contenedores de listas */
+.list-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para los botones generales */
+body > button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Hover para los botones generales */
+body > button:hover {
+    background-color: #218838;
 }

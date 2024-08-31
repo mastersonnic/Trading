@@ -1,60 +1,101 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #f0f0f0;
     margin: 0;
-    padding: 0;
+    padding: 20px;
 }
 
 .container {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.left-panel, .right-panel {
+    width: 48%;
+}
+
+.left-panel {
+    background-color: #ffeaa7;
     padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.left-side {
-    width: 20%;
-    text-align: center;
+.right-panel {
+    background-color: #fab1a0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.right-side {
-    width: 75%;
-}
-
-.dropdowns select, .visor {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-#actionButton {
-    width: 100%;
-    padding: 15px;
-    border-radius: 5px;
-    border: none;
-    background-color: #007bff;
+button {
+    background-color: #0984e3;
     color: white;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: left;
+}
+
+button:hover {
+    background-color: #74b9ff;
+}
+
+.dropdown {
     margin-bottom: 20px;
 }
 
-#actionButton:hover {
-    background-color: #0056b3;
-}
-
-.visor {
-    background-color: #e9ecef;
+select {
+    width: 100%;
     padding: 10px;
-    height: 40px;
-    border: 1px solid #ccc;
+    font-size: 18px;
+    font-weight: bold;
     border-radius: 5px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    border: 2px solid #6c5ce7;
+    color: #2d3436;
+    background-color: #dfe6e9;
 }
 
-#variables p {
-    margin: 10px 0;
+select:focus {
+    border-color: #00cec9;
+}
+
+.visores {
+    background-color: #ffeaa7;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #2d3436;
+    border-radius: 5px;
+}
+
+.visores .label {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.variable-visor {
+    margin-bottom: 20px;
+}
+
+.variable-visor p {
+    background-color: #55efc4;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #2d3436;
+    border-radius: 5px;
+    margin: 0;
+}
+
+.variable-visor p:empty {
+    display: none;
 }

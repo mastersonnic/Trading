@@ -1,4 +1,4 @@
-// Inicialización de variables globales
+// Inicialización de variables globales con la lista completa de fichas de dominó en A
 let A = [
     "0-0", "0-1", "0-2", "0-3", "0-4", "0-5", "0-6",
     "1-1", "1-2", "1-3", "1-4", "1-5", "1-6",
@@ -81,7 +81,7 @@ function insertSelection() {
     updateVisors();
 }
 
-// Función para manejar la operación de suma entre listas
+// Función para manejar la operación de suma entre listas o variables
 function addElements() {
     const sourceSelector = document.getElementById('sourceSelector').value;
     const targetSelector = document.getElementById('targetSelector').value;
@@ -94,7 +94,7 @@ function addElements() {
     updateVisors();
 }
 
-// Función para manejar la operación de resta entre listas
+// Función para manejar la operación de resta entre listas o variables
 function subtractElements() {
     const sourceSelector = document.getElementById('sourceSelector').value;
     const targetSelector = document.getElementById('targetSelector').value;

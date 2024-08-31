@@ -3,34 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interacción con Listas Desplegables y Visores</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .container { display: flex; gap: 20px; }
-        .list-container { border: 1px solid #ccc; padding: 10px; }
-        select { width: 200px; height: 150px; }
-        button { margin-top: 10px; }
-    </style>
+    <title>Dominó Lógica</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <div class="list-container">
-            <h3>Lista 1</h3>
-            <select id="list1" multiple></select>
-            <button onclick="addItem('list1')">Agregar Elemento</button>
-            <button onclick="removeItem('list1')">Eliminar Elemento</button>
+        <div class="left-side">
+            <button id="actionButton">Acción</button>
+            <div class="dropdowns">
+                <!-- Crear 9 listas desplegables -->
+                <select id="dropdown1"></select>
+                <select id="dropdown2"></select>
+                <select id="dropdown3"></select>
+                <select id="dropdown4"></select>
+                <select id="dropdown5"></select>
+                <select id="dropdown6"></select>
+                <select id="dropdown7"></select>
+                <select id="dropdown8"></select>
+                <select id="dropdown9"></select>
+            </div>
         </div>
-        <div class="list-container">
-            <h3>Lista 2</h3>
-            <select id="list2" multiple></select>
-            <button onclick="addItem('list2')">Agregar Elemento</button>
-            <button onclick="removeItem('list2')">Eliminar Elemento</button>
+        <div class="right-side">
+            <!-- 9 visores -->
+            <div id="visor1" class="visor"></div>
+            <div id="visor2" class="visor"></div>
+            <div id="visor3" class="visor"></div>
+            <div id="visor4" class="visor"></div>
+            <div id="visor5" class="visor"></div>
+            <div id="visor6" class="visor"></div>
+            <div id="visor7" class="visor"></div>
+            <div id="visor8" class="visor"></div>
+            <div id="visor9" class="visor"></div>
+
+            <!-- Variables -->
+            <div id="variables">
+                <p>Variable A: <span id="varA"></span></p>
+                <p>Variable B: <span id="varB"></span></p>
+                <p>Variable C: <span id="varC"></span></p>
+                <p>Variable D: <span id="varD"></span></p>
+                <p>Variable E: <span id="varE"></span></p>
+                <p>Variable F: <span id="varF"></span></p>
+                <p>Variable G: <span id="varG"></span></p>
+                <p>Variable H: <span id="varH"></span></p>
+                <p>Variable I: <span id="varI"></span></p>
+                <p>Variable J: <span id="varJ"></span></p>
+                <p>Variable K: <span id="varK"></span></p>
+                <p>Variable L: <span id="varL"></span></p>
+                <p>Variable M: <span id="varM"></span></p>
+                <p>Variable N: <span id="varN"></span></p>
+                <p>Variable O: <span id="varO"></span></p>
+            </div>
         </div>
     </div>
-    <button onclick="moveItem('list1', 'list2')">Mover a Lista 2</button>
-    <button onclick="moveItem('list2', 'list1')">Mover a Lista 1</button>
-    <button onclick="copyItem('list1', 'list2')">Copiar a Lista 2</button>
-    <button onclick="copyItem('list2', 'list1')">Copiar a Lista 1</button>
     <script src="script.js"></script>
 </body>
 </html>

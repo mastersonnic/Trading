@@ -8,61 +8,119 @@ body {
 
 .container {
     display: flex;
-    flex-direction: row;
-    height: 100vh;
-    width: 100vw;
-}
-
-.left-panel, .right-panel {
+    justify-content: space-between;
     padding: 20px;
 }
 
-.left-panel {
-    background-color: #eaeaea;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.left-pane, .right-pane {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.right-panel {
-    background-color: #ffffff;
-    width: 50%;
+.left-pane {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.right-pane {
+    width: 300px;
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+#actionButton {
+    display: block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#actionButton:hover {
+    background-color: #0056b3;
+}
+
+.dropdown-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.dropdown {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.visors {
+    margin-top: 20px;
+}
+
+.visor {
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    background-color: #e9ecef;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#variablesList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#variablesList li {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.insert-actions {
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-button {
-    font-size: 18px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    cursor: pointer;
-}
-
-.dropdowns, .visores, #variables {
-    width: 100%;
-    margin-top: 20px;
-}
-
-select {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    font-size: 16px;
-}
-
-.visores div, #variables div {
-    padding: 10px;
-    font-size: 18px;
+.insert-actions label {
+    margin-bottom: 5px;
     font-weight: bold;
 }
 
-.visores div {
-    background-color: #e0e0e0;
-    margin: 5px 0;
+.insert-actions select, 
+.insert-actions button {
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
 }
 
-#variables div {
-    margin: 10px 0;
+.insert-actions button {
+    background-color: #28a745;
+    color: #fff;
+    cursor: pointer;
+}
+
+.insert-actions button:hover {
+    background-color: #218838;
 }

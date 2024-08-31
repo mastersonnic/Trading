@@ -3,86 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domino - Manipulación de Variables</title>
+    <title>Dominó - Intercambio de Fichas</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <div class="left-pane">
-            <button id="actionButton">Realizar Acción</button>
+        <div class="left-panel">
+            <h1>Dominó - Listas y Visores</h1>
+
             <div class="dropdowns">
-                <div class="dropdown-group">
-                    <label for="dropdown1">Lista 1:</label>
-                    <select id="dropdown1" class="dropdown" multiple></select>
-                </div>
-                <div class="dropdown-group">
-                    <label for="dropdown2">Lista 2:</label>
-                    <select id="dropdown2" class="dropdown" multiple></select>
-                </div>
-                <div class="dropdown-group">
-                    <label for="dropdown3">Lista 3:</label>
-                    <select id="dropdown3" class="dropdown" multiple></select>
-                </div>
-                <div class="dropdown-group">
-                    <label for="dropdown4">Lista 4:</label>
-                    <select id="dropdown4" class="dropdown" multiple></select>
-                </div>
-                <div class="dropdown-group">
-                    <label for="dropdown5">Lista 5:</label>
-                    <select id="dropdown5" class="dropdown" multiple></select>
-                </div>
-                <div class="dropdown-group">
-                    <label for="dropdown6">Lista 6:</label>
-                    <select id="dropdown6" class="dropdown" multiple></select>
-                </div>
-                <div class="dropdown-group">
-                    <label for="dropdown7">Lista 7:</label>
-                    <select id="dropdown7" class="dropdown" multiple></select>
-                </div>
-                <div class="dropdown-group">
-                    <label for="dropdown8">Lista 8:</label>
-                    <select id="dropdown8" class="dropdown" multiple></select>
-                </div>
-                <div class="dropdown-group">
-                    <label for="dropdown9">Lista 9:</label>
-                    <select id="dropdown9" class="dropdown" multiple></select>
-                </div>
+                <label for="dropdown1">Lista 1</label>
+                <select id="dropdown1" class="dropdown"></select>
+
+                <label for="dropdown2">Lista 2</label>
+                <select id="dropdown2" class="dropdown"></select>
+
+                <label for="dropdown3">Lista 3</label>
+                <select id="dropdown3" class="dropdown"></select>
+
+                <label for="dropdown4">Lista 4</label>
+                <select id="dropdown4" class="dropdown"></select>
+
+                <label for="dropdown5">Lista 5</label>
+                <select id="dropdown5" class="dropdown"></select>
+
+                <label for="dropdown6">Lista 6</label>
+                <select id="dropdown6" class="dropdown"></select>
+
+                <label for="dropdown7">Lista 7</label>
+                <select id="dropdown7" class="dropdown"></select>
+
+                <label for="dropdown8">Lista 8</label>
+                <select id="dropdown8" class="dropdown"></select>
+
+                <label for="dropdown9">Lista 9</label>
+                <select id="dropdown9" class="dropdown"></select>
             </div>
-            <div class="visors">
-                <div id="visor1" class="visor">Visor 1</div>
-                <div id="visor2" class="visor">Visor 2</div>
-                <div id="visor3" class="visor">Visor 3</div>
-                <div id="visor4" class="visor">Visor 4</div>
-                <div id="visor5" class="visor">Visor 5</div>
-                <div id="visor6" class="visor">Visor 6</div>
-                <div id="visor7" class="visor">Visor 7</div>
-                <div id="visor8" class="visor">Visor 8</div>
-                <div id="visor9" class="visor">Visor 9</div>
-            </div>
+
             <div class="insert-actions">
-                <label for="variable-select">Selecciona Variable:</label>
+                <label for="variable-select">Selecciona variable destino:</label>
                 <select id="variable-select">
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="E">E</option>
-                    <option value="F">F</option>
-                    <option value="G">G</option>
-                    <option value="H">H</option>
-                    <option value="I">I</option>
-                    <option value="J">J</option>
-                    <option value="K">K</option>
-                    <option value="L">L</option>
-                    <option value="M">M</option>
-                    <option value="N">N</option>
-                    <option value="O">O</option>
+                    <option value="B">Variable B</option>
+                    <option value="C">Variable C</option>
+                    <option value="D">Variable D</option>
+                    <option value="E">Variable E</option>
+                    <option value="F">Variable F</option>
+                    <option value="G">Variable G</option>
+                    <option value="H">Variable H</option>
+                    <option value="I">Variable I</option>
+                    <option value="J">Variable J</option>
+                    <option value="K">Variable K</option>
+                    <option value="L">Variable L</option>
+                    <option value="M">Variable M</option>
+                    <option value="N">Variable N</option>
+                    <option value="O">Variable O</option>
                 </select>
-                
-                <button id="insertFromAButton">Insertar Selección de A en Variable</button>
-                
-                <label for="target-select">Selecciona Lista/Visor:</label>
-                <select id="target-select">
+
+                <label for="source-select">Selecciona lista fuente:</label>
+                <select id="source-select">
                     <option value="dropdown1">Lista 1</option>
                     <option value="dropdown2">Lista 2</option>
                     <option value="dropdown3">Lista 3</option>
@@ -92,6 +70,13 @@
                     <option value="dropdown7">Lista 7</option>
                     <option value="dropdown8">Lista 8</option>
                     <option value="dropdown9">Lista 9</option>
+                </select>
+
+                <button id="insertFromSourceButton">Insertar selección de lista en variable</button>
+                <button id="insertVariableCountButton">Insertar cantidad de fichas/números en visor o lista</button>
+
+                <label for="target-select">Selecciona destino:</label>
+                <select id="target-select">
                     <option value="visor1">Visor 1</option>
                     <option value="visor2">Visor 2</option>
                     <option value="visor3">Visor 3</option>
@@ -101,34 +86,51 @@
                     <option value="visor7">Visor 7</option>
                     <option value="visor8">Visor 8</option>
                     <option value="visor9">Visor 9</option>
+                    <option value="dropdown1">Lista 1</option>
+                    <option value="dropdown2">Lista 2</option>
+                    <option value="dropdown3">Lista 3</option>
+                    <option value="dropdown4">Lista 4</option>
+                    <option value="dropdown5">Lista 5</option>
+                    <option value="dropdown6">Lista 6</option>
+                    <option value="dropdown7">Lista 7</option>
+                    <option value="dropdown8">Lista 8</option>
+                    <option value="dropdown9">Lista 9</option>
                 </select>
-                
-                <button id="insertVariableCountButton">Insertar Cantidad de Fichas/Números</button>
+            </div>
+
+            <div class="visors">
+                <div id="visor1" class="visor"></div>
+                <div id="visor2" class="visor"></div>
+                <div id="visor3" class="visor"></div>
+                <div id="visor4" class="visor"></div>
+                <div id="visor5" class="visor"></div>
+                <div id="visor6" class="visor"></div>
+                <div id="visor7" class="visor"></div>
+                <div id="visor8" class="visor"></div>
+                <div id="visor9" class="visor"></div>
             </div>
         </div>
 
-        <div class="right-pane">
+        <div class="right-panel">
             <h2>Variables</h2>
-            <ul id="variablesList">
-                <li>A: <span id="varA"></span></li>
-                <li>B: <span id="varB"></span></li>
-                <li>C: <span id="varC"></span></li>
-                <li>D: <span id="varD"></span></li>
-                <li>E: <span id="varE"></span></li>
-                <li>F: <span id="varF"></span></li>
-                <li>G: <span id="varG"></span></li>
-                <li>H: <span id="varH"></span></li>
-                <li>I: <span id="varI"></span></li>
-                <li>J: <span id="varJ"></span></li>
-                <li>K: <span id="varK"></span></li>
-                <li>L: <span id="varL"></span></li>
-                <li>M: <span id="varM"></span></li>
-                <li>N: <span id="varN"></span></li>
-                <li>O: <span id="varO"></span></li>
-            </ul>
+            <p><strong>A:</strong> <span id="varA"></span></p>
+            <p><strong>B:</strong> <span id="varB"></span></p>
+            <p><strong>C:</strong> <span id="varC"></span></p>
+            <p><strong>D:</strong> <span id="varD"></span></p>
+            <p><strong>E:</strong> <span id="varE"></span></p>
+            <p><strong>F:</strong> <span id="varF"></span></p>
+            <p><strong>G:</strong> <span id="varG"></span></p>
+            <p><strong>H:</strong> <span id="varH"></span></p>
+            <p><strong>I:</strong> <span id="varI"></span></p>
+            <p><strong>J:</strong> <span id="varJ"></span></p>
+            <p><strong>K:</strong> <span id="varK"></span></p>
+            <p><strong>L:</strong> <span id="varL"></span></p>
+            <p><strong>M:</strong> <span id="varM"></span></p>
+            <p><strong>N:</strong> <span id="varN"></span></p>
+            <p><strong>O:</strong> <span id="varO"></span></p>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
-                </html>
+</html>

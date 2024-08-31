@@ -1,135 +1,60 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dominó - Intercambio de Fichas</title>
+    <title>Domino Game</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <div class="left-panel">
-            <h1>Dominó - Listas y Visores</h1>
+    <h1>Domino Game</h1>
+    
+    <!-- 3*, 4*, 5* -->
+    <label for="listaFichas">Lista de todas las fichas:</label>
+    <select id="listaFichas" multiple></select>
+    <p id="mensajeError"></p>
 
-            <div class="dropdowns">
-                <label for="dropdown1">Lista 1</label>
-                <select id="dropdown1" class="dropdown"></select>
+    <!-- 7*, 8*, 9* -->
+    <h2>Mis Fichas</h2>
+    <div id="misFichas"></div>
 
-                <label for="dropdown2">Lista 2</label>
-                <select id="dropdown2" class="dropdown"></select>
+    <!-- 10*, 12* -->
+    <h2>Jugadas de los Jugadores</h2>
+    <label for="listaFichasJ1">Candidatas a Pases de J1:</label>
+    <select id="listaFichasJ1" multiple></select>
 
-                <label for="dropdown3">Lista 3</label>
-                <select id="dropdown3" class="dropdown"></select>
+    <label for="listaFichasJ2">Candidatas a Pases de J2:</label>
+    <select id="listaFichasJ2" multiple></select>
 
-                <label for="dropdown4">Lista 4</label>
-                <select id="dropdown4" class="dropdown"></select>
+    <label for="listaFichasJ3">Candidatas a Pases de J3:</label>
+    <select id="listaFichasJ3" multiple></select>
 
-                <label for="dropdown5">Lista 5</label>
-                <select id="dropdown5" class="dropdown"></select>
+    <label for="listaFichasJ4">Candidatas a Pases de J4:</label>
+    <select id="listaFichasJ4" multiple></select>
 
-                <label for="dropdown6">Lista 6</label>
-                <select id="dropdown6" class="dropdown"></select>
+    <!-- 15*, 17* -->
+    <h2>Mejor ficha para jugar</h2>
+    <div id="mejorFicha"></div>
 
-                <label for="dropdown7">Lista 7</label>
-                <select id="dropdown7" class="dropdown"></select>
+    <!-- 17* -->
+    <h2>Extremos de la Mesa</h2>
+    <div id="extremoIzquierdo"></div>
+    <div id="extremoDerecho"></div>
+    <div id="extremosActuales"></div>
 
-                <label for="dropdown8">Lista 8</label>
-                <select id="dropdown8" class="dropdown"></select>
+    <!-- 18* -->
+    <h2>Fichas del Equipo</h2>
+    <div id="equipo1Pasadas"></div>
+    <div id="equipo2Pasadas"></div>
 
-                <label for="dropdown9">Lista 9</label>
-                <select id="dropdown9" class="dropdown"></select>
-            </div>
-
-            <div class="insert-actions">
-                <label for="variable-select">Selecciona variable destino:</label>
-                <select id="variable-select">
-                    <option value="B">Variable B</option>
-                    <option value="C">Variable C</option>
-                    <option value="D">Variable D</option>
-                    <option value="E">Variable E</option>
-                    <option value="F">Variable F</option>
-                    <option value="G">Variable G</option>
-                    <option value="H">Variable H</option>
-                    <option value="I">Variable I</option>
-                    <option value="J">Variable J</option>
-                    <option value="K">Variable K</option>
-                    <option value="L">Variable L</option>
-                    <option value="M">Variable M</option>
-                    <option value="N">Variable N</option>
-                    <option value="O">Variable O</option>
-                </select>
-
-                <label for="source-select">Selecciona lista fuente:</label>
-                <select id="source-select">
-                    <option value="dropdown1">Lista 1</option>
-                    <option value="dropdown2">Lista 2</option>
-                    <option value="dropdown3">Lista 3</option>
-                    <option value="dropdown4">Lista 4</option>
-                    <option value="dropdown5">Lista 5</option>
-                    <option value="dropdown6">Lista 6</option>
-                    <option value="dropdown7">Lista 7</option>
-                    <option value="dropdown8">Lista 8</option>
-                    <option value="dropdown9">Lista 9</option>
-                </select>
-
-                <button id="insertFromSourceButton">Insertar selección de lista en variable</button>
-                <button id="insertVariableCountButton">Insertar cantidad de fichas/números en visor o lista</button>
-
-                <label for="target-select">Selecciona destino:</label>
-                <select id="target-select">
-                    <option value="visor1">Visor 1</option>
-                    <option value="visor2">Visor 2</option>
-                    <option value="visor3">Visor 3</option>
-                    <option value="visor4">Visor 4</option>
-                    <option value="visor5">Visor 5</option>
-                    <option value="visor6">Visor 6</option>
-                    <option value="visor7">Visor 7</option>
-                    <option value="visor8">Visor 8</option>
-                    <option value="visor9">Visor 9</option>
-                    <option value="dropdown1">Lista 1</option>
-                    <option value="dropdown2">Lista 2</option>
-                    <option value="dropdown3">Lista 3</option>
-                    <option value="dropdown4">Lista 4</option>
-                    <option value="dropdown5">Lista 5</option>
-                    <option value="dropdown6">Lista 6</option>
-                    <option value="dropdown7">Lista 7</option>
-                    <option value="dropdown8">Lista 8</option>
-                    <option value="dropdown9">Lista 9</option>
-                </select>
-            </div>
-
-            <div class="visors">
-                <div id="visor1" class="visor"></div>
-                <div id="visor2" class="visor"></div>
-                <div id="visor3" class="visor"></div>
-                <div id="visor4" class="visor"></div>
-                <div id="visor5" class="visor"></div>
-                <div id="visor6" class="visor"></div>
-                <div id="visor7" class="visor"></div>
-                <div id="visor8" class="visor"></div>
-                <div id="visor9" class="visor"></div>
-            </div>
-        </div>
-
-        <div class="right-panel">
-            <h2>Variables</h2>
-            <p><strong>A:</strong> <span id="varA"></span></p>
-            <p><strong>B:</strong> <span id="varB"></span></p>
-            <p><strong>C:</strong> <span id="varC"></span></p>
-            <p><strong>D:</strong> <span id="varD"></span></p>
-            <p><strong>E:</strong> <span id="varE"></span></p>
-            <p><strong>F:</strong> <span id="varF"></span></p>
-            <p><strong>G:</strong> <span id="varG"></span></p>
-            <p><strong>H:</strong> <span id="varH"></span></p>
-            <p><strong>I:</strong> <span id="varI"></span></p>
-            <p><strong>J:</strong> <span id="varJ"></span></p>
-            <p><strong>K:</strong> <span id="varK"></span></p>
-            <p><strong>L:</strong> <span id="varL"></span></p>
-            <p><strong>M:</strong> <span id="varM"></span></p>
-            <p><strong>N:</strong> <span id="varN"></span></p>
-            <p><strong>O:</strong> <span id="varO"></span></p>
-        </div>
-    </div>
+    <!-- 20* -->
+    <h2>Grupos:</h2>
+    <p><strong>Grupo A:</strong> Ficha doble.</p>
+    <p><strong>Grupo B:</strong> Suma de los extremos mayor a 6.</p>
+    <p><strong>Grupo C:</strong> Tienes 4 o más fichas con el mismo número.</p>
+    <p><strong>Grupo D:</strong> Aliado jugó una ficha con alguno de los extremos.</p>
+    <p><strong>Grupo E:</strong> Oponente pasó por alguno de los extremos.</p>
+    <p><strong>Grupo F:</strong> Aliado no pasó por los extremos.</p>
 
     <script src="script.js"></script>
 </body>

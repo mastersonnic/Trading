@@ -1,57 +1,55 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dominó Lógica</title>
+    <title>Dominó Interactivo</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <div class="left-side">
-            <button id="actionButton">Acción</button>
+        <div class="left-panel">
+            <button id="actionButton">Ejecutar Acción</button>
             <div class="dropdowns">
-                <!-- Crear 9 listas desplegables -->
-                <select id="dropdown1"></select>
-                <select id="dropdown2"></select>
-                <select id="dropdown3"></select>
-                <select id="dropdown4"></select>
-                <select id="dropdown5"></select>
-                <select id="dropdown6"></select>
-                <select id="dropdown7"></select>
-                <select id="dropdown8"></select>
-                <select id="dropdown9"></select>
+                <select id="dropdown1" multiple></select>
+                <select id="dropdown2" multiple></select>
+                <select id="dropdown3" multiple></select>
+                <select id="dropdown4" multiple></select>
+                <select id="dropdown5" multiple></select>
+                <select id="dropdown6" multiple></select>
+                <select id="dropdown7" multiple></select>
+                <select id="dropdown8" multiple></select>
+                <select id="dropdown9" multiple></select>
+            </div>
+            <div class="visores">
+                <div id="visor1"></div>
+                <div id="visor2"></div>
+                <div id="visor3"></div>
+                <div id="visor4"></div>
+                <div id="visor5"></div>
+                <div id="visor6"></div>
+                <div id="visor7"></div>
+                <div id="visor8"></div>
+                <div id="visor9"></div>
             </div>
         </div>
-        <div class="right-side">
-            <!-- 9 visores -->
-            <div id="visor1" class="visor"></div>
-            <div id="visor2" class="visor"></div>
-            <div id="visor3" class="visor"></div>
-            <div id="visor4" class="visor"></div>
-            <div id="visor5" class="visor"></div>
-            <div id="visor6" class="visor"></div>
-            <div id="visor7" class="visor"></div>
-            <div id="visor8" class="visor"></div>
-            <div id="visor9" class="visor"></div>
-
-            <!-- Variables -->
+        <div class="right-panel">
             <div id="variables">
-                <p>Variable A: <span id="varA"></span></p>
-                <p>Variable B: <span id="varB"></span></p>
-                <p>Variable C: <span id="varC"></span></p>
-                <p>Variable D: <span id="varD"></span></p>
-                <p>Variable E: <span id="varE"></span></p>
-                <p>Variable F: <span id="varF"></span></p>
-                <p>Variable G: <span id="varG"></span></p>
-                <p>Variable H: <span id="varH"></span></p>
-                <p>Variable I: <span id="varI"></span></p>
-                <p>Variable J: <span id="varJ"></span></p>
-                <p>Variable K: <span id="varK"></span></p>
-                <p>Variable L: <span id="varL"></span></p>
-                <p>Variable M: <span id="varM"></span></p>
-                <p>Variable N: <span id="varN"></span></p>
-                <p>Variable O: <span id="varO"></span></p>
+                <div>A: <span id="variableA"></span></div>
+                <div>B: <span id="variableB"></span></div>
+                <div>C: <span id="variableC"></span></div>
+                <div>D: <span id="variableD"></span></div>
+                <div>E: <span id="variableE"></span></div>
+                <div>F: <span id="variableF"></span></div>
+                <div>G: <span id="variableG"></span></div>
+                <div>H: <span id="variableH"></span></div>
+                <div>I: <span id="variableI"></span></div>
+                <div>J: <span id="variableJ"></span></div>
+                <div>K: <span id="variableK"></span></div>
+                <div>L: <span id="variableL"></span></div>
+                <div>M: <span id="variableM"></span></div>
+                <div>N: <span id="variableN"></span></div>
+                <div>O: <span id="variableO"></span></div>
             </div>
         </div>
     </div>

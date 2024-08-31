@@ -1,91 +1,78 @@
-// Inicializar variables
-let variables = {
-    A: ["0-0", "0-1", "0-2", "0-3", "0-4", "0-5", "0-6", "1-1", "1-2", "1-3", "1-4", "1-5", "1-6", "2-2", "2-3", "2-4", "2-5", "2-6", "3-3", "3-4", "3-5", "3-6", "4-4", "4-5", "4-6", "5-5", "5-6", "6-6"],
-    B: [],
-    C: [],
-    D: [],
-    E: [],
-    F: [],
-    G: [],
-    H: [],
-    I: [],
-    J: [],
-    K: [],
-    L: [],
-    M: [],
-    N: [],
-    O: []
-};
+document.addEventListener("DOMContentLoaded", function () {
+    // Variables globales
+    const fichas = [
+        "0-0", "0-1", "0-2", "0-3", "0-4", "0-5", "0-6",
+        "1-1", "1-2", "1-3", "1-4", "1-5", "1-6",
+        "2-2", "2-3", "2-4", "2-5", "2-6",
+        "3-3", "3-4", "3-5", "3-6",
+        "4-4", "4-5", "4-6",
+        "5-5", "5-6",
+        "6-6"
+    ];
 
-let dropdownValues = {
-    dropdown1: [],
-    dropdown2: [],
-    dropdown3: [],
-    dropdown4: [],
-    dropdown5: [],
-    dropdown6: [],
-    dropdown7: [],
-    dropdown8: [],
-    dropdown9: []
-};
+    const variables = {
+        A: [...fichas],
+        B: [],
+        C: [],
+        D: [],
+        E: [],
+        F: [],
+        G: [],
+        H: [],
+        I: [],
+        J: [],
+        K: [],
+        L: [],
+        M: [],
+        N: [],
+        O: []
+    };
 
-// Asignar las fichas a los dropdowns
-document.querySelectorAll('select').forEach((select, index) => {
-    variables.A.forEach(ficha => {
-        let option = document.createElement('option');
-        option.value = ficha;
-        option.textContent = ficha;
-        select.appendChild(option);
+    // Inicializar los desplegables con las fichas
+    const dropdowns = document.querySelectorAll(".dropdown");
+    dropdowns.forEach(dropdown => {
+        fichas.forEach(ficha => {
+            const option = document.createElement("option");
+            option.value = ficha;
+            option.textContent = ficha;
+            dropdown.appendChild(option);
+        });
     });
-});
 
-// Actualizar visores y variables
-function actualizarVisores() {
-    for (const key in dropdownValues) {
-        document.getElementById(`visor${key.slice(-1)}`).textContent = dropdownValues[key].join(", ");
+    // Función para actualizar las variables en la interfaz
+    function updateVariablesUI() {
+        for (const [key, value] of Object.entries(variables)) {
+            document.getElementById(`var${key}`).textContent = value.join(", ");
+        }
     }
-    for (const key in variables) {
-        document.getElementById(`variable${key}`).textContent = variables[key].join(", ");
-    }
-}
 
-// Manejar selección en dropdowns
-function manejarSeleccionDropdown(dropdownId, value) {
-    if (!dropdownValues[dropdownId].includes(value)) {
-        dropdownValues[dropdownId].push(value);
-    } else {
-        dropdownValues[dropdownId] = dropdownValues[dropdownId].filter(item => item !== value);
-    }
-    actualizarVisores();
-}
-
-// Operaciones de sumar y restar elementos entre variables y listas
-function sumarElementos(destino, fuente) {
-    variables[destino] = [...new Set([...variables[destino], ...dropdownValues[fuente]])];
-    actualizarVisores();
-}
-
-function restarElementos(destino, fuente) {
-    variables[destino] = variables[destino].filter(item => !dropdownValues[fuente].includes(item));
-    actualizarVisores();
-}
-
-// Función de ejecución para operaciones más complejas
-function ejecutarOperacion() {
-    sumarElementos('B', 'dropdown1');
-    restarElementos('C', 'B');
-    // Aquí puedes continuar con más cadenas lógicas
-}
-
-// Eventos de selección en dropdowns
-document.querySelectorAll('select').forEach(select => {
-    select.addEventListener('change', function () {
-        manejarSeleccionDropdown(this.id, this.value);
+    // Botón para insertar selección de A en la variable elegida
+    document.getElementById("insertFromAButton").addEventListener("click", function () {
+        const selectedVariable = document.getElementById("variable-select").value;
+        variables[selectedVariable] = [...variables.A];
+        updateVariablesUI();
     });
+
+    // Botón para insertar la cantidad de fichas/números en un visor o lista
+    document.getElementById("insertVariableCountButton").addEventListener("click", function () {
+        const target = document.getElementById("target-select").value;
+        const selectedVariable = document.getElementById("variable-select").value;
+        const count = variables[selectedVariable].length;
+
+        if (target.startsWith("visor")) {
+            document.getElementById(target).textContent = `Cantidad: ${count}`;
+        } else if (target.startsWith("dropdown")) {
+            const dropdown = document.getElementById(target);
+            dropdown.innerHTML = "";
+            variables[selectedVariable].forEach(ficha => {
+                const option = document.createElement("option");
+                option.value = ficha;
+                option.textContent = ficha;
+                dropdown.appendChild(option);
+            });
+        }
+    });
+
+    // Inicializar la interfaz con las variables vacías
+    updateVariablesUI();
 });
-
-// Evento del botón de acción
-document.getElementById('actionButton').addEventListener('click', ejecutarOperacion);
-
-// Inicializar visores al cargar la página
-window.onload = actualizarVisores;

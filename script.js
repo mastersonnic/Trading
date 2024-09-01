@@ -1,178 +1,217 @@
-// script.js
+// Variables globales
+let A = []; // "Fichas duales"
+let B = []; // "Fichas separadas"
+let C = []; // "Lista todas las fichas"
+let D = []; // "Var Mis fichas"
+let E = []; // "Visor Mis fichas"
+let W = []; // Lista auxiliar de mis fichas al inicio
+let F = [], G = [], H = [], I = []; // Listas de candidatas a pases
+let J = [], K = [], L = [], M = []; // Variables asociadas a F, G, H, I
+let O = [], P = [], Q = [], R = []; // Listas de candidatas a jugadas
+let S = [], T = [], U = [], V = []; // Variables asociadas a O, P, Q, R
+let Y = null; // "Mejor ficha para jugar"
+let Z = null; // Visor para la mejor ficha Y
+let A1 = [], B1 = [], C1 = [], D1 = [], E1 = []; // Variables para determinar la mejor ficha
+let F1 = null, G1 = null, H1 = null, J1 = null; // Variables de extremos de la mesa
+let K1 = [], L1 = [], M1 = [], N1 = []; // Variables de fichas pasadas y jugadas por equipos
+let O1 = null, P1 = null; // Visores para K1 y M1
 
-// Variable A: "fichas duales"
-let A = [
-    {x: 0, y: 0}, {x: 0, y: 1}, {x: 0, y: 2}, {x: 0, y: 3}, {x: 0, y: 4}, {x: 0, y: 5}, {x: 0, y: 6},
-    {x: 1, y: 1}, {x: 1, y: 2}, {x: 1, y: 3}, {x: 1, y: 4}, {x: 1, y: 5}, {x: 1, y: 6},
-    {x: 2, y: 2}, {x: 2, y: 3}, {x: 2, y: 4}, {x: 2, y: 5}, {x: 2, y: 6},
-    {x: 3, y: 3}, {x: 3, y: 4}, {x: 3, y: 5}, {x: 3, y: 6},
-    {x: 4, y: 4}, {x: 4, y: 5}, {x: 4, y: 6},
-    {x: 5, y: 5}, {x: 5, y: 6},
-    {x: 6, y: 6}
-];
-
-// Variable B: "fichas separadas"
-let B = [];
-A.forEach(ficha => {
-    B.push({x: ficha.x, y: ficha.y});
-    B.push({x: ficha.y, y: ficha.x});
-});
-
-// Lista desplegable C: "lista todas las fichas"
-let C = []; // Esta se llenará con la selección del usuario desde A
-
-// Variable D: "Var Mis fichas"
-let D = []; // Se llenará con la selección de C
-
-// Visor X: Muestra las fichas seleccionadas en D
-let X = [];
-
-// Variable W: "Todas las fichas iniciales seleccionadas"
-let W = []; // Se llenará con D y se mantendrá constante
-
-// Visor E: Muestra las fichas duales en D
-let E = D;
-
-// Variables y listas F, G, H, I, J, K, L, M, N
-let F = D; // Lista desplegable para candidatas a pases de J1
-let G = A.filter(ficha => !D.includes(ficha)); // Candidatas de J2
-let H = A.filter(ficha => !D.includes(ficha)); // Candidatas de J3
-let I = A.filter(ficha => !D.includes(ficha)); // Candidatas de J4
-let J = []; // Fichas seleccionadas por J1 al pasar
-let K = []; // Fichas seleccionadas por J2 al pasar
-let L = []; // Fichas seleccionadas por J3 al pasar
-let M = []; // Fichas seleccionadas por J4 al pasar
-let N = []; // Fichas jugadas por cualquier jugador
-
-// Variables S, T, U, V y listas O, P, Q, R
-let O = D; // Lista desplegable para candidatas a jugada de J1
-let P = A.filter(ficha => !D.includes(ficha) && !N.includes(ficha)); // Candidatas de J2 para jugar
-let Q = A.filter(ficha => !D.includes(ficha) && !N.includes(ficha)); // Candidatas de J3 para jugar
-let R = A.filter(ficha => !D.includes(ficha) && !N.includes(ficha)); // Candidatas de J4 para jugar
-let S = []; // Fichas seleccionadas por J1 al jugar
-let T = []; // Fichas seleccionadas por J2 al jugar
-let U = []; // Fichas seleccionadas por J3 al jugar
-let V = []; // Fichas seleccionadas por J4 al jugar
-
-// Variables y Visor para extremos de la mesa
-let F1 = null; // Extremo izquierdo de la mesa
-let G1 = null; // Extremo derecho de la mesa
-let H1 = {left: F1, right: G1}; // Par de extremos actuales de la mesa
-let J1 = H1; // Visor para mostrar H1
-
-// Variable Y: "Mejor ficha para jugar" y Visor Z
-let Y = null;
-let Z = null;
-
-// Variables A1, B1, C1, D1, E1 para determinar la mejor ficha para jugar
-function calcularMejorFicha() {
-    let A1 = D.filter(ficha => ficha.x === ficha.y); // Fichas dobles
-    let B1 = D.filter(ficha => ficha.x + ficha.y > 6); // Fichas que suman más de 6
-    let C1 = []; // Número que se repite en al menos 3 fichas
-    let numeroRepetido = {};
-    D.forEach(ficha => {
-        numeroRepetido[ficha.x] = (numeroRepetido[ficha.x] || 0) + 1;
-        numeroRepetido[ficha.y] = (numeroRepetido[ficha.y] || 0) + 1;
-    });
-    for (let num in numeroRepetido) {
-        if (numeroRepetido[num] >= 3) {
-            C1.push(num);
-        }
-    }
-
-    let D1 = D.filter(ficha => ficha.x === F1 || ficha.y === F1); // Ficha que J3 jugó con un extremo en la mesa
-    let E1 = D.filter(ficha => ficha.x === G1 || ficha.y === G1); // Ficha que J3 no pasó a jugar con ese extremo
-
-    // Determinar la mejor ficha (Y) basada en la cantidad de grupos en los que encaja
-    let mejorFicha = null;
-    let maxGrupos = 0;
-
-    D.forEach(ficha => {
-        let grupos = 0;
-        if (A1.includes(ficha)) grupos++;
-        if (B1.includes(ficha)) grupos++;
-        if (C1.includes(ficha.x) || C1.includes(ficha.y)) grupos++;
-        if (D1.includes(ficha)) grupos++;
-        if (!E1.includes(ficha)) grupos++;
-
-        if (grupos > maxGrupos) {
-            maxGrupos = grupos;
-            mejorFicha = ficha;
-        }
-    });
-
-    Y = mejorFicha; // Asignar la mejor ficha para jugar
-    Z = `Mejor ficha para jugar: ${Y ? `(${Y.x}, ${Y.y})` : "No hay una mejor ficha"}`; // Mostrar el resultado
-}
-
-// Variables adicionales para seguimiento de extremos y jugadas
-let K1 = []; // Fichas a las que pasaron J2 y J4 pero aún no están en N
-let L1 = []; // Fichas a las que pasaron J2 y J4
-let M1 = []; // Fichas a las que pasaron J1 y J3 pero aún no están en N
-let N1 = []; // Fichas a las que pasaron J1 y J3
-let O1 = K1; // Visor para mostrar K1
-let P1 = M1; // Visor para mostrar M1
-
-// Texto final que muestra los grupos
-let textoFinal = "Grupos:\n" +
-                 "Grupo A: Ficha doble.\n" +
-                 "Grupo B: Suma de los extremos mayor a 6.\n" +
-                 "Grupo C: Tienes 4 o más fichas con el mismo número.\n" +
-                 "Grupo D: Aliado jugó una ficha con alguno de los extremos.\n" +
-                 "Grupo E: Oponente pasó por alguno de los extremos.\n" +
-                 "Grupo F: Aliado no pasó por los extremos.";
-
-console.log(textoFinal);
-
-// Lógica de creación dinámica en base a los pasos ingresados
+// Función para manejar la entrada del paso
 function procesarPaso(paso) {
     switch (paso) {
         case '1*':
-            console.log("Variable A creada: 'fichas duales'.");
+            crearVariableA();
             break;
         case '2*':
-            console.log("Variable B creada: 'fichas separadas'.");
+            crearVariableB();
             break;
         case '3*':
-            console.log("Lista desplegable C creada: 'lista todas las fichas'.");
+            crearListaC();
             break;
         case '6*':
-            console.log("Variable D creada: 'Var Mis fichas'. Visor X creado.");
+            crearVariableD();
             break;
         case '9*':
-            console.log("Visor E creado: 'Visor Mis fichas'.");
+            crearVisorE();
             break;
         case '10*':
-            console.log("Listas desplegables F, G, H, I creadas. Variables J, K, L, M creadas.");
+            crearListasFGHI();
             break;
         case '11*':
-            console.log("Listas desplegables O, P, Q, R creadas. Variables S, T, U, V creadas.");
+            crearListasOPQR();
             break;
         case '13*':
-    calcularMejorFicha();
-    console.log(`Variable Y creada: 'Mejor ficha para jugar'.`);
-    console.log(`Visor Z creado: ${Z}`);
-    break;
-case '14*':
-    console.log("Variables F1, G1, H1, J1 creadas para los extremos de la mesa.");
-    break;
-case '15*':
-    console.log("Variables K1, L1, M1, N1, O1, P1 creadas para seguimiento de extremos y jugadas.");
-    break;
-default:
-    console.log("Paso no reconocido. Verifique el valor ingresado.");
-    break;
+            calcularMejorFicha();
+            break;
+        case '14*':
+            crearExtremosMesa();
+            break;
+        case '15*':
+            crearVariablesSeguimiento();
+            break;
+        default:
+            console.log("Paso no reconocido. Verifique el valor ingresado.");
+            break;
+    }
 }
 
-// Función para inicializar el juego
-function iniciarJuego() {
-    console.log("Iniciando el juego de dominó...");
-    // Aquí se inicializan las variables y se configuran las listas
-    // Esta parte del código permite que el usuario seleccione sus fichas, se configure el tablero, y se procesen las jugadas
+// Funciones para crear variables y listas
+function crearVariableA() {
+    if (A.length === 0) {
+        A = generarFichas();
+        console.log("Variable A creada: Fichas duales.");
+    }
 }
 
-// Ejemplo de uso del código
-let pasos = ['1*', '2*', '3*', '6*', '9*', '10*', '11*', '13*', '14*', '15*'];
-pasos.forEach(paso => procesarPaso(paso));
+function crearVariableB() {
+    if (B.length === 0) {
+        crearVariableA(); // A se necesita antes de crear B
+        B = A.flatMap(ficha => [{ x: ficha[0], y: ficha[1] }, { x: ficha[1], y: ficha[0] }]);
+        console.log("Variable B creada: Fichas separadas.");
+    }
+}
 
-console.log("Juego de dominó configurado exitosamente.");
+function crearListaC() {
+    if (C.length === 0) {
+        crearVariableA(); // A se necesita antes de crear C
+        C = [...A];
+        console.log("Lista C creada: Lista todas las fichas.");
+    }
+}
+
+function crearVariableD() {
+    if (D.length === 0) {
+        crearListaC(); // C se necesita antes de crear D
+        D = seleccionarFichasDeC(7);
+        W = [...D]; // Guardar las fichas en W al inicio
+        console.log("Variable D creada: Var Mis fichas.");
+    }
+}
+
+function crearVisorE() {
+    if (E.length === 0) {
+        crearVariableD(); // D se necesita antes de crear E
+        E = [...D];
+        console.log("Visor E creado: Visor Mis fichas.");
+    }
+}
+
+function crearListasFGHI() {
+    if (F.length === 0 || G.length === 0 || H.length === 0 || I.length === 0) {
+        crearVariableD(); // D se necesita antes de crear F, G, H, I
+        F = [...D];
+        G = H = I = A.filter(ficha => !D.includes(ficha));
+        console.log("Listas F, G, H, I creadas para candidatas a pases.");
+    }
+}
+
+function crearListasOPQR() {
+    if (O.length === 0 || P.length === 0 || Q.length === 0 || R.length === 0) {
+        crearVariableD(); // D se necesita antes de crear O, P, Q, R
+        O = [...D];
+        P = Q = R = A.filter(ficha => !D.includes(ficha) && !W.includes(ficha));
+        console.log("Listas O, P, Q, R creadas para candidatas a jugadas.");
+    }
+}
+
+function calcularMejorFicha() {
+    if (Y === null) {
+        crearVariablesA1toE1(); // Crear A1, B1, C1, D1, E1
+        Y = determinarMejorFicha([A1, B1, C1, D1, E1]);
+        Z = Y;
+        console.log("Mejor ficha para jugar calculada: ", Y);
+    }
+}
+
+function crearExtremosMesa() {
+    if (F1 === null || G1 === null) {
+        F1 = obtenerExtremoIzquierdo();
+        G1 = obtenerExtremoDerecho();
+        H1 = [F1, G1];
+        J1 = H1;
+        console.log("Variables F1, G1, H1, J1 creadas para los extremos de la mesa.");
+    }
+}
+
+function crearVariablesSeguimiento() {
+    if (K1.length === 0 || L1.length === 0 || M1.length === 0 || N1.length === 0) {
+        K1 = obtenerFichasPasadasEquipo2();
+        L1 = obtenerFichasPasadasEquipo2();
+        M1 = obtenerFichasPasadasEquipo1();
+        N1 = obtenerFichasPasadasEquipo1();
+        O1 = K1;
+        P1 = M1;
+        console.log("Variables K1, L1, M1, N1, O1, P1 creadas para seguimiento de extremos y jugadas.");
+    }
+}
+
+// Funciones auxiliares
+function generarFichas() {
+    const fichas = [];
+    for (let i = 0; i <= 6; i++) {
+        for (let j = i; j <= 6; j++) {
+            fichas.push([i, j]);
+        }
+    }
+    return fichas;
+}
+
+function seleccionarFichasDeC(cantidad) {
+    // Implementar lógica para seleccionar fichas
+    return C.slice(0, cantidad); // Por ahora, devuelve las primeras fichas de C
+}
+
+function crearVariablesA1toE1() {
+    A1 = D.filter(ficha => ficha[0] === ficha[1]); // Dobles
+    B1 = D.filter(ficha => ficha[0] + ficha[1] > 6); // Suma mayor a 6
+    C1 = determinarFrecuencias(D); // Número que se repite en al menos 3 fichas
+    D1 = determinarFichasAliado(); // Fichas donde aliado jugó el número como extremo
+    E1 = determinarFichasOponenteNoPaso(); // Fichas donde oponente no pasó en el extremo
+    console.log("Variables A1, B1, C1, D1, E1 creadas para calcular la mejor ficha.");
+}
+
+function determinarFrecuencias(fichas) {
+    // Implementar lógica para determinar números que se repiten en al menos 3 fichas
+    return fichas;
+}
+
+function determinarFichasAliado() {
+    // Implementar lógica para determinar fichas donde aliado jugó el número como extremo
+    return [];
+}
+
+function determinarFichasOponenteNoPaso() {
+    // Implementar lógica para determinar fichas donde oponente no pasó en el extremo
+    return [];
+}
+
+function determinarMejorFicha(grupos) {
+    // Implementar lógica para determinar la mejor ficha en base a los grupos A1, B1, C1, D1, E1
+    return grupos[0][0]; // Por ahora, devolver la primera ficha de A1
+}
+
+function obtenerExtremoIzquierdo() {
+    // Implementar lógica para obtener el extremo izquierdo de la mesa
+    return 0;
+}
+
+function obtenerExtremoDerecho() {
+    // Implementar lógica para obtener el extremo derecho de la mesa
+    return 0;
+}
+
+function obtenerFichasPasadasEquipo2() {
+    // Implementar lógica para obtener fichas pasadas por el equipo 2
+    return [];
+}
+
+function obtenerFichasPasadasEquipo1() {
+    // Implementar lógica para obtener fichas pasadas por el equipo 1
+    return [];
+}
+
+// Manejar la entrada del usuario
+document.getElementById('input-paso').addEventListener('input', (event) => {
+    const paso = event.target.value;
+    procesarPaso(paso);
+});

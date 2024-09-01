@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,47 +7,33 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Listas desplegables para seleccionar fichas -->
-    <label for="fichas-lista">Selecciona tus fichas (7 fichas):</label>
-    <select id="fichas-lista" multiple></select>
+    <h1>Juego de Dominó</h1>
+    
+    <label for="step-input">Ingrese el paso (ej. 13*):</label>
+    <input type="text" id="step-input">
+    <button onclick="executeStep()">Ejecutar</button>
+    
+    <div id="output"></div>
 
-    <!-- Mensaje de error si no se seleccionan 7 fichas -->
-    <div id="error-msg" class="error"></div>
-
-    <!-- Visor para mostrar las fichas seleccionadas -->
-    <div id="visor-mis-fichas"></div>
-
-    <!-- Visor para mostrar la mejor ficha para jugar -->
-    <div id="mejor-ficha"></div>
-
-    <!-- Visores para los extremos de la mesa -->
-    <div id="extremos-mesa"></div>
-
-    <!-- Listas desplegables para jugadas de cada jugador -->
-    <div id="jugadas-j1">
-        <label for="jugada-j1">J1 - Selecciona una ficha para jugar:</label>
-        <select id="jugada-j1"></select>
-    </div>
-    <div id="jugadas-j2">
-        <label for="jugada-j2">J2 - Selecciona una ficha para jugar:</label>
-        <select id="jugada-j2"></select>
-    </div>
-    <div id="jugadas-j3">
-        <label for="jugada-j3">J3 - Selecciona una ficha para jugar:</label>
-        <select id="jugada-j3"></select>
-    </div>
-    <div id="jugadas-j4">
-        <label for="jugada-j4">J4 - Selecciona una ficha para jugar:</label>
-        <select id="jugada-j4"></select>
-    </div>
-
-    <!-- Visores para mostrar las fichas pasadas -->
-    <div id="visor-equipo1-pasa"></div>
-    <div id="visor-equipo2-pasa"></div>
-
-    <!-- Texto sobre los grupos -->
-    <div id="grupos"></div>
-
+    <!-- Variables visibles -->
+    <div id="fichas-duales" class="hidden"></div>
+    <div id="fichas-separadas" class="hidden"></div>
+    <select id="lista-fichas" class="hidden" multiple></select>
+    <div id="mis-fichas" class="hidden"></div>
+    <div id="visor-mis-fichas" class="hidden"></div>
+    <select id="candidatos-pase-j1" class="hidden" multiple></select>
+    <select id="candidatos-pase-j2" class="hidden" multiple></select>
+    <select id="candidatos-pase-j3" class="hidden" multiple></select>
+    <select id="candidatos-pase-j4" class="hidden" multiple></select>
+    <select id="candidatos-jugada-j1" class="hidden" multiple></select>
+    <select id="candidatos-jugada-j2" class="hidden" multiple></select>
+    <select id="candidatos-jugada-j3" class="hidden" multiple></select>
+    <select id="candidatos-jugada-j4" class="hidden" multiple></select>
+    <div id="mejor-ficha-jugar" class="hidden"></div>
+    <div id="extremos" class="hidden"></div>
+    <div id="equipo1" class="hidden"></div>
+    <div id="equipo2" class="hidden"></div>
+    
     <script src="script.js"></script>
 </body>
 </html>

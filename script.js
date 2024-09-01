@@ -1,252 +1,199 @@
-// 1* A: Fichas duales
-let A = [
-    [0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6],
-    [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6],
-    [2, 2], [2, 3], [2, 4], [2, 5], [2, 6],
-    [3, 3], [3, 4], [3, 5], [3, 6],
-    [4, 4], [4, 5], [4, 6],
-    [5, 5], [5, 6],
-    [6, 6]
-];
+// Variables globales
+let fichasDual = [];
+let fichasSeparadas = [];
+let listaFichas = [];
+let misFichas = [];
+let visorMisFichas = [];
+let candidatosPaseJ1 = [];
+let candidatosPaseJ2 = [];
+let candidatosPaseJ3 = [];
+let candidatosPaseJ4 = [];
+let candidatosJugadaJ1 = [];
+let candidatosJugadaJ2 = [];
+let candidatosJugadaJ3 = [];
+let candidatosJugadaJ4 = [];
+let mejorFichaJugar = '';
+let extremos = { izquierdo: null, derecho: null };
+let equipo1 = [];
+let equipo2 = [];
 
-// 2* B: Fichas separadas
-let B = [];
-let auxiliarB = [];
+// Función para crear fichas duales
+function crearFichasDual() {
+    fichasDual = Array.from({ length: 28 }, (_, i) => [Math.floor(i / 7), i % 7]);
+}
 
-A.forEach(ficha => {
-    B.push({x: ficha[0], y: ficha[1]});
-    auxiliarB.push({x: ficha[0], y: ficha[1]});
-    auxiliarB.push({x: ficha[1], y: ficha[0]});
-});
+// Función para crear fichas separadas
+function crearFichasSeparadas() {
+    fichasSeparadas = fichasDual.flatMap(([x, y]) => [[x, y], [y, x]]);
+}
 
-// 3* C: Lista desplegable para seleccionar fichas
-let listaFichas = document.getElementById("fichas-lista");
-A.forEach((ficha, index) => {
-    let option = document.createElement("option");
-    option.value = index;
-    option.textContent = `${ficha[0]}, ${ficha[1]}`;
-    listaFichas.appendChild(option);
-});
+// Función para llenar lista de fichas
+function llenarListaFichas() {
+    const lista = document.getElementById('lista-fichas');
+    lista.innerHTML = '';
+    fichasDual.forEach(ficha => {
+        const option = document.createElement('option');
+        option.value = ficha.join(',');
+        option.textContent = ficha.join(',');
+        lista.appendChild(option);
+    });
+    lista.classList.remove('hidden');
+}
 
-// 4* y 5* Verificación de selección de 7 fichas
-listaFichas.addEventListener("change", function () {
-    let selectedOptions = Array.from(listaFichas.selectedOptions);
-    if (selectedOptions.length !== 7) {
-        document.getElementById("error-msg").textContent = "Debes seleccionar exactamente 7 fichas.";
-    } else {
-        document.getElementById("error-msg").textContent = "";
-        D = selectedOptions.map(option => A[option.value]);
-        actualizarVisorMisFichas();
-    }
-});
+// Función para crear mis fichas
+function crearMisFichas() {
+    misFichas = Array.from({ length: 7 }, () => fichasDual[Math.floor(Math.random() * fichasDual.length)]);
+    actualizarVisorMisFichas();
+}
 
-// 6* y 7* D: "Mis fichas" y visor X
-let D = [];
-let W = [];
-
+// Función para actualizar visor de mis fichas
 function actualizarVisorMisFichas() {
-    W = [...D];
-    let visor = document.getElementById("visor-mis-fichas");
-    visor.textContent = `Mis fichas: ${D.map(ficha => `${ficha[0]}, ${ficha[1]}`).join(" | ")}`;
+    const visor = document.getElementById('visor-mis-fichas');
+    visor.innerHTML = misFichas.map(ficha => ficha.join(',')).join('<br>');
+    visor.classList.remove('hidden');
 }
 
-// 9* E: Visor de "Mis fichas"
-function mostrarVisorE() {
-    let visorE = document.getElementById("mejor-ficha");
-    visorE.textContent = `Mis fichas: ${D.map(ficha => `${ficha[0]}, ${ficha[1]}`).join(" | ")}`;
+// Función para crear candidatos a pase
+function crearCandidatosPase() {
+    candidatosPaseJ1 = misFichas.slice(); // Copia de mis fichas
+    // Ejemplo simplificado para otros jugadores, aquí deberías implementar la lógica específica
+    candidatosPaseJ2 = fichasDual.filter(ficha => !misFichas.includes(ficha));
+    candidatosPaseJ3 = fichasDual.filter(ficha => !misFichas.includes(ficha));
+    candidatosPaseJ4 = fichasDual.filter(ficha => !misFichas.includes(ficha));
+    actualizarCandidatosPase();
 }
 
-// 10* Listas desplegables F, G, H, I para candidatas a pase
-let F = [], G = [], H = [], I = [];
-
-function inicializarListasPase() {
-    F = D;
-    G = H = I = A.filter(ficha => !D.includes(ficha) && !N.includes(ficha));
+// Función para actualizar candidatos a pase
+function actualizarCandidatosPase() {
+    updateDropdown('candidatos-pase-j1', candidatosPaseJ1);
+    updateDropdown('candidatos-pase-j2', candidatosPaseJ2);
+    updateDropdown('candidatos-pase-j3', candidatosPaseJ3);
+    updateDropdown('candidatos-pase-j4', candidatosPaseJ4);
 }
 
-function crearListaDesplegable(id, opciones) {
-    let select = document.getElementById(id);
-    opciones.forEach((ficha, index) => {
-        let option = document.createElement("option");
-        option.value = index;
-        option.textContent = `${ficha[0]}, ${ficha[1]}`;
-        select.appendChild(option);
+// Función para crear candidatos a jugada
+function crearCandidatosJugada() {
+    candidatosJugadaJ1 = misFichas.slice(); // Copia de mis fichas
+    // Ejemplo simplificado para otros jugadores, aquí deberías implementar la lógica específica
+    candidatosJugadaJ2 = fichasDual.filter(ficha => !misFichas.includes(ficha));
+    candidatosJugadaJ3 = fichasDual.filter(ficha => !misFichas.includes(ficha));
+    candidatosJugadaJ4 = fichasDual.filter(ficha => !misFichas.includes(ficha));
+    actualizarCandidatosJugada();
+}
+
+// Función para actualizar candidatos a jugada
+function actualizarCandidatosJugada() {
+    updateDropdown('candidatos-jugada-j1', candidatosJugadaJ1);
+    updateDropdown('candidatos-jugada-j2', candidatosJugadaJ2);
+    updateDropdown('candidatos-jugada-j3', candidatosJugadaJ3);
+    updateDropdown('candidatos-jugada-j4', candidatosJugadaJ4);
+}
+
+// Función para crear mejor ficha para jugar
+function crearMejorFichaJugar() {
+    // Implementa la lógica aquí para definir la mejor ficha para jugar
+    // Ejemplo simplificado
+    mejorFichaJugar = misFichas[0];
+    const visor = document.getElementById('mejor-ficha-jugar');
+    visor.textContent = `Mejor ficha para jugar: ${mejorFichaJugar.join(',')}`;
+    visor.classList.remove('hidden');
+}
+
+// Función para crear extremos
+function crearExtremos() {
+    extremos = { izquierdo: [0, 0], derecho: [6, 6] };
+    const visor = document.getElementById('extremos');
+    visor.textContent = `Extremos actuales: Izquierdo ${extremos.izquierdo.join(',')} - Derecho ${extremos.derecho.join(',')}`;
+    visor.classList.remove('hidden');
+}
+
+// Función para crear variables de equipo
+function crearVariablesEquipo() {
+    equipo1 = fichasDual.filter(ficha => ficha[0] === 1);
+    equipo2 = fichasDual.filter(ficha => ficha[0] === 2);
+    const visor1 = document.getElementById('equipo1');
+    const visor2 = document.getElementById('equipo2');
+    visor1.textContent = `Equipo 1: ${equipo1.map(ficha => ficha.join(',')).join(', ')}`;
+    visor2.textContent = `Equipo 2: ${equipo2.map(ficha => ficha.join(',')).join(', ')}`;
+    visor1.classList.remove('hidden');
+    visor2.classList.remove('hidden');
+}
+
+// Función auxiliar para actualizar dropdowns
+function updateDropdown(id, items) {
+    const dropdown = document.getElementById(id);
+    dropdown.innerHTML = '';
+    items.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.join(',');
+        option.textContent = item.join(',');
+        dropdown.appendChild(option);
     });
+    dropdown.classList.remove('hidden');
 }
 
-crearListaDesplegable("jugada-j1", F);
-crearListaDesplegable("jugada-j2", G);
-crearListaDesplegable("jugada-j3", H);
-crearListaDesplegable("jugada-j4", I);
-
-// 12* Listas O, P, Q, R para jugadas
-let O = [], P = [], Q = [], R = [];
-
-function inicializarListasJugadas() {
-    O = D;
-    P = Q = R = A.filter(ficha => !D.includes(ficha) && !W.includes(ficha) && !N.includes(ficha));
-}
-
-function crearListaJugadas(id, opciones) {
-    let select = document.getElementById(id);
-    opciones.forEach((ficha, index) => {
-        let option = document.createElement("option");
-        option.value = index;
-        option.textContent = `${ficha[0]}, ${ficha[1]}`;
-        select.appendChild(option);
-    });
-}
-
-crearListaJugadas("jugada-j1", O);
-crearListaJugadas("jugada-j2", P);
-crearListaJugadas("jugada-j3", Q);
-crearListaJugadas("jugada-j4", R);
-
-// 14* Y: Mejor ficha para jugar y 15* Z: Visor
-let Y = null;
-
-function calcularMejorFicha() {
-    let dobles = D.filter(ficha => ficha[0] === ficha[1]);
-    let mayor6 = D.filter(ficha => ficha[0] + ficha[1] > 6);
-    let repetidos = D.filter(ficha => D.filter(f => f[0] === ficha[0] || f[1] === ficha[0]).length >= 3);
-    // Aquí se podría implementar la lógica para calcular Y basada en:
-// 1. Si tiene dobles (priorizar dobles)
-// 2. Si la suma de los números de la ficha es mayor que 6
-// 3. Si la ficha tiene repetición de números en las demás fichas en mano
-
-function calcularMejorFicha() {
-    // Buscar dobles
-    let dobles = D.filter(ficha => ficha[0] === ficha[1]);
-    
-    // Buscar fichas cuya suma sea mayor a 6
-    let mayor6 = D.filter(ficha => ficha[0] + ficha[1] > 6);
-    
-    // Buscar fichas que tienen repetición de números en la mano
-    let repetidos = D.filter(ficha => {
-        return D.filter(f => f[0] === ficha[0] || f[1] === ficha[0]).length >= 3;
-    });
-
-    // Priorizar los dobles
-    if (dobles.length > 0) {
-        Y = dobles[0];
-    } 
-    // Priorizar las fichas con suma mayor a 6
-    else if (mayor6.length > 0) {
-        Y = mayor6[0];
-    }
-    // Priorizar las fichas con números repetidos
-    else if (repetidos.length > 0) {
-        Y = repetidos[0];
-    } 
-    // Si ninguna de las anteriores, elegir la primera ficha disponible
-    else {
-        Y = D[0];
-    }
-
-    mostrarMejorFicha();
-}
-
-function mostrarMejorFicha() {
-    let visor = document.getElementById("mejor-ficha");
-    if (Y) {
-        visor.textContent = `Mejor ficha para jugar: ${Y[0]}, ${Y[1]} (Por qué: ${explicarMejorFicha()})`;
-    } else {
-        visor.textContent = "No hay fichas disponibles para sugerir.";
+// Función para ejecutar pasos según entrada
+function executeStep() {
+    const step = document.getElementById('step-input').value.trim();
+    switch (step) {
+        case '1*':
+            crearFichasDual();
+            break;
+        case '2*':
+            crearFichasSeparadas();
+            break;
+        case '3*':
+            llenarListaFichas();
+            break;
+        case '4*':
+            if (misFichas.length !== 7) alert('Debe seleccionar exactamente 7 fichas.');
+            break;
+        case '6*':
+            crearMisFichas();
+            break;
+        case '9*':
+            actualizarVisorMisFichas();
+            break;
+        case '10*':
+            crearCandidatosPase();
+            break;
+        case '11*':
+            crearCandidatosJugada();
+            break;
+        case '13*':
+            crearMejorFichaJugar();
+            break;
+        case '16*':
+            crearExtremos();
+            break;
+        case '17*':
+            crearVariablesEquipo();
+            break;
+        case '18*':
+            // Implementar la conversión de fichas duales a fichas separadas aquí.
+            break;
+        case '19*':
+            // Mostrar descripción de grupos
+            const output = document.getElementById('output');
+            output.innerHTML = `
+                <h2>Grupos:</h2>
+                <p><strong>Grupo A:</strong> Ficha doble.</p>
+                <p><strong>Grupo B:</strong> Suma de los extremos mayor a 6.</p>
+                <p><strong>Grupo C:</strong> Tienes 4 o más fichas con el mismo número.</p>
+                <p><strong>Grupo D:</strong> Aliado jugó una ficha con alguno de los extremos.</p>
+                <p><strong>Grupo E:</strong> Oponente pasó por alguno de los extremos.</p>
+                <p><strong>Grupo F:</strong> Aliado no pasó por los extremos.</p>
+            `;
+            break;
+        case '20*':
+            document.body.style.backgroundColor = '#D0E3B1'; // Color verde aceituna
+            document.querySelectorAll('h1, p').forEach(el => {
+                el.style.fontWeight = 'bold';
+                el.style.fontSize = 'large';
+            });
+            break;
+        default:
+            alert('Paso no reconocido.');
+            break;
     }
 }
-
-function explicarMejorFicha() {
-    if (Y[0] === Y[1]) {
-        return "Es un doble, que generalmente es más fuerte.";
-    } else if (Y[0] + Y[1] > 6) {
-        return "Tiene una suma de puntos alta.";
-    } else {
-        return "Tiene un número repetido en tu mano.";
-    }
-}
-
-// 16* Extremos de la mesa (L y M)
-let L = [], M = [];
-
-function actualizarExtremosMesa(ficha) {
-    if (L.length === 0) {
-        // Primer movimiento, ambos extremos son la ficha jugada
-        L = [ficha[0], ficha[1]];
-    } else {
-        // Actualizar extremos con la nueva ficha jugada
-        if (L[0] === ficha[0]) {
-            L[0] = ficha[1];
-        } else if (L[0] === ficha[1]) {
-            L[0] = ficha[0];
-        } else if (L[1] === ficha[0]) {
-            L[1] = ficha[1];
-        } else if (L[1] === ficha[1]) {
-            L[1] = ficha[0];
-        }
-    }
-    mostrarExtremosMesa();
-}
-
-function mostrarExtremosMesa() {
-    let visor = document.getElementById("extremos-mesa");
-    visor.textContent = `Extremos de la mesa: ${L[0]}, ${L[1]}`;
-}
-
-// 18* K1, L1, M1, N1, O1, P1 para fichas pasadas
-let K1 = [], L1 = [], M1 = [], N1 = [], O1 = [], P1 = [];
-
-function actualizarFichasPasadas(jugador, ficha) {
-    switch (jugador) {
-        case 1: K1.push(ficha); break;
-        case 2: L1.push(ficha); break;
-        case 3: M1.push(ficha); break;
-        case 4: N1.push(ficha); break;
-        case 5: O1.push(ficha); break;
-        case 6: P1.push(ficha); break;
-    }
-    mostrarFichasPasadas();
-}
-
-function mostrarFichasPasadas() {
-    document.getElementById("visor-equipo1-pasa").textContent = `Equipo 1 pasó fichas: ${K1.map(f => `${f[0]}, ${f[1]}`).join(" | ")}`;
-    document.getElementById("visor-equipo2-pasa").textContent = `Equipo 2 pasó fichas: ${L1.map(f => `${f[0]}, ${f[1]}`).join(" | ")}`;
-}
-
-// Ejemplo de uso y flujo de funciones
-document.getElementById("jugada-j1").addEventListener("change", function () {
-    let selectedIndex = this.selectedIndex;
-    let fichaSeleccionada = O[selectedIndex];
-    actualizarExtremosMesa(fichaSeleccionada);
-    actualizarFichasPasadas(1, fichaSeleccionada);
-    calcularMejorFicha();
-});
-
-document.getElementById("jugada-j2").addEventListener("change", function () {
-    let selectedIndex = this.selectedIndex;
-    let fichaSeleccionada = P[selectedIndex];
-    actualizarExtremosMesa(fichaSeleccionada);
-    actualizarFichasPasadas(2, fichaSeleccionada);
-    calcularMejorFicha();
-});
-
-document.getElementById("jugada-j3").addEventListener("change", function () {
-    let selectedIndex = this.selectedIndex;
-    let fichaSeleccionada = Q[selectedIndex];
-    actualizarExtremosMesa(fichaSeleccionada);
-    actualizarFichasPasadas(3, fichaSeleccionada);
-    calcularMejorFicha();
-});
-
-document.getElementById("jugada-j4").addEventListener("change", function () {
-    let selectedIndex = this.selectedIndex;
-    let fichaSeleccionada = R[selectedIndex];
-    actualizarExtremosMesa(fichaSeleccionada);
-    actualizarFichasPasadas(4, fichaSeleccionada);
-    calcularMejorFicha();
-});
-
-// Inicialización
-inicializarListasPase();
-inicializarListasJugadas();
-calcularMejorFicha();
-mostrarMejorFicha();

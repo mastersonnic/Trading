@@ -1,25 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dominó</title>
+    <title>Dominó Interactivo</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="app">
-        <input type="text" id="stepInput" placeholder="Escribe el paso, ej: 1*" />
-        <button id="applyStep">Aplicar Paso</button>
+    <div class="container">
+        <h1>Dominó Interactivo</h1>
+        <label for="input">Ingresa un paso seguido de *:</label>
+        <input type="text" id="input" placeholder="Ejemplo: 13*">
+        <button id="submit">Ejecutar</button>
         <div id="output"></div>
-        <div id="groups">
-            <p>Grupos:</p>
-            <p>Grupo A: Ficha doble.</p>
-            <p>Grupo B: Suma de los extremos mayor a 6.</p>
-            <p>Grupo C: Tienes 4 o más fichas con el mismo número.</p>
-            <p>Grupo D: Aliado jugó una ficha con alguno de los extremos.</p>
-            <p>Grupo E: Oponente pasó por alguno de los extremos.</p>
-            <p>Grupo F: Aliado no pasó por los extremos.</p>
-        </div>
+
+        <!-- Visores y listas -->
+        <div id="visorX"></div>
+        <div id="visorE"></div>
+        <div id="visorZ"></div>
+        <div id="visorJ1"></div>
+        <div id="visorO1"></div>
+        <div id="visorP1"></div>
     </div>
     <script src="script.js"></script>
 </body>

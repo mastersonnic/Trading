@@ -3,14 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Domino Game</title>
+    <title>Dominó</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <input type="text" id="stepInput" placeholder="Enter step (e.g., 1*)">
-        <button onclick="executeStep()">Execute Step</button>
+    <div id="app">
+        <input type="text" id="stepInput" placeholder="Escribe el paso, ej: 1*" />
+        <button id="applyStep">Aplicar Paso</button>
         <div id="output"></div>
+        <div id="groups">
+            <p>Grupos:</p>
+            <p>Grupo A: Ficha doble.</p>
+            <p>Grupo B: Suma de los extremos mayor a 6.</p>
+            <p>Grupo C: Tienes 4 o más fichas con el mismo número.</p>
+            <p>Grupo D: Aliado jugó una ficha con alguno de los extremos.</p>
+            <p>Grupo E: Oponente pasó por alguno de los extremos.</p>
+            <p>Grupo F: Aliado no pasó por los extremos.</p>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

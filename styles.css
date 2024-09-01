@@ -1,19 +1,38 @@
 body {
     font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
 }
 
-.hidden {
-    display: none;
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #ddd;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+input {
+    padding: 10px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px;
+    font-size: 16px;
 }
 
 #output {
     margin-top: 20px;
 }
 
-h1 {
-    color: #004d00;
+.bold-large {
+    font-weight: bold;
+    font-size: 18px;
 }
 
-p {
-    color: #004d00;
+.green {
+    color: #6b8e23; /* Olive green */
 }

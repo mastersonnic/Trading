@@ -1,38 +1,38 @@
 body {
+    background-color: #6B8E23; /* Verde aceituna */
+    color: #fff;
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
+    font-weight: bold;
+    font-size: 20px;
 }
 
-.container {
-    max-width: 800px;
-    margin: 20px auto;
+#app {
+    max-width: 600px;
+    margin: 0 auto;
     padding: 20px;
-    border: 2px solid #ddd;
-    background-color: #fff;
-    border-radius: 10px;
 }
 
-input {
+#stepInput {
+    width: 80%;
     padding: 10px;
-    margin-right: 10px;
-    font-size: 16px;
+    font-size: 20px;
 }
 
-button {
+#applyStep {
     padding: 10px;
-    font-size: 16px;
+    font-size: 20px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 #output {
     margin-top: 20px;
-}
-
-.bold-large {
+    font-size: 20px;
     font-weight: bold;
-    font-size: 18px;
 }
 
-.green {
-    color: #6b8e23; /* Olive green */
+#groups {
+    margin-top: 40px;
+    font-size: 18px;
+    font-weight: bold;
 }

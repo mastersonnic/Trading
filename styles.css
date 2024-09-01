@@ -1,39 +1,19 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #FAFAD2; /* Color de fondo */
-    color: #556B2F; /* Texto en verde oliva oscuro */
-    padding: 20px;
 }
 
-label {
-    font-weight: bold;
-    font-size: large;
-    color: #6B8E23; /* Verde oliva */
+.hidden {
+    display: none;
 }
 
-select {
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #6B8E23; /* Verde oliva */
-    background-color: #F0FFF0; /* Menta */
-    color: #556B2F; /* Verde oliva oscuro */
-}
-
-.error {
-    color: red;
-    font-weight: bold;
-}
-
-#visor-mis-fichas, #mejor-ficha, #extremos-mesa, #visor-equipo1-pasa, #visor-equipo2-pasa, #grupos {
+#output {
     margin-top: 20px;
-    font-weight: bold;
-    font-size: large;
-    background-color: #98FB98; /* Verde pálido */
-    padding: 10px;
-    border-radius: 5px;
 }
 
-#grupos {
-    color: #006400; /* Verde oscuro */
+h1 {
+    color: #004d00;
+}
+
+p {
+    color: #004d00;
 }

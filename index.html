@@ -1,26 +1,50 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dominó Interactivo</title>
+    <title>Dynamic Dropdown and Viewer Interface</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Dominó Interactivo</h1>
-        <label for="input">Ingresa un paso seguido de *:</label>
-        <input type="text" id="input" placeholder="Ejemplo: 13*">
-        <button id="submit">Ejecutar</button>
-        <div id="output"></div>
-
-        <!-- Visores y listas -->
-        <div id="visorX"></div>
-        <div id="visorE"></div>
-        <div id="visorZ"></div>
-        <div id="visorJ1"></div>
-        <div id="visorO1"></div>
-        <div id="visorP1"></div>
+    <div id="container">
+        <div id="controls">
+            <h2>Controls</h2>
+            <select id="groupSelector"></select>
+            <input type="text" id="inputField" placeholder="Insert values separated by ';'">
+            <button onclick="addValues()">Add Values</button>
+            <div id="options">
+                <button onclick="excludeComponent()">Exclude Component</button>
+                <button onclick="includeComponent()">Include Component</button>
+            </div>
+        </div>
+        <div id="dropdowns">
+            <h2>Dropdowns</h2>
+            <div id="dropdown-list">
+                <select id="dropdown1" class="groupA"></select>
+                <select id="dropdown2" class="groupA"></select>
+                <select id="dropdown3" class="groupA"></select>
+                <select id="dropdown4" class="groupA"></select>
+                <select id="dropdown5" class="groupA"></select>
+                <select id="dropdown6" class="groupA"></select>
+                <select id="dropdown7" class="groupA"></select>
+                <select id="dropdown8" class="groupA"></select>
+                <select id="dropdown9" class="groupA"></select>
+            </div>
+        </div>
+        <div id="viewers">
+            <h2>Viewers</h2>
+            <div id="viewer-list">
+                <div id="viewer1" class="groupA viewer"></div>
+                <div id="viewer2" class="groupA viewer"></div>
+                <div id="viewer3" class="groupA viewer"></div>
+                <div id="viewer4" class="groupA viewer"></div>
+                <div id="viewer5" class="groupA viewer"></div>
+                <div id="viewer6" class="groupA viewer"></div>
+                <div id="viewer7" class="groupA viewer"></div>
+                <div id="viewer8" class="groupA viewer"></div>
+            </div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

@@ -1,25 +1,61 @@
 body {
-    background-color: #6B8E23; /* Verde aceituna oscuro */
-    color: #FFFFFF; /* Texto blanco */
-    font-weight: bold;
-    font-size: large;
     font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
 }
 
-.container {
-    margin: 20px;
+#container {
+    display: flex;
+    justify-content: space-between;
 }
 
-h1 {
+#controls {
+    width: 25%;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#dropdowns, #viewers {
+    width: 35%;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
     text-align: center;
 }
 
-#output {
-    margin-top: 20px;
+#dropdown-list select, .viewer {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
-#visorX, #visorE, #visorZ, #visorJ1, #visorO1, #visorP1 {
-    margin-top: 10px;
+#inputField {
+    width: calc(100% - 22px);
     padding: 10px;
-    border: 1px solid #FFFFFF;
+}
+
+#options {
+    margin-top: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.viewer {
+    height: 50px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

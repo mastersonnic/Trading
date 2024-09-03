@@ -1,87 +1,82 @@
-// Variables para guardar los valores de los componentes del grupo A
-let components = {
-    dropdown1: [],
-    dropdown2: [],
-    dropdown3: [],
-    dropdown4: [],
-    dropdown5: [],
-    dropdown6: [],
-    dropdown7: [],
-    dropdown8: [],
-    dropdown9: [],
-    viewer1: [],
-    viewer2: [],
-    viewer3: [],
-    viewer4: [],
-    viewer5: [],
-    viewer6: [],
-    viewer7: [],
-    viewer8: []
-};
+document.addEventListener('DOMContentLoaded', () => {
+    const fichas = [
+        "0-0", "0-1", "0-2", "0-3", "0-4", "0-5", "0-6",
+        "1-1", "1-2", "1-3", "1-4", "1-5", "1-6",
+        "2-2", "2-3", "2-4", "2-5", "2-6",
+        "3-3", "3-4", "3-5", "3-6",
+        "4-4", "4-5", "4-6",
+        "5-5", "5-6",
+        "6-6"
+    ];
 
-// Variable para controlar exclusiones e inclusiones
-let exclusions = {};
-
-window.onload = function() {
-    populateGroupSelector();
-}
-
-// Población del selector de componentes
-function populateGroupSelector() {
-    let groupSelector = document.getElementById("groupSelector");
-    for (let key in components) {
-        let option = document.createElement("option");
-        option.value = key;
-        option.text = key;
-        groupSelector.appendChild(option);
-    }
-}
-
-// Agrega valores a un componente seleccionado
-function addValues() {
-    let component = document.getElementById("groupSelector").value;
-    let values = document.getElementById("inputField").value.split(';').map(v => v.trim()).filter(v => v !== "");
+    const fichaContainer = document.getElementById('fichas');
     
-    if (values.length > 0) {
-        components[component].push(...values);
-        components[component] = Array.from(new Set(components[component])); // Eliminar duplicados
-        updateComponents();
-    }
-}
+    // Cargar fichas en casillas de verificación
+    fichas.forEach(ficha => {
+        const label = document.createElement('label');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = ficha;
+        checkbox.name = 'fichas';
+        label.appendChild(checkbox);
+        label.appendChild(document.createTextNode(ficha));
+        fichaContainer.appendChild(label);
+        fichaContainer.appendChild(document.createElement('br')); // Salto de línea
+    });
 
-// Excluir componente seleccionado de otros componentes
-function excludeComponent() {
-    let component = document.getElementById("groupSelector").value;
-    exclusions[component] = true;
-    updateComponents();
-}
+    // Crear el switch "Con Frente-Sin Frente"
+    const switchContainer = document.createElement('div');
+    const switchLabel = document.createElement('label');
+    switchLabel.textContent = "Con Frente-Sin Frente";
+    const switchInput = document.createElement('input');
+    switchInput.type = 'checkbox';
+    switchInput.id = 'frente-switch';
+    switchLabel.appendChild(switchInput);
+    switchContainer.appendChild(switchLabel);
+    fichaContainer.appendChild(switchContainer);
 
-// Incluir componente seleccionado en otros componentes
-function includeComponent() {
-    let component = document.getElementById("groupSelector").value;
-    delete exclusions[component];
-    updateComponents();
-}
-
-// Actualizar los valores en los dropdowns y viewers
-function updateComponents() {
-    for (let key in components) {
-        let element = document.getElementById(key);
-        let allValues = Object.keys(components).reduce((acc, cur) => {
-            if (!exclusions[cur]) acc.push(...components[cur]);
-            return acc;
-        }, []);
-        
-        if (key.startsWith('dropdown')) {
-            element.innerHTML = ''; // Limpiar dropdown
-            allValues.forEach(value => {
-                let option = document.createElement("option");
-                option.value = value;
-                option.textContent = value;
-                element.appendChild(option);
+    // Inicializar las listas desplegables
+    function initializeDropdowns(ids) {
+        ids.forEach(id => {
+            const select = document.getElementById(id);
+            const option = document.createElement('option');
+            option.textContent = 'Selecciona una opción';
+            option.value = '';
+            select.appendChild(option);
+            fichas.forEach(ficha => {
+                const option = document.createElement('option');
+                option.textContent = ficha;
+                option.value = ficha;
+                select.appendChild(option);
             });
-        } else if (key.startsWith('viewer')) {
-            element.textContent = allValues.join(', ');
-        }
+        });
     }
-}
+
+    // Llamar a la función para inicializar las listas desplegables
+    initializeDropdowns([
+        'jugadas-j1', 'jugadas-j2', 'jugadas-j3', 'jugadas-j4',
+        'paso-j1', 'paso-j2', 'paso-j3', 'paso-j4'
+    ]);
+
+    // Función para actualizar los visores
+    function updateVisor(id, text) {
+        document.getElementById(id).textContent = text;
+    }
+
+    // Actualizar visores con textos de ejemplo
+    updateVisor('visor-j1', 'Visor para J1');
+    updateVisor('visor-j2', 'Visor para J2');
+    updateVisor('visor-j3', 'Visor para J3');
+    updateVisor('visor-j4', 'Visor para J4');
+    updateVisor('visor-paso-j1', 'Visor para Pasó J1 a');
+    updateVisor('visor-paso-j2', 'Visor para Pasó J2 a');
+    updateVisor('visor-paso-j3', 'Visor para Pasó J3 a');
+    updateVisor('visor-paso-j4', 'Visor para Pasó J4 a');
+    updateVisor('orden-jugadas', 'Orden de Jugadas aquí');
+    updateVisor('mis-fichas', 'Mis fichas aquí');
+    updateVisor('j2-tiene', 'Fichas que tiene J2 aquí');
+    updateVisor('j3-tiene', 'Fichas que tiene J3 aquí');
+    updateVisor('j4-tiene', 'Fichas que tiene J4 aquí');
+    updateVisor('mejor-ficha', 'Mejor ficha para jugar aquí');
+    updateVisor('extremos', 'Extremos actuales aquí');
+});

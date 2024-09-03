@@ -80,8 +80,9 @@ select:focus {
     border: 1px solid #004d99;
     padding: 10px;
     background-color: #ffffff;
-    height: 60px;
-    overflow: hidden;
+    height: auto; /* Cambiado de 60px a auto para ajustar la altura según el contenido */
+    max-height: 120px; /* Altura máxima, se ajusta según tu diseño */
+    overflow-y: auto; /* Agrega un scroll vertical si el contenido supera la altura máxima */
     color: #333;
 }
 

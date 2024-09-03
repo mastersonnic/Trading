@@ -1,61 +1,107 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    background-color: #f4f4f9;
 }
 
-#container {
-    display: flex;
-    justify-content: space-between;
-}
-
-#controls {
-    width: 25%;
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-#dropdowns, #viewers {
-    width: 35%;
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
+h1 {
     text-align: center;
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #004d99;
+    margin-top: 20px;
 }
 
-#dropdown-list select, .viewer {
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+.section h2 {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #004d99;
+    border-bottom: 2px solid #004d99;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.checkbox-group label {
+    font-size: 1em;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.dropdown-group, .visor-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+select {
+    font-size: 1em;
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
+    border: 1px solid #004d99;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #333;
 }
 
-#inputField {
-    width: calc(100% - 22px);
+select:focus {
+    border-color: #0056b3;
+    outline: none;
+}
+
+.visor {
+    font-size: 1.2em;
+    border: 1px solid #004d99;
     padding: 10px;
+    background-color: #ffffff;
+    height: 60px;
+    overflow: hidden;
+    color: #333;
 }
 
-#options {
+.visor-group {
     margin-top: 10px;
 }
 
-button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    cursor: pointer;
+.visor-group label {
+    color: #004d99;
 }
 
-.viewer {
-    height: 50px;
-    background-color: #e0e0e0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.visor-group .visor {
+    border-color: #004d99;
+    background-color: #e6f2ff;
+}
+
+.section:nth-of-type(even) {
+    background-color: #f0f8ff;
+}
+
+.section:nth-of-type(odd) {
+    background-color: #ffffff;
 }

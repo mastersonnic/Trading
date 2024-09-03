@@ -1,51 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Dropdown and Viewer Interface</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div id="container">
-        <div id="controls">
-            <h2>Controls</h2>
-            <select id="groupSelector"></select>
-            <input type="text" id="inputField" placeholder="Insert values separated by ';'">
-            <button onclick="addValues()">Add Values</button>
-            <div id="options">
-                <button onclick="excludeComponent()">Exclude Component</button>
-                <button onclick="includeComponent()">Include Component</button>
-            </div>
-        </div>
-        <div id="dropdowns">
-            <h2>Dropdowns</h2>
-            <div id="dropdown-list">
-                <select id="dropdown1" class="groupA"></select>
-                <select id="dropdown2" class="groupA"></select>
-                <select id="dropdown3" class="groupA"></select>
-                <select id="dropdown4" class="groupA"></select>
-                <select id="dropdown5" class="groupA"></select>
-                <select id="dropdown6" class="groupA"></select>
-                <select id="dropdown7" class="groupA"></select>
-                <select id="dropdown8" class="groupA"></select>
-                <select id="dropdown9" class="groupA"></select>
-            </div>
-        </div>
-        <div id="viewers">
-            <h2>Viewers</h2>
-            <div id="viewer-list">
-                <div id="viewer1" class="groupA viewer"></div>
-                <div id="viewer2" class="groupA viewer"></div>
-                <div id="viewer3" class="groupA viewer"></div>
-                <div id="viewer4" class="groupA viewer"></div>
-                <div id="viewer5" class="groupA viewer"></div>
-                <div id="viewer6" class="groupA viewer"></div>
-                <div id="viewer7" class="groupA viewer"></div>
-                <div id="viewer8" class="groupA viewer"></div>
-            </div>
-        </div>
-    </div>
-    <script src="script.js"></script>
-</body>
+<!doctype html>
+<html lang="es"> 
+ <head> 
+  <meta charset="UTF-8"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>Juego de Dominó</title> 
+  <link rel="stylesheet" href="styles.css"> 
+ </head> 
+ <body> 
+  <h1>Juego de Dominó</h1> 
+  <div class="container"> <!-- Lista de Casillas de Verificación Fichas --> 
+   <div class="section"> <label>Fichas:</label> 
+    <div id="fichas" class="checkbox-group"> <!-- Casillas de verificación se llenarán desde script.js --> 
+    </div> 
+   </div> <!-- Renglón Jugadas --> 
+   <div class="section"> 
+    <h2>Jugadas</h2> 
+    <div class="dropdown-group"> <label for="jugadas-j1">Jugadas J1:</label> <select id="jugadas-j1"> <!-- Opciones para J1 --> </select> 
+     <div id="visor-j1" class="visor"></div> 
+    </div> 
+    <div class="dropdown-group"> <label for="jugadas-j2">Jugadas J2:</label> <select id="jugadas-j2"> <!-- Opciones para J2 --> </select> 
+     <div id="visor-j2" class="visor"></div> 
+    </div> 
+    <div class="dropdown-group"> <label for="jugadas-j3">Jugadas J3:</label> <select id="jugadas-j3"> <!-- Opciones para J3 --> </select> 
+     <div id="visor-j3" class="visor"></div> 
+    </div> 
+    <div class="dropdown-group"> <label for="jugadas-j4">Jugadas J4:</label> <select id="jugadas-j4"> <!-- Opciones para J4 --> </select> 
+     <div id="visor-j4" class="visor"></div> 
+    </div> 
+   </div> <!-- Renglón Pases --> 
+   <div class="section"> 
+    <h2>Pases</h2> 
+    <div class="dropdown-group"> <label for="paso-j1">Pasó J1 a:</label> <select id="paso-j1"> <!-- Opciones para J1 --> </select> 
+     <div id="visor-paso-j1" class="visor"></div> 
+    </div> 
+    <div class="dropdown-group"> <label for="paso-j2">Pasó J2 a:</label> <select id="paso-j2"> <!-- Opciones para J2 --> </select> 
+     <div id="visor-paso-j2" class="visor"></div> 
+    </div> 
+    <div class="dropdown-group"> <label for="paso-j3">Pasó J3 a:</label> <select id="paso-j3"> <!-- Opciones para J3 --> </select> 
+     <div id="visor-paso-j3" class="visor"></div> 
+    </div> 
+    <div class="dropdown-group"> <label for="paso-j4">Pasó J4 a:</label> <select id="paso-j4"> <!-- Opciones para J4 --> </select> 
+     <div id="visor-paso-j4" class="visor"></div> 
+    </div> 
+   </div> <!-- Visores --> 
+   <div class="section"> 
+    <div class="visor-group"> <label for="orden-jugadas">Orden Jugadas:</label> 
+     <div id="orden-jugadas" class="visor"></div> 
+    </div> 
+    <div class="visor-group"> <label for="mis-fichas">Mis fichas:</label> 
+     <div id="mis-fichas" class="visor"></div> 
+    </div> 
+    <div class="visor-group"> <label for="j2-tiene">J2 tiene:</label> 
+     <div id="j2-tiene" class="visor"></div> 
+    </div> 
+    <div class="visor-group"> <label for="j3-tiene">J3 tiene:</label> 
+     <div id="j3-tiene" class="visor"></div> 
+    </div> 
+    <div class="visor-group"> <label for="j4-tiene">J4 tiene:</label> 
+     <div id="j4-tiene" class="visor"></div> 
+    </div> 
+    <div class="visor-group"> <label for="mejor-ficha">Mejor ficha para jugar:</label> 
+     <div id="mejor-ficha" class="visor"></div> 
+    </div> 
+    <div class="visor-group"> <label for="extremos">Extremos actuales:</label> 
+     <div id="extremos" class="visor"></div> 
+    </div> 
+   </div> 
+  </div> 
+  <script src="script.js"></script> 
+ </body>
 </html>

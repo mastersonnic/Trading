@@ -17,3 +17,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
     actualizarVisorJ1(); // Inicializa el visor
 });
+

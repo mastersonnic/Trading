@@ -80,3 +80,4 @@ document.addEventListener('DOMContentLoaded', () => {
     updateVisor('mejor-ficha', 'Mejor ficha para jugar aquí');
     updateVisor('extremos', 'Extremos actuales aquí');
 });
+

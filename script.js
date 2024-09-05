@@ -64,16 +64,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Actualizar visores con textos de ejemplo
-    updateVisor('visor-j1', 'Visor para J1');
-    updateVisor('visor-j2', 'Visor para J2');
-    updateVisor('visor-j3', 'Visor para J3');
-    updateVisor('visor-j4', 'Visor para J4');
-    updateVisor('visor-paso-j1', 'Visor para Pasó J1 a');
-    updateVisor('visor-paso-j2', 'Visor para Pasó J2 a');
-    updateVisor('visor-paso-j3', 'Visor para Pasó J3 a');
-    updateVisor('visor-paso-j4', 'Visor para Pasó J4 a');
+    updateVisor('visor-j1', 'Visor para J1 Jugó: ');
+    updateVisor('visor-j2', 'Visor para J2 Jugó: ');
+    updateVisor('visor-j3', 'Visor para J3 Jugó: ');
+    updateVisor('visor-j4', 'Visor para J4 Jugó: ');
+    updateVisor('visor-paso-j1', 'Visor para Pasó J1 a ');
+    updateVisor('visor-paso-j2', 'Visor para Pasó J2 a ');
+    updateVisor('visor-paso-j3', 'Visor para Pasó J3 a ');
+    updateVisor('visor-paso-j4', 'Visor para Pasó J4 a ');
     updateVisor('orden-jugadas', 'Orden de Jugadas aquí');
     updateVisor('mis-fichas', 'Mis fichas aquí');
+    updateVisor('j1-tiene', 'Fichas que tiene J1 aquí');
     updateVisor('j2-tiene', 'Fichas que tiene J2 aquí');
     updateVisor('j3-tiene', 'Fichas que tiene J3 aquí');
     updateVisor('j4-tiene', 'Fichas que tiene J4 aquí');

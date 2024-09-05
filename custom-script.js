@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const visorJ1 = document.getElementById('mis-fichas');
+    const  = document.getElementById('mis-fichas');
 
     function actualizarVisorJ1() {
         const fichasSeleccionadas = document.querySelectorAll('#fichas input[type="checkbox"]:checked');

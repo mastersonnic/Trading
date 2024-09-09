@@ -1,15 +1,13 @@
-// Inicialización de variables vacías
-let todasLasFichas = [];   // Todas las fichas de dominó
-let sietefichas = [];      // Fichas que selecciono
-let misfichasjugadas = []; // Fichas jugadas
-let actuales = [];         // Fichas actuales que quedan en la mano
+// Inicialización de variables
+let misfichasjugadas = [];
+let Actuales = [];
 
-// Función para cargar fichas en la lista desplegable
-function cargarFichasEnLista() {
+// Función para actualizar la lista desplegable
+function actualizarListaDesplegable() {
     const lista = document.getElementById('misfichasactualeslista');
-    lista.innerHTML = ''; // Limpiar la lista antes de cargar las fichas actuales
+    lista.innerHTML = ''; // Limpiar la lista
 
-    actuales.forEach((ficha, index) => {
+    sietefichas.forEach((ficha, index) => {
         const option = document.createElement('option');
         option.value = index;
         option.textContent = ficha;
@@ -17,27 +15,21 @@ function cargarFichasEnLista() {
     });
 }
 
-// Función para mover una ficha de "actuales" a "misfichasjugadas"
-function jugarFichas() {
-    const lista = document.getElementById('misfichasactualeslista');
-    const seleccionadas = Array.from(lista.selectedOptions);
-
-    seleccionadas.forEach(option => {
-        const fichaIndex = option.value;
-        const ficha = actuales[fichaIndex];
-
-        // Mover ficha seleccionada a "misfichasjugadas"
-        misfichasjugadas.push(ficha);
-
-        // Eliminar ficha de "actuales"
-        actuales.splice(fichaIndex, 1);
+// Evento para mover fichas seleccionadas a misfichasjugadas
+document.getElementById('misfichasactualeslista').addEventListener('change', function() {
+    const seleccionadas = Array.from(this.selectedOptions).map(option => option.value);
+    seleccionadas.forEach(index => {
+        misfichasjugadas.push(sietefichas[index]);
+        sietefichas.splice(index, 1);
     });
+    actualizarListaDesplegable();
+    actualizarActuales();
+});
 
-    // Actualizar la lista desplegable después de jugar
-    cargarFichasEnLista();
+// Función para actualizar la variable Actuales
+function actualizarActuales() {
+    Actuales = [...sietefichas];
 }
 
-// Evento que se ejecuta al cambiar la selección en la lista
-document.getElementById('misfichasactualeslista').addEventListener('change', function () {
-    jugarFichas();  // Jugar la ficha seleccionada
-});
+// Llamar a la función para inicializar la lista desplegable
+actualizarListaDesplegable();

@@ -59,8 +59,10 @@ formulario.addEventListener('submit', function(e) {
     if (sietefichas.length === 7) {
         mensaje.textContent = "Selección confirmada: " + sietefichas.join(", ");
         mensaje.classList.remove('error');
+        actualizarListaDesplegable(); // Llamar a la función para actualizar la lista desplegable
     } else {
         mensaje.textContent = "Debes seleccionar exactamente 7 fichas.";
         mensaje.classList.add('error');
     }
 });
+k

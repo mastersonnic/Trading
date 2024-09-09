@@ -1,80 +1,40 @@
-<!doctype html>
-<html lang="es"> 
- <head> 
-  <meta charset="UTF-8"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <title>Juego de Dominó</title> 
-  <link rel="stylesheet" href="styles.css"> 
- </head> 
- <body> 
-  <h1>Juego de Dominó</h1> 
-  <div class="container"> <!-- Lista de Casillas de Verificación Fichas --> 
-   <div class="section"> <label>Fichas:</label> 
-    <div id="fichas" class="checkbox-group"> <!-- Casillas de verificación se llenarán desde script.js --> 
-    </div> 
-   </div> <!-- Renglón Jugadas --> 
-   <div class="section"> 
-    <h2>Jugadas</h2> 
-    <div class="dropdown-group"> <label for="jugadas-j1">Jugadas J1:</label> <select id="jugadas-j1"> <!-- Opciones para J1 --> </select> 
-     <div id="visor-j1" class="visor"></div> 
-    </div> 
-    <div class="dropdown-group"> <label for="jugadas-j2">Jugadas J2:</label> <select id="jugadas-j2"> <!-- Opciones para J2 --> </select> 
-     <div id="visor-j2" class="visor"></div> 
-    </div> 
-    <div class="dropdown-group"> <label for="jugadas-j3">Jugadas J3:</label> <select id="jugadas-j3"> <!-- Opciones para J3 --> </select> 
-     <div id="visor-j3" class="visor"></div> 
-    </div> 
-    <div class="dropdown-group"> <label for="jugadas-j4">Jugadas J4:</label> <select id="jugadas-j4"> <!-- Opciones para J4 --> </select> 
-     <div id="visor-j4" class="visor"></div> 
-    </div> 
-   </div> <!-- Renglón Pases --> 
-   <div class="section"> 
-    <h2>Pases</h2> 
-    <div class="dropdown-group"> <label for="paso-j1">Pasó J1 a:</label> <select id="paso-j1"> <!-- Opciones para J1 --> </select> 
-     <div id="visor-paso-j1" class="visor"></div> 
-    </div> 
-    <div class="dropdown-group"> <label for="paso-j2">Pasó J2 a:</label> <select id="paso-j2"> <!-- Opciones para J2 --> </select> 
-     <div id="visor-paso-j2" class="visor"></div> 
-    </div> 
-    <div class="dropdown-group"> <label for="paso-j3">Pasó J3 a:</label> <select id="paso-j3"> <!-- Opciones para J3 --> </select> 
-     <div id="visor-paso-j3" class="visor"></div> 
-    </div> 
-    <div class="dropdown-group"> <label for="paso-j4">Pasó J4 a:</label> <select id="paso-j4"> <!-- Opciones para J4 --> </select> 
-     <div id="visor-paso-j4" class="visor"></div> 
-    </div> 
-   </div> <!-- Visores --> 
-   <div class="section"> 
-    <div class="visor-group"> <label for="orden-jugadas">Orden Jugadas:</label> 
-     <div id="orden-jugadas" class="visor"></div> 
-    </div> 
-    <div class="visor-group"> <label for="mis-fichas">Mis fichas:</label> 
-     <div id="mis-fichas" class="visor"></div> 
-    </div> 
-     <div class="visor-group"> <label for="j1-tiene">J1 tiene:</label> 
-     <div id="j1-tiene" class="visor"></div> 
-    </div> 
-    <div class="visor-group"> <label for="j2-tiene">J2 tiene:</label> 
-     <div id="j2-tiene" class="visor"></div> 
-    </div> 
-    <div class="visor-group"> <label for="j3-tiene">J3 tiene:</label> 
-     <div id="j3-tiene" class="visor"></div> 
-    </div> 
-    <div class="visor-group"> <label for="j4-tiene">J4 tiene:</label> 
-     <div id="j4-tiene" class="visor"></div> 
-    </div> 
-    <div class="visor-group"> <label for="mejor-ficha">Mejor ficha para jugar:</label> 
-     <div id="mejor-ficha" class="visor"></div> 
-    </div> 
-    <div class="visor-group"> <label for="extremos">Extremos actuales:</label> 
-     <div id="extremos" class="visor"></div> 
-    </div> 
-   </div> 
-  </div> 
-  <script src="script.js"></script>
-  <script src="custom-script.js"></script>
-  <script src="sale-list.js"></script>
-  <script src="sale-juega.js"></script>  
-  <script src="pase.js"></script>
-  <script src="jugada.js"></script>
- </body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecciona tus 7 fichas de dominó</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Selecciona exactamente 7 fichas de dominó</h1>
+
+    <!-- Switch colocado antes del formulario -->
+    <div class="switch-container">
+        <label class="switch">
+            <input type="checkbox" id="switchfrente">
+            <span class="slider round"></span>
+        </label>
+        <span>Con frente</span>
+    </div>
+
+    <!-- Formulario para seleccionar las fichas -->
+    <form id="fichas-form">
+        <div id="fichas-lista"></div>
+        <p id="mensaje" class="error"></p>
+        <button type="submit">Confirmar selección</button>
+    </form>
+
+    <!-- Lista desplegable de fichas actuales -->
+    <div>
+        <h2>Mis fichas actuales</h2>
+        <select id="misfichasactualeslista" multiple>
+            <!-- Aquí se cargarán las fichas de sietefichas -->
+        </select>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="switch.js"></script>
+    <script src="misfichaslista.js"></script>
+</body>
 </html>

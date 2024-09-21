@@ -1,120 +1,30 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f0f0f0;
-    font-weight: bold;
-    font-size: 18px; /* Tamaño grande para todo el texto */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f9;
+}
+
+.container {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-    color: #333;
-    font-size: 32px; /* Más grande para el título */
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
-h2 {
-    font-size: 28px; /* Tamaño grande para los subtítulos */
-}
-
-label, select, input, textarea, button {
-    display: block;
-    margin-bottom: 10px;
-    width: 100%;
-    font-size: 18px; /* Tamaño grande para formularios y botones */
-    font-weight: bold; /* Negrita */
-}
-
-#createdElements, #variablesView {
-    margin-top: 20px;
+input[type="text"] {
+    width: 80%;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fff;
     font-size: 18px;
-}
-
-textarea {
-    height: 100px;
-    font-size: 18px; /* Tamaño grande en el área de texto */
-}
-
-button {
-    padding: 10px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 5px;
-    font-size: 18px; /* Tamaño grande para los botones */
-    font-weight: bold; /* Negrita */
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-.element-title {
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #007BFF;
-}
-
-.switch {
-    display: inline-flex;
-    align-items: center;
-}
-
-.switch input {
-    display: none;
-}
-
-.switch .slider {
-    width: 34px;
-    height: 20px;
-    background-color: #ccc;
-    border-radius: 34px;
-    position: relative;
-    cursor: pointer;
-}
-
-.switch .slider:before {
-    content: "";
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background-color: white;
-    left: 2px;
-    top: 2px;
-    transition: .4s;
-}
-
-.switch input:checked + .slider {
-    background-color: #4CAF50;
-}
-
-.switch input:checked + .slider:before {
-    transform: translateX(14px);
-}
-
-/* Nuevos estilos dinámicos */
-.created-element {
-    padding: 10px;
-    margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    background-color: #f9f9f9;
-    font-size: 18px; /* Tamaño grande para los elementos creados */
-    font-weight: bold;
-}
-
-.created-element-title {
-    font-weight: bold;
-    color: #007BFF;
-    margin-bottom: 5px;
-}
-
-.button-group {
-    display: flex;
-    gap: 10px;
 }

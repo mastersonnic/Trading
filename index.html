@@ -1,52 +1,17 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Elementos Dinámicos</title>
+    <title>Resultado del Intercambio</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
     <div class="container">
-        <h1>Generador de Elementos Dinámicos con JavaScript</h1>
-        
-        <!-- Selección del tipo de elemento y su ID -->
-        <label for="elementType">Selecciona el tipo de elemento:</label>
-        <select id="elementType">
-            <option value="text">Texto</option>
-            <option value="dropdown">Lista desplegable</option>
-            <option value="button">Botón</option>
-            <option value="variable">Variable</option>
-            <option value="switch">Interruptor</option>
-        </select>
-
-        <label for="elementId">ID del elemento:</label>
-        <input type="text" id="elementId" placeholder="ID del nuevo elemento">
-
-        <!-- Botones para crear y manejar elementos -->
-        <div class="button-group">
-            <button id="createElementBtn">Crear Elemento</button>
-            <button id="createWithCodeBtn">Crear con Código</button>
-            <button id="undoBtn">Deshacer</button>
-            <button id="redoBtn">Rehacer</button>
-        </div>
-
-        <!-- Input para insertar código -->
-        <label for="inputCode">Inserta código personalizado:</label>
-        <textarea id="inputCode" placeholder="Escribe tu código aquí"></textarea>
-        <button id="runCodeBtn">Ejecutar Código</button>
-
-        <!-- Contenedor para los elementos creados -->
-        <div id="createdElements">
-            <h2>Elementos creados</h2>
-        </div>
-
-        <!-- Visor de variables -->
-        <h2>Variables creadas</h2>
-        <div id="variablesView"></div>
+        <h1>Valor de BCH Recibido</h1>
+        <input type="text" id="bchOutput" readonly placeholder="El valor de BCH aparecerá aquí">
     </div>
 
-    <script src="creadores.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -3,15 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultado del Intercambio</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Crypto Values</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Valor de BCH Recibido</h1>
-        <input type="text" id="bchOutput" readonly placeholder="El valor de BCH aparecerá aquí">
+        <h1>Crypto Trading Values</h1>
+        <div id="crypto-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cryptocurrency</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="crypto-values">
+                    <!-- Los valores serán insertados dinámicamente aquí -->
+                </tbody>
+            </table>
+        </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>

@@ -39,7 +39,7 @@ function loadCryptoData() {
     }
 
     // Intentar obtener datos de JSONbin.io
-    fetch('https://api.jsonbin.io/v3/b/YOUR_BIN_ID', {
+    fetch('https://api.jsonbin.io/v3/b/66f04b63acd3cb34a8893bc2', {
         method: 'GET',
         headers: {
             'X-Master-Key': '$2a$10$4u7LzMqHthfqTnLdy1eyIOM3pWZhu0tY6U2/0S6jxA0rtmCh2CIuG'
